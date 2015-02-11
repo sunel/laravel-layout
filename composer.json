@@ -1,0 +1,23 @@
+{
+    "name": "sunel/exteneded-view",
+    "description": "Laravel view Exteneded.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sunel TR",
+            "email": "sunelbe@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "~5.0"
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Ext\\": "src/"
+        }
+    }
+}
