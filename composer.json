@@ -16,6 +16,9 @@
 
     },
     "autoload": {
+		"files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Ext\\": "src/"
         }
