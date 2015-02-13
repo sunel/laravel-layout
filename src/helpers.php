@@ -12,7 +12,7 @@ if ( ! function_exists('render'))
 	 */
 	function render($view = null, $data = array(), $mergeData = array())
 	{
-		$factory = app('render');
+		$factory = app('render.layout');
 		if (func_num_args() === 0)
 		{
 			return $factory;

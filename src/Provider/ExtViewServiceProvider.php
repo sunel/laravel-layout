@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Ext\Factory;
+use Ext\LoadLayout;
 
 class ExtViewServiceProvider extends ServiceProvider {
 
@@ -12,7 +13,10 @@ class ExtViewServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		 $this->loadViewsFrom(__DIR__.'../../views/template', 'render');
+		 $this->publishes([
+		     __DIR__.'../../views' => base_path('resources/views/vendor/render'),
+		 ]);
 	}
 
 	/**
@@ -23,6 +27,7 @@ class ExtViewServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerFactory();
+		$this->loadTemplatLayout();
 	}
 	
 	/**
@@ -46,6 +51,14 @@ class ExtViewServiceProvider extends ServiceProvider {
 			$env->setContainer($app);
 			$env->share('app', $app);
 			return $env;
+		});
+	}
+
+	public function loadTemplatLayout()
+	{	
+		$this->app->singleton('render.layout', function($app)
+		{
+				return (new LoadLayout())->bootstrap($app);
 		});
 	}
 
