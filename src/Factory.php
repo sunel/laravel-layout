@@ -26,7 +26,7 @@ class Factory extends ViewFactory {
 		$handle = $this->convertHandler($handle);
 
 		$layout = app('render.layout');
-
+		
 		$view = $this->getView($handle,$layout);
 
 		//$this->callCreator();
@@ -71,14 +71,11 @@ class Factory extends ViewFactory {
 			throw new InvalidBlockException("Invalid Block supplied", 1);
 		}
 
-		$block_value = [
-			'class' => ($block->getAttribute('class')),
-			'template' => $block->getAttribute('template'),
-		];
+		$block = new Block($block);
 
-		$name = $this->_getBlockName($block);
+		$name = $block->getBlockName();
 
-		$this->_blocks[$name] =  $block_value;
+		$this->_blocks[$name] =  $block;
 	}
 
 	protected function getChildNodes($element){
@@ -90,11 +87,6 @@ class Factory extends ViewFactory {
 
 		return $childNodes;
 
-	}
-
-	protected function _getBlockName($block){
-
-		return $block->getAttribute('as')?:$block->getAttribute('name');
 	}
 
 	protected function convertHandler($handle)

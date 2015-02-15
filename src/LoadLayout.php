@@ -55,12 +55,7 @@ class LoadLayout {
 		{
 			qp($path)->children()->each(function($index,$node) use(&$nodes) {
 				
-				/*foreach ($node->attributes as $attribute) {
-					$end[] = $attribute->name.'-'.$attribute->value;
-				}*/
-				
 				$nodes[$node->nodeName][] = $node;
-				
 
 			});	
 		}
