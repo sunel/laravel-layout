@@ -10,13 +10,9 @@ if ( ! function_exists('render'))
 	 * @param  array   $mergeData
 	 * @return \Illuminate\View\View
 	 */
-	function render($view = null, $data = array(), $mergeData = array())
+	function render()
 	{
-		$factory = app('render.layout');
-		if (func_num_args() === 0)
-		{
-			return $factory;
-		}
-		return $factory->make($view, $data, $mergeData);
+		$factory = app('render');
+		return $factory->render(\Route::currentRouteName());
 	}
 }

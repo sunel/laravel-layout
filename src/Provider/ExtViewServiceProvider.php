@@ -13,10 +13,10 @@ class ExtViewServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		 $this->loadViewsFrom(__DIR__.'../../views/template', 'render');
-		 $this->publishes([
-		     __DIR__.'../../views' => base_path('resources/views/vendor/render'),
-		 ]);
+		$this->loadViewsFrom(__DIR__.'/../../views/template', 'render');
+		$this->publishes([
+		     __DIR__.'/../../views' => base_path('resources/views/vendor/render'),
+		]);
 	}
 
 	/**
@@ -28,6 +28,13 @@ class ExtViewServiceProvider extends ServiceProvider {
 	{
 		$this->registerFactory();
 		$this->loadTemplatLayout();
+
+
+        $this->app->booting(function()
+        {
+            //$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            //$loader->alias('StringView', 'sngrl\StringBladeCompiler\Facades\StringView');
+        });
 	}
 	
 	/**

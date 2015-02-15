@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+<!--
+Default layout, loads most of the pages
+-->
+
+    <default>
+        <block class="page/html" name="root" template="page/3columns.phtml">
+
+            <block class="page/html_head" name="head" as="head">
+                <action method="addJs"><script>js/script.js</script></action>
+
+                <block class="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
+
+                <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
+                <action method="addItem">
+                        <type>skin_css</type>
+                        <name>css/styles-ie.css</name>
+                        <params/><if>lt IE 8</if>
+                </action>
+                <action method="addCss">
+                    <stylesheet>css/widgets.css</stylesheet>
+                </action>
+                <action method="addCss">
+                    <stylesheet>css/print.css</stylesheet>
+                    <params>media="print"</params>
+                </action>
+            </block>
+
+            <block class="core/text_list" name="after_body_start" as="after_body_start" >
+            </block>
+
+            <block class="page/html_notices" name="global_notices" as="global_notices" template="page/html/notices.phtml" />
+
+            <block class="page/html_header" name="header" as="header">
+                <block class="page/template_links" name="top.links" as="topLinks"/>
+                <block class="core/text_list" name="top.menu" as="topMenu" >
+                    <block class="page/html_topmenu" name="catalog.topnav" template="page/html/topmenu.phtml"/>
+                </block>
+                <block class="page/html_wrapper" name="top.container" as="topContainer">
+                    <action method="setElementClass"><value>top-container</value></action>
+                </block>
+                <block class="page/html_welcome" name="welcome" as="welcome"/>
+            </block>
+
+            <block class="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+
+            <block class="core/text_list" name="left" as="left">
+            </block>
+
+            <block class="core/messages" name="global_messages" as="global_messages"/>
+            <block class="core/messages" name="messages" as="messages"/>
+
+            <block class="core/text_list" name="content" as="content">
+            </block>
+
+            <block class="core/text_list" name="right" as="right">
+            </block>
+
+            <block class="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
+                <block class="page/html_wrapper" name="bottom.container" as="bottomContainer">
+                    <action method="setElementClass"><value>bottom-container</value></action>
+                </block>
+                <block class="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
+                <block class="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
+            </block>
+
+            <block class="core/text_list" name="before_body_end" as="before_body_end">
+                <block class="page/html_cookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="page/html/cookienotice.phtml" before="-" />
+            </block>
+        </block>
+
+        <block class="core/profiler" name="core_profiler"/>
+    </default>
+</layout>

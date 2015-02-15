@@ -11,7 +11,7 @@ class LoadLayout {
 	 * Bootstrap the given application.
 	 *
 	 * @param  \Illuminate\Contracts\Foundation\Application  $app
-	 * @return void
+	 * @return \Ext\Repository
 	 */
 	public function bootstrap(Application $app)
 	{	
@@ -37,6 +37,8 @@ class LoadLayout {
 			$this->loadLayoutFiles($app, $layout);
 		}
 
+		return $layout;
+
 	}
 
 	/**
@@ -47,18 +49,22 @@ class LoadLayout {
 	 * @return void
 	 */
 	protected function loadLayoutFiles(Application $app, RepositoryContract $layout)
-	{
+	{	
+		$nodes = [];
 		foreach ($this->getLayoutFiles($app) as $key => $path)
 		{
-			$end = [];
-			qp($path)->children()->each(function($index,$node) use(&$end) {
+			qp($path)->children()->each(function($index,$node) use(&$nodes) {
 				
-				$end[] = $node->hasAttributes();	
-			});
-			
-			dd($end);	
-			//$layout->set($key, require $path);
+				/*foreach ($node->attributes as $attribute) {
+					$end[] = $attribute->name.'-'.$attribute->value;
+				}*/
+				
+				$nodes[$node->nodeName][] = $node;
+				
+
+			});	
 		}
+		$layout->set($nodes);
 	}
 
 	/**
