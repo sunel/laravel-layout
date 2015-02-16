@@ -65,7 +65,7 @@ class ExtViewServiceProvider extends ServiceProvider {
 	{	
 		$this->app->singleton('render.layout', function($app)
 		{
-				return (new LoadLayout())->bootstrap($app);
+				return app('\Ext\Layout');
 		});
 	}
 

@@ -27,11 +27,11 @@ class Factory extends ViewFactory {
 
 		$layout = app('render.layout');
 		
-		$view = $this->getView($handle,$layout);
+		//$view = $this->getView($handle,$layout);
 
 		//$this->callCreator();
 		
-		return $view;
+		return $layout;
 	}
 
 	public function getView($handle,$layout)
@@ -46,47 +46,6 @@ class Factory extends ViewFactory {
 		dd($this->_blocks);
 
 		dd($layout->get($handle));
-	}
-
-	protected function parseNode($block)
-	{
-		$parent = $block->parentNode->nodeName;
-
-		$childNodes = $this->getChildNodes($block);
-		foreach ($childNodes as $_child) {
-			switch ($_child->nodeName) {
-				case 'block':
-					$this->generateBlocks($_child,$parent);	
-					break;
-				
-				default:
-					# code...
-					break;
-			}
-		}
-	}
-	protected function generateBlocks($block,$parent)
-	{
-		if(!$block->hasAttributes()){
-			throw new InvalidBlockException("Invalid Block supplied", 1);
-		}
-
-		$block = new Block($block);
-
-		$name = $block->getBlockName();
-
-		$this->_blocks[$name] =  $block;
-	}
-
-	protected function getChildNodes($element){
-
-		$childNodes = [];
-		qp($element)->children()->each(function($index,$node) use(&$childNodes) {
-			$childNodes[] = $node; 
-		});
-
-		return $childNodes;
-
 	}
 
 	protected function convertHandler($handle)
