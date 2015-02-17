@@ -93,6 +93,48 @@ class AbstractXml extends \SimpleXMLElement {
 		}
 		return $result;
 	}
+	
+	/**
+     * Makes nicely formatted XML from the node
+     *
+     * @param string $filename
+     * @param int|boolean $level if false
+     * @return string
+     */
+    public function asNiceXml($filename='', $level=0)
+    {
+        if (is_numeric($level)) {
+            $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
+            $nl = "\n";
+        } else {
+            $pad = '';
+            $nl = '';
+        }
+        $out = $pad.'<'.$this->getName();
+        if ($attributes = $this->attributes()) {
+            foreach ($attributes as $key=>$value) {
+                $out .= ' '.$key.'="'.str_replace('"', '\"', (string)$value).'"';
+            }
+        }
+        if ($this->hasChildren()) {
+            $out .= '>'.$nl;
+            foreach ($this->children() as $child) {
+                $out .= $child->asNiceXml('', is_numeric($level) ? $level+1 : true);
+            }
+            $out .= $pad.'</'.$this->getName().'>'.$nl;
+        } else {
+            $value = (string)$this;
+            if (strlen($value)) {
+                $out .= '>'.$this->xmlentities($value).'</'.$this->getName().'>'.$nl;
+            } else {
+                $out .= '/>'.$nl;
+            }
+        }
+        if ((0===$level || false===$level) && !empty($filename)) {
+            file_put_contents($filename, $out);
+        }
+        return $out;
+    }
 
 	/**
 	 * Enter description here...

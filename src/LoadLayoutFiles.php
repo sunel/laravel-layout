@@ -5,7 +5,7 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Contracts\Foundation\Application;
 use Ext\Contracts\Render\Repository as RepositoryContract;
 
-class LoadLayout {
+class LoadLayoutFiles {
 
 	/**
 	 * Bootstrap the given application.

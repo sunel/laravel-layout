@@ -13,6 +13,6 @@ if ( ! function_exists('render'))
 	function render()
 	{
 		$factory = app('render');
-		return $factory->render(\Route::currentRouteName());
+		return $factory->render();
 	}
 }

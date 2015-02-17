@@ -1,7 +1,6 @@
 <?php namespace Ext;
 
 use Ext\Layout\Element;
-use Ext\Layout\Update;
 
 class Layout {
 	
@@ -50,16 +49,29 @@ class Layout {
      * @var boolean
      */
     protected $_directOutput = false;
-
+	
+	 /**
+     * Event Instance
+     *
+     * @var Illuminate\Events\Dispatcher
+     */
     protected $_events;
+	
+	 /**
+     * Application Instance
+     *
+     * @var \Illuminate\Foundation\Application
+     */
+	protected $_app;
 
 	
-	public function __construct(\Illuminate\Support\Facades\Event $event)
+	public function __construct(\Illuminate\Foundation\Application $app)
     {
-        $this->_events = $event;
+        $this->_app = $app;	
         $this->_elementClass = Element::class;
-        $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));        
-        $this->_update = new Update();
+        $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
+		$this->_events = $this->_app['events'];    
+        $this->_update = $this->_app['render.layout.update'];
 
     }
 	
@@ -413,7 +425,7 @@ class Layout {
             #TODO Need to implement
         }
         if (!$block instanceof \Ext\Block) {
-            throw new InvalidBlockException('Invalid block type: %s', $block);
+            throw new InvalidBlockException('Invalid block type:'.$block);
         }
         return $block;
     }
