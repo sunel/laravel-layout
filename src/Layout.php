@@ -55,7 +55,7 @@ class Layout {
      *
      * @var Illuminate\Events\Dispatcher
      */
-    protected $_events;
+    protected $events;
 	
 	 /**
      * Application Instance
@@ -70,7 +70,7 @@ class Layout {
         $this->_app = $app;	
         $this->_elementClass = Element::class;
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-		$this->_events = $this->_app['events'];    
+		$this->events = $this->_app['events'];    
         $this->_update = $this->_app['render.layout.update'];
 
     }
@@ -187,15 +187,11 @@ class Layout {
      */
     protected function _generateBlock($node, $parent)
     {
-        if (!empty($node['class'])) {
-            $className = (string)$node['class'];
-        } else {
-            $className = (string)$node['type'];
-        }
-
+        $className = (string)$node['class'];
         $blockName = (string)$node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
-        //Varien_Profiler::start($_profilerKey);
+
+        //Debugbar::startMeasure($_profilerKey);
 
         $block = $this->addBlock($className, $blockName);
         if (!$block) {
@@ -236,7 +232,7 @@ class Layout {
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-        //Varien_Profiler::stop($_profilerKey);
+        //Debugbar::stopMeasure($_profilerKey);
 
         return $this;
     }
@@ -267,7 +263,7 @@ class Layout {
 
         $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
         
-        //Varien_Profiler::start($_profilerKey);
+        //Debugbar::startMeasure($_profilerKey);
 
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
@@ -312,7 +308,7 @@ class Layout {
             call_user_func_array(array($block, $method), $args);
         }
 
-        //Varien_Profiler::stop($_profilerKey);
+        //Debugbar::stopMeasure($_profilerKey);
 
         return $this;
     }
@@ -370,10 +366,10 @@ class Layout {
      * @param     array $attributes
      * @return    \Ext\Block
      */
-    public function createBlock($type, $name='', array $attributes = array())
+    public function createBlock($class, $name='', array $attributes = array())
     {
         try {
-            $block = $this->_getBlockInstance($type, $attributes);
+            $block = $this->_getBlockInstance($class, $attributes);
         } catch (Exception $e) {
             \Log::exception($e);
             return false;
@@ -386,15 +382,15 @@ class Layout {
             }
             $name = 'ANONYMOUS_'.sizeof($this->_blocks);
         } 
-
-        $block->setType($type);
+        
+        $block->setClass($class);
         $block->setNameInLayout($name);
         $block->addData($attributes);
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
 
-        $this->events->fire('layout_block_create_after', array('block'=>$block));
+        $this->events->fire('layout.block.create.after', array('block'=>$block));
         
         return $this->_blocks[$name];
     }
@@ -421,8 +417,14 @@ class Layout {
     protected function _getBlockInstance($block, array $attributes=array())
     {
         if (is_string($block)) {
-            
-            #TODO Need to implement
+
+            if (class_exists($block, true)){
+
+                $block = app($block);
+
+                $block->addData($attributes);
+            }
+
         }
         if (!$block instanceof \Ext\Block) {
             throw new InvalidBlockException('Invalid block type:'.$block);

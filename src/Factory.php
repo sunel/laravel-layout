@@ -92,7 +92,7 @@ class Factory extends ViewFactory {
         $_profilerKey = self::PROFILER_KEY . '::' .$this->routeHandler();
         // dispatch event for adding handles to layout update
         $this->events->fire(
-            'route_layout_load_before',
+            'route.layout.load.before',
             array('route'=>$this, 'layout'=>$this->getLayout())
         );
         // load layout updates by specified handles
@@ -107,7 +107,7 @@ class Factory extends ViewFactory {
         $_profilerKey = self::PROFILER_KEY . '::' . $this->routeHandler();
         
         $this->events->fire(
-            'route_layout_generate_xml_before',
+            'route.layout.generate.xml.before',
             array('route'=>$this, 'layout'=>$this->getLayout())
         );
         
@@ -125,7 +125,7 @@ class Factory extends ViewFactory {
         // dispatch event for adding xml layout elements
         
         $this->events->fire(
-            'route_layout_generate_blocks_before',
+            'route.layout.generate.blocks.before',
             array('route'=>$this, 'layout'=>$this->getLayout())
         );
             
@@ -136,7 +136,7 @@ class Factory extends ViewFactory {
         
         
         $this->events->fire(
-            'route_layout_generate_blocks_after',
+            'route.layout.generate.blocks.after',
             array('route'=>$this, 'layout'=>$this->getLayout())
         );
 		
@@ -157,8 +157,8 @@ class Factory extends ViewFactory {
             $this->getLayout()->addOutputBlock($output);
         }
 		
-        $this->events->fire('controller_action_layout_render_before');
-        $this->events->fire('controller_action_layout_render_before_'.$this->routeHandler());
+        $this->events->fire('route.layout.render.before');
+        $this->events->fire('route.layout.render.before.'.$this->routeHandler());
         
         $this->getLayout()->setDirectOutput(false);
         $output = $this->getLayout()->getOutput();

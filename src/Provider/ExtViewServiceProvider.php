@@ -73,11 +73,6 @@ class ExtViewServiceProvider extends ServiceProvider {
 		{
 				return new Update();
 		});
-		
-		$this->app->singleton('render.layout.files', function($app)
-		{
-				return (new LoadLayout())->bootstrap($app);
-		});
 	}
 
 }

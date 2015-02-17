@@ -15,7 +15,7 @@
         "querypath/QueryPath": ">=3.0.0"
     },
     "require-dev": {
-
+        "barryvdh/laravel-debugbar": "~2.0"
     },
     "autoload": {
 		"files": [
