@@ -26,16 +26,25 @@
 ?>
 <?php
 /**
- * Top menu for store
+ * @deprecated  after 1.4.0.0-alpha3
+ */
+
+/**
+ * This template is for generic wrapper purposes, including ajax.updater loaded blocks
  *
- * @see Mage_Page_Block_Html_Topmenu
+ * Usage in layout xml files:
+ * <block type="core/template" template="page/html/wrapper.phtml">
+ *    <action method="setId"><id>some-custom-identificator</id></action>
+ *
+ *    <!-- optional -->
+ *    <action method="setTag"><tag>span</tag></action> <!-- div is used if not specified -->
+ *    <action method="setParams"><params>class="custom-class"</params></action>
+ *
+ *    <!-- insert wrapped blocks here -->
+ * </block>
  */
 ?>
-<?php $_menu = $this->getHtml('level-top') ?>
-<?php if($_menu): ?>
-<div class="nav-container">
-    <ul id="nav">
-        <?php echo $_menu ?>
-    </ul>
-</div>
-<?php endif ?>
+<?php $_tag = $this->hasTag() ? $this->getTag() : "div" ?>
+<<?php echo $_tag?> id="<?php echo $this->getId()?>" <?php echo $this->getParams()?>>
+<?php echo $this->getChildHtml()?>
+</<?php echo $_tag?>>

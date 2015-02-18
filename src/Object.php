@@ -23,6 +23,15 @@ class Object implements \ArrayAccess {
 
     public function __construct() {
 
+		$this->_construct();
+    }
+	
+	/**
+     * Internal constructor, that is called from real constructor
+     *
+     */
+	protected function _construct() {
+
     }
 
     /**
@@ -252,7 +261,8 @@ class Object implements \ArrayAccess {
                 $key = $this->_underscore(substr($method,3));
                 return isset($this->_data[$key]);
         }
-        throw new Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
+        //throw new Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
+        throw new Exception("Invalid method ".get_class($this)."::".$method);
     }
 
     /**

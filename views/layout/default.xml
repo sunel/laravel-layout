@@ -10,11 +10,9 @@ Default layout, loads most of the pages
             <block class="\Ext\Page\Html\Head" name="head" as="head">
                 <action method="addJs"><script>js/script.js</script></action>
 
-                <block class="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
-
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addItem">
-                        <type>skin_css</type>
+                        <type>css</type>
                         <name>css/styles-ie.css</name>
                         <params/><if>lt IE 8</if>
                 </action>
@@ -25,8 +23,9 @@ Default layout, loads most of the pages
                     <stylesheet>css/print.css</stylesheet>
                     <params>media="print"</params>
                 </action>
+                
             </block>
-
+			<action method="debug"/>
             <block class="core/text_list" name="after_body_start" as="after_body_start" >
             </block>
 
