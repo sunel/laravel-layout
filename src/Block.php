@@ -86,6 +86,11 @@ class Block extends Object
      * @var array
      */
     protected $_sortInstructions = array();
+
+    /**
+     * @var \Ext\Object
+     */
+    private static $_transportObject;
 	
 	 /**
      * Path to template file in theme.
@@ -804,9 +809,11 @@ class Block extends Object
     {
         app('events')->fire('block.to.html.before', array('block' => $this));
  		
-		# TODO Need to implement this
+		# TODO Need to implement this & remove $html :-P
         //$html = $this->_loadCache();
-		
+
+		$html = '';
+        
         if ($html === false) {
         	
             $this->_beforeToHtml();

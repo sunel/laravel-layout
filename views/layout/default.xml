@@ -5,7 +5,7 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <block class="\Ext\Page\Html" name="root" template="page/3columns.phtml">
+        <block class="\Ext\Page\Html" name="root" template="page.3columns">
 
             <block class="\Ext\Page\Html\Head" name="head" as="head">
                 <action method="addJs"><script>js/script.js</script></action>
@@ -25,46 +25,43 @@ Default layout, loads most of the pages
                 </action>
                 
             </block>
-			<action method="debug"/>
-            <block class="core/text_list" name="after_body_start" as="after_body_start" >
+			
+            <block class="\Ext\Page\BlockList" name="after_body_start" as="after_body_start" >
             </block>
 
-            <block class="page/html_notices" name="global_notices" as="global_notices" template="page/html/notices.phtml" />
 
-            <block class="page/html_header" name="header" as="header">
-                <block class="page/template_links" name="top.links" as="topLinks"/>
-                <block class="core/text_list" name="top.menu" as="topMenu" >
-                    <block class="page/html_topmenu" name="catalog.topnav" template="page/html/topmenu.phtml"/>
+            <block class="\Ext\Page\Html\Header" name="header" as="header">
+                <block class="\Ext\Page\Html\Links" name="top.links" as="topLinks"/>
+                <block class="\Ext\Page\BlockList" name="top.menu" as="topMenu" >
+                    <block class="\Ext\Page\Html\TopMenu" name="topnav" template="page.html.topmenu"/>
                 </block>
-                <block class="page/html_wrapper" name="top.container" as="topContainer">
+                <block class="\Ext\Page\Html\Wrapper" name="top.container" as="topContainer">
                     <action method="setElementClass"><value>top-container</value></action>
                 </block>
-                <block class="page/html_welcome" name="welcome" as="welcome"/>
             </block>
 
-            <block class="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
+            <block class="\Ext\Page\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
-            <block class="core/text_list" name="left" as="left">
+            <block class="\Ext\Page\BlockList" name="left" as="left">
             </block>
 
-            <block class="core/messages" name="global_messages" as="global_messages"/>
             <block class="core/messages" name="messages" as="messages"/>
 
-            <block class="core/text_list" name="content" as="content">
+            <block class="\Ext\Page\BlockList" name="content" as="content">
             </block>
 
-            <block class="core/text_list" name="right" as="right">
+            <block class="\Ext\Page\BlockList" name="right" as="right">
             </block>
 
             <block class="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
-                <block class="page/html_wrapper" name="bottom.container" as="bottomContainer">
+                <block class="\Ext\Page\Html\Wrapper" name="bottom.container" as="bottomContainer">
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>
-                <block class="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
-                <block class="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
+
+                <block class="\Ext\Page\Html\Links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
             </block>
 
-            <block class="core/text_list" name="before_body_end" as="before_body_end">
+            <block class="\Ext\Page\BlockList" name="before_body_end" as="before_body_end">
                 <block class="page/html_cookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="page/html/cookienotice.phtml" before="-" />
             </block>
         </block>

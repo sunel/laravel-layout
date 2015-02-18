@@ -18,6 +18,7 @@ class ExtViewServiceProvider extends ServiceProvider {
 		$this->publishes([
 		     __DIR__.'/../../views' => base_path('resources/views/vendor/render'),
 		]);
+		
 	}
 
 	/**
@@ -29,6 +30,7 @@ class ExtViewServiceProvider extends ServiceProvider {
 	{
 		$this->registerFactory();
 		$this->registerTemplatLayout();
+		$this->registerBladeTemplat();
 
 
         $this->app->booting(function()
@@ -72,6 +74,19 @@ class ExtViewServiceProvider extends ServiceProvider {
 		$this->app->bind('render.layout.update', function($app)
 		{
 				return new Update();
+		});
+	}
+
+	/**
+	 * Register the view environment.
+	 *
+	 * @return void
+	 */
+	public function registerBladeTemplat()
+	{
+		\Blade::extend(function($view, $compiler)
+		{
+		   return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $view);;
 		});
 	}
 
