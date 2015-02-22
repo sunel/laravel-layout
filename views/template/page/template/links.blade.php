@@ -1,15 +1,15 @@
-{? $_links = $this->getLinks(); ?}
+{? $_links = $_this->getLinks(); ?}
 @if(count($_links)>0)
-<ul class="links" @if($this->getName()) id="{{ $this->getName() }}" @endif >
+<ul class="links" @if($_this->getName()) id="{{ $_this->getName() }}" @endif >
     	@foreach($_links as $_link)
         
         @if($_link instanceof \Ext\Block)
-            {{ $_link->toHtml() }}
+            {!! $_link->toHtml() !!}
         @else
             <li
             	{? if($_link->getIsFirst()|| $_link->getIsLast()): ?}
-            		class="{? if($_link->getIsFirst()): ?} first {? endif; ?}
-            			   {? if($_link->getIsLast()): ?} last {? endif; ?}"
+            		class="@if($_link->getIsFirst()) first @endif
+            			   @if($_link->getIsLast()) last @endif "
             		{? endif; ?}
 
             		{{ $_link->getLiParams() }}

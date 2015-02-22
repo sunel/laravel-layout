@@ -2,7 +2,7 @@
 <layout version="0.1.0">
 	<cms_index_index>
 		<reference name="content">
-            <block class="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
+            <block class="\Ext\Page\Html" name="home" template="page::home">
             </block>
          </reference> 	
 	</cms_index_index>	

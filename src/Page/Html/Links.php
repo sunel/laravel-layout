@@ -23,7 +23,7 @@ class Links extends \Ext\Block {
      */
     protected function _construct()
     {
-        $this->setTemplate('page.template.links');
+        $this->setTemplate('render::page.template.links');
     }
     /**
      * Get all links

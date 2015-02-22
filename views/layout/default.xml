@@ -5,7 +5,7 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <block class="\Ext\Page\Html" name="root" template="page.3columns">
+        <block class="\Ext\Page\Html" name="root" template="render::page.3columns">
 
             <block class="\Ext\Page\Html\Head" name="head" as="head">
                 <action method="addJs"><script>js/script.js</script></action>
@@ -33,7 +33,7 @@ Default layout, loads most of the pages
             <block class="\Ext\Page\Html\Header" name="header" as="header">
                 <block class="\Ext\Page\Html\Links" name="top.links" as="topLinks"/>
                 <block class="\Ext\Page\BlockList" name="top.menu" as="topMenu" >
-                    <block class="\Ext\Page\Html\TopMenu" name="topnav" template="page.html.topmenu"/>
+                    <block class="\Ext\Page\Html\TopMenu" name="topnav" template="render::page.html.topmenu"/>
                 </block>
                 <block class="\Ext\Page\Html\Wrapper" name="top.container" as="topContainer">
                     <action method="setElementClass"><value>top-container</value></action>
@@ -45,7 +45,7 @@ Default layout, loads most of the pages
             <block class="\Ext\Page\BlockList" name="left" as="left">
             </block>
 
-            <block class="core/messages" name="messages" as="messages"/>
+            <block class="\Ext\Page\Messages" name="messages" as="messages"/>
 
             <block class="\Ext\Page\BlockList" name="content" as="content">
             </block>
@@ -53,19 +53,18 @@ Default layout, loads most of the pages
             <block class="\Ext\Page\BlockList" name="right" as="right">
             </block>
 
-            <block class="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
+            <block class="\Ext\Page\Html\Footer" name="footer" as="footer" template="render::page.html.footer">
                 <block class="\Ext\Page\Html\Wrapper" name="bottom.container" as="bottomContainer">
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>
 
-                <block class="\Ext\Page\Html\Links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
+                <block class="\Ext\Page\Html\Links" name="footer_links" as="footer_links" template="render::page.template.links"/>
             </block>
 
             <block class="\Ext\Page\BlockList" name="before_body_end" as="before_body_end">
-                <block class="page/html_cookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="page/html/cookienotice.phtml" before="-" />
+                <block class="\Ext\Page\Html\CookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="render::page.html.cookienotice" before="-" />
             </block>
         </block>
 
-        <block class="core/profiler" name="core_profiler"/>
     </default>
 </layout>

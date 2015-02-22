@@ -1,11 +1,11 @@
 <?php namespace Ext;
 
-use Illuminate\View\Factory as ViewFactory;
-use Illuminate\View\View;
+use Debugbar;
+use Illuminate\Contracts\Events\Dispatcher;
 
-class Factory extends ViewFactory {
+class Factory {
 	
-	 const PROFILER_KEY   = 'dispatch::route';
+	const PROFILER_KEY   = 'dispatch::route';
 	 
 	/**
      * Blocks registry
@@ -14,6 +14,24 @@ class Factory extends ViewFactory {
      */
     protected $_blocks = array();
 	
+    /**
+     * The event dispatcher instance.
+     *
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    protected $events;
+
+    /**
+     * Create a new view factory instance.
+     * 
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public function __construct(Dispatcher $events)
+    {
+        $this->events = $events;
+    }
+
 	
 	/**
      * Retrieve current layout object
@@ -36,13 +54,11 @@ class Factory extends ViewFactory {
 	public function render($handles = null, $generateBlocks = true, $generateXml = true)
 	{
 		
-		dd($this->loadLayout($handles,$generateBlocks,$generateXml));
+		$this->loadLayout($handles,$generateBlocks,$generateXml);
 		
-		//$view = $this->getView($handle,$layout);
-
-		//$this->callCreator();
+		$view = $this->renderLayout();
 		
-		return $layout;
+        return view('render::page.root',['html'=>$view]);
 	}
 	
 	
@@ -72,6 +88,7 @@ class Factory extends ViewFactory {
         }
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
+
         return $this;
     }
 	
@@ -96,9 +113,9 @@ class Factory extends ViewFactory {
             array('route'=>$this, 'layout'=>$this->getLayout())
         );
         // load layout updates by specified handles
-        //Debugbar::startMeasure("$_profilerKey::layout_load");
+        Debugbar::startMeasure("$_profilerKey::layout_load");
         $this->getLayout()->getUpdate()->load();
-        //Debugbar::stopMeasure("$_profilerKey::layout_load");
+        Debugbar::stopMeasure("$_profilerKey::layout_load");
         return $this;
     }
 	
@@ -112,9 +129,9 @@ class Factory extends ViewFactory {
         );
         
         // generate xml from collected text updates
-        //Debugbar::startMeasure("$_profilerKey::layout_generate_xml");
+        Debugbar::startMeasure("$_profilerKey::layout_generate_xml");
         $this->getLayout()->generateXml();
-        //Debugbar::stopMeasure("$_profilerKey::layout_generate_xml");
+        Debugbar::stopMeasure("$_profilerKey::layout_generate_xml");
         
         return $this;
     }
@@ -130,9 +147,9 @@ class Factory extends ViewFactory {
         );
             
         // generate blocks from xml layout
-        //Debugbar::startMeasure("$_profilerKey::layout_generate_blocks");
+        Debugbar::startMeasure("$_profilerKey::layout_generate_blocks");
         $this->getLayout()->generateBlocks();
-        //Debugbar::stopMeasure("$_profilerKey::layout_generate_blocks");
+        Debugbar::stopMeasure("$_profilerKey::layout_generate_blocks");
         
         
         $this->events->fire(
@@ -152,21 +169,22 @@ class Factory extends ViewFactory {
     {
         $_profilerKey = self::PROFILER_KEY . '::' . $this->routeHandler();
         
-        //Debugbar::startMeasure("$_profilerKey::layout_render");
+        Debugbar::startMeasure("$_profilerKey::layout_render");
         if (''!==$output) {
             $this->getLayout()->addOutputBlock($output);
         }
 		
         $this->events->fire('route.layout.render.before');
         $this->events->fire('route.layout.render.before.'.$this->routeHandler());
-        
+            
         $this->getLayout()->setDirectOutput(false);
+
         $output = $this->getLayout()->getOutput();
         
        
-       //Debugbar::stopMeasure("$_profilerKey::layout_render");
+        Debugbar::stopMeasure("$_profilerKey::layout_render");
 		
-        return $this;
+        return $output;
     }
 	
 
@@ -179,17 +197,6 @@ class Factory extends ViewFactory {
 			throw new InvalidRouterNameException('Invalid Router Name supplied');
 		}	
 		return str_replace('.','_',strtolower($route_name));
-	}	
-
-	/**
-	 * Call the creator for a given view.
-	 *
-	 * @param  \Illuminate\View\View  $view
-	 * @return void
-	 */
-	public function callCreator(View $view)
-	{
-		$this->events->fire('rendering: '.$view->getName(), array($view));
 	}
 
 	

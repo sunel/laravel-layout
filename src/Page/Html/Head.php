@@ -9,7 +9,7 @@ class Head extends \Ext\Block {
      */
     protected function _construct()
     {
-        $this->setTemplate('page.html.head');
+        $this->setTemplate('render::page.html.head');
     }
 	
 	 /**
@@ -213,8 +213,7 @@ class Head extends \Ext\Block {
     protected function &_prepareStaticAndSkinElements($format, array $staticItems, array $skinItems,
                                                       $mergeCallback = null)
     {
-        $designPackage = Mage::getDesign();
-        $baseJsUrl = Mage::getBaseUrl('js');
+        
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;
@@ -223,15 +222,14 @@ class Head extends \Ext\Block {
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? Mage::getBaseDir() . DS . 'js' . DS . $name : $baseJsUrl . $name;
+                $items[$params][] = asset($name);
             }
         }
 
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name, array('_type' => 'skin'))
-                    : $designPackage->getSkinUrl($name, array());
+                $items[$params][] = asset($name);
             }
         }
 
@@ -315,8 +313,9 @@ class Head extends \Ext\Block {
      */
     public function getMediaType()
     {
+        #TODO  get config
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = Mage::getStoreConfig('design/head/default_media_type');
+            $this->_data['media_type'] = '';
         }
         return $this->_data['media_type'];
     }
@@ -328,8 +327,9 @@ class Head extends \Ext\Block {
      */
     public function getCharset()
     {
+        #TODO  get config
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = Mage::getStoreConfig('design/head/default_charset');
+            $this->_data['charset'] = '';
         }
         return $this->_data['charset'];
     }
@@ -342,8 +342,10 @@ class Head extends \Ext\Block {
      */
     public function setTitle($title)
     {
-        $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
-            . ' ' . Mage::getStoreConfig('design/head/title_suffix');
+        #TODO  get config
+        # prefix & suffix
+        $this->_data['title'] =   ' ' . $title . ' ' ;
+
         return $this;
     }
 
@@ -367,7 +369,9 @@ class Head extends \Ext\Block {
      */
     public function getDefaultTitle()
     {
-        return Mage::getStoreConfig('design/head/default_title');
+        #TODO  get config
+
+        return ;
     }
 
     /**
@@ -377,8 +381,10 @@ class Head extends \Ext\Block {
      */
     public function getDescription()
     {
+        #TODO  get config
+
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = Mage::getStoreConfig('design/head/default_description');
+            $this->_data['description'] = '';
         }
         return $this->_data['description'];
     }
@@ -390,8 +396,9 @@ class Head extends \Ext\Block {
      */
     public function getKeywords()
     {
+        #TODO  get config
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = Mage::getStoreConfig('design/head/default_keywords');
+            $this->_data['keywords'] = '';
         }
         return $this->_data['keywords'];
     }
@@ -403,8 +410,9 @@ class Head extends \Ext\Block {
      */
     public function getRobots()
     {
+        #TODO  get config
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = Mage::getStoreConfig('design/head/default_robots');
+            $this->_data['robots'] = '';
         }
         return $this->_data['robots'];
     }
@@ -416,8 +424,9 @@ class Head extends \Ext\Block {
      */
     public function getIncludes()
     {
+        #TODO  get config
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = Mage::getStoreConfig('design/head/includes');
+            $this->_data['includes'] = '';
         }
         return $this->_data['includes'];
     }
@@ -442,29 +451,9 @@ class Head extends \Ext\Block {
      */
     protected function _getFaviconFile()
     {
-        $folderName = Mage_Adminhtml_Model_System_Config_Backend_Image_Favicon::UPLOAD_DIR;
-        $storeConfig = Mage::getStoreConfig('design/head/shortcut_icon');
-        $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
-
-        if(!is_null($storeConfig) && $this->_isFile($absolutePath)) {
-            $url = $faviconFile;
-        } else {
-            $url = $this->getSkinUrl('favicon.ico');
-        }
+        #TODO  get config
+        $url = '';
         return $url;
     }
 
-    /**
-     * If DB file storage is on - find there, otherwise - just file_exists
-     *
-     * @param string $filename
-     * @return bool
-     */
-    protected function _isFile($filename) {
-        if (Mage::helper('core/file_storage_database')->checkDbUsage() && !is_file($filename)) {
-            Mage::helper('core/file_storage_database')->saveFileToFilesystem($filename);
-        }
-        return is_file($filename);
-    }
 }

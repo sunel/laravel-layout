@@ -30,7 +30,7 @@ class Breadcrumbs extends \Ext\Block {
     public function _construct()
     {
         parent::_construct();
-        $this->setTemplate('page.html.breadcrumbs');
+        $this->setTemplate('render::page.html.breadcrumbs');
     }
     public function addCrumb($crumbName, $crumbInfo, $after = false)
     {

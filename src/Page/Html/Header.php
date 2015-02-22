@@ -6,7 +6,7 @@ class Header extends \Ext\Block {
 
 	public function _construct()
     {
-        $this->setTemplate('page.html.header');
+        $this->setTemplate('render::page.html.header');
     }
 	
 }

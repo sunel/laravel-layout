@@ -1,6 +1,7 @@
 <?php namespace Ext;
 
 use Ext\Layout\Element;
+use Debugbar;
 
 class Layout {
 	
@@ -191,7 +192,7 @@ class Layout {
         $blockName = (string)$node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
 
-        //Debugbar::startMeasure($_profilerKey);
+        Debugbar::startMeasure($_profilerKey);
 
         $block = $this->addBlock($className, $blockName);
         if (!$block) {
@@ -228,11 +229,15 @@ class Layout {
             $block->setTemplate((string)$node['template']);
         }
 
+        $method = "toHtml";
+
         if (!empty($node['output'])) {
             $method = (string)$node['output'];
-            $this->addOutputBlock($blockName, $method);
         }
-        //Debugbar::stopMeasure($_profilerKey);
+
+        $this->addOutputBlock($blockName, $method);
+
+        Debugbar::stopMeasure($_profilerKey);
 
         return $this;
     }

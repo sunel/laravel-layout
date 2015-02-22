@@ -4,7 +4,7 @@
         <nav class="navbar navbar-default navbar-main" role="navigation">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#" data-toggle="collapse" data-target=".navbar-main-collapse">
-                     {{ trans('page.menu'); }}
+                     {{ trans('page.menu') }}
                 </a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <span class="sr-only">{{ trans('Toggle Navigation') }}</span>
@@ -16,7 +16,7 @@
 
             <div class="collapse navbar-collapse navbar-main-collapse">
                 <ul class="nav navbar-nav">
-                   {{ $_menu }}
+                   {!! $_menu !!}
                 </ul>
             </div>
         </nav>

@@ -1,6 +1,7 @@
 <?php namespace Ext;
 
-	
+use Debugbar;
+
 class Block extends Object
 {
 	/**
@@ -98,6 +99,13 @@ class Block extends Object
      * @var string
      */
     protected $_template;
+
+    /**
+     * Assigned variables for view
+     *
+     * @var array
+     */
+    protected $_viewVars = array();
 	
 	protected static $_showTemplateHints;
 	
@@ -306,6 +314,26 @@ class Block extends Object
     public function setAttribute($name, $value = null)
     {
         return $this->setData($name, $value);
+    }
+
+    /**
+     * Assign variable
+     *
+     * @param   string|array $key
+     * @param   mixed $value
+     * @return  \Ext\Block
+     */
+    public function assign($key, $value=null)
+    {
+        if (is_array($key)) {
+            foreach ($key as $k=>$v) {
+                $this->assign($k, $v);
+            }
+        }
+        else {
+            $this->_viewVars[$key] = $value;
+        }
+        return $this;
     }
 
     /**
@@ -587,8 +615,27 @@ class Block extends Object
 
         $child = $this->getChild($name);
 
+        if (!$child) {
+            $html = '';
+        } else {
+            $this->_beforeChildToHtml($name, $child);
+            $html = $child->toHtml();
+        }
+
         $this->_childrenHtmlCache[$name] = $html;
+
         return $html;
+    }
+
+    /**
+     * Prepare child block before generate html
+     *
+     * @param   string $name
+     * @param   Mage_Core_Block_Abstract $child
+     */
+    protected function _beforeChildToHtml($name, $child)
+    {
+
     }
 	
 	/**
@@ -812,7 +859,7 @@ class Block extends Object
 		# TODO Need to implement this & remove $html :-P
         //$html = $this->_loadCache();
 
-		$html = '';
+		$html = false;
         
         if ($html === false) {
         	
@@ -882,16 +929,18 @@ class Block extends Object
      */
     public function fetchView($fileName)
     {
-        //Debugbar::startMeasure($fileName);
+        Debugbar::startMeasure($fileName);
 
-        // EXTR_SKIP protects from overriding
+        $html = '';
+        
+         // EXTR_SKIP protects from overriding
         // already defined variables
         extract ($this->_viewVars, EXTR_SKIP);
+        
+        #TODO Need to figures this out 
+
         $do = $this->getDirectOutput();
 
-        if (!$do) {
-            ob_start();
-        }
         if ($this->getShowTemplateHints()) {
             echo <<<HTML
 <div style="position:relative; border:1px dotted red; margin:6px 2px; padding:18px 2px 2px 2px; zoom:1;">
@@ -910,15 +959,12 @@ HTML;
         }
 
         try {
-            $includeFilePath = realpath($this->_viewDir . DS . $fileName);
-            if (strpos($includeFilePath, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks()) {
-                include $includeFilePath;
-            } else {
-                \Log::info('Not valid template file:'.$fileName);
-            }
+
+            $this->assign('_this',$this);
+
+            $html = app('view')->make($fileName,$this->_viewVars)->render();
 
         } catch (Exception $e) {
-            ob_get_clean();
             throw $e;
         }
 
@@ -926,12 +972,8 @@ HTML;
             echo '</div>';
         }
 
-        if (!$do) {
-            $html = ob_get_clean();
-        } else {
-            $html = '';
-        }
-        //Debugbar::stopMeasure($fileName);
+        Debugbar::stopMeasure($fileName);
+
         return $html;
     }
 
@@ -942,7 +984,7 @@ HTML;
      */
     public function renderView()
     {
-        $html = $this->fetchView($this->getTemplateFile());
+        $html = $this->fetchView($this->getTemplate());
         return $html;
     }
 
