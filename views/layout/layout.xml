@@ -4,6 +4,8 @@
 		<reference name="content">
             <block class="\Ext\Page\Html" name="home" template="page::home">
             </block>
+            <block class="\Ext\Page\Html" name="home" template="page::home">
+            </block>
          </reference>
 	</cms_index_index>
 </layout>

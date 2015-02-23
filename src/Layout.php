@@ -226,13 +226,10 @@ class Layout
             $block->setTemplate((string) $node['template']);
         }
 
-        $method = "toHtml";
-
         if (!empty($node['output'])) {
             $method = (string) $node['output'];
+            $this->addOutputBlock($blockName, $method);
         }
-
-        $this->addOutputBlock($blockName, $method);
 
         Debugbar::stopMeasure($_profilerKey);
 
@@ -266,7 +263,7 @@ class Layout
 
         $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
 
-        //Debugbar::startMeasure($_profilerKey);
+        Debugbar::startMeasure($_profilerKey);
 
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
@@ -310,7 +307,7 @@ class Layout
             call_user_func_array([$block, $method], $args);
         }
 
-        //Debugbar::stopMeasure($_profilerKey);
+        Debugbar::stopMeasure($_profilerKey);
 
         return $this;
     }

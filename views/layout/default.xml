@@ -5,19 +5,19 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <block class="\Ext\Page\Html" name="root" template="render::page.3columns">
+        <block class="\Ext\Page\Html" name="root" output="toHtml" template="render::page.3columns">
 
             <block class="\Ext\Page\Html\Head" name="head" as="head">
                 <action method="addJs"><script>js/script.js</script></action>
 
-                <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
+                <action method="addCss"><stylesheet>css/app.css</stylesheet></action>
                 <action method="addItem">
                         <type>css</type>
                         <name>css/styles-ie.css</name>
                         <params/><if>lt IE 8</if>
                 </action>
                 <action method="addCss">
-                    <stylesheet>css/widgets.css</stylesheet>
+                    <stylesheet>css/styles.css</stylesheet>
                 </action>
                 <action method="addCss">
                     <stylesheet>css/print.css</stylesheet>
