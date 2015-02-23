@@ -1,23 +1,22 @@
 <?php namespace Ext\Page\Html;
 
-
-class TopMenu extends \Ext\Block {
-
-	/**
-     * Top menu data tree
+class TopMenu extends \Ext\Block
+{
+    /**
+     * Top menu data tree.
      *
-     * @var 
+     * @var
      */
     protected $_menu;
     /**
-     * Current entity key
+     * Current entity key.
      *
      * @var string|int
      */
     protected $_currentEntityKey;
 
     /**
-     * Init top menu tree structure
+     * Init top menu tree structure.
      */
     public function _construct()
     {
@@ -28,47 +27,48 @@ class TopMenu extends \Ext\Block {
     }
 
     /**
-     * Get top menu html
+     * Get top menu html.
      *
      * @param string $outermostClass
      * @param string $childrenWrapClass
+     *
      * @return string
      */
     public function getHtml($outermostClass = '', $childrenWrapClass = '')
     {
         app('events')->fire('page.block.html.topmenu.gethtml.before', array(
             'menu' => $this->_menu,
-            'block' => $this
+            'block' => $this,
         ));
-        
-         $html = $this->_getHtml($this->_menu, $childrenWrapClass);
+
+        $html = $this->_getHtml($this->_menu, $childrenWrapClass);
 
         app('events')->fire('page.block.html.topmenu.gethtml.after', array(
             'menu' => $this->_menu,
-            'html' => $html
+            'html' => $html,
         ));
+
         return $html;
     }
-    
 
     protected function _getHtml($menuTree, $childrenWrapClass)
     {
         $html = '';
-        
+
         return $html;
     }
-    
 
     /**
-     * Returns array of menu item's classes
+     * Returns array of menu item's classes.
      *
      * @param  $item
+     *
      * @return array
      */
     protected function _getMenuItemClasses($item)
     {
         $classes = array();
-        $classes[] = 'level' . $item->getLevel();
+        $classes[] = 'level'.$item->getLevel();
         $classes[] = $item->getPositionClass();
         if ($item->getIsFirst()) {
             $classes[] = 'first';
@@ -85,19 +85,19 @@ class TopMenu extends \Ext\Block {
         if ($item->hasChildren()) {
             $classes[] = 'parent';
         }
+
         return $classes;
     }
 
     /**
-     * Retrieve cache key data
+     * Retrieve cache key data.
      *
      * @return array
      */
     public function getCacheKeyInfo()
     {
-    	$cacheId = '';
-        
+        $cacheId = '';
+
         return $cacheId;
     }
-   
 }

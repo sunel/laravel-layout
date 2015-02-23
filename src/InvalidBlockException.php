@@ -1,6 +1,5 @@
 <?php namespace Ext;
 
-
-class InvalidBlockException extends \Exception {
-	
+class InvalidBlockException extends \Exception
+{
 }

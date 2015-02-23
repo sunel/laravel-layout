@@ -2,36 +2,32 @@
 
 use Exception;
 
-class Object implements \ArrayAccess {
-	
-	
+class Object implements \ArrayAccess
+{
     /**
-     * Object attributes
+     * Object attributes.
      *
      * @var array
      */
     protected $_data = array();
 
     /**
-     * Setter/Getter underscore transformation cache
+     * Setter/Getter underscore transformation cache.
      *
      * @var array
      */
     protected static $_underscoreCache = array();
 
-
-
-    public function __construct() {
-
-		$this->_construct();
+    public function __construct()
+    {
+        $this->_construct();
     }
-	
-	/**
-     * Internal constructor, that is called from real constructor
-     *
-     */
-	protected function _construct() {
 
+    /**
+     * Internal constructor, that is called from real constructor.
+     */
+    protected function _construct()
+    {
     }
 
     /**
@@ -40,13 +36,15 @@ class Object implements \ArrayAccess {
      * Retains previous data in the object.
      *
      * @param array $arr
+     *
      * @return \Ext\Object
      */
     public function addData(array $arr)
     {
-        foreach($arr as $index=>$value) {
+        foreach ($arr as $index => $value) {
             $this->setData($index, $value);
         }
+
         return $this;
     }
 
@@ -59,16 +57,18 @@ class Object implements \ArrayAccess {
      * If $key is an array, it will overwrite all the data in the object.
      *
      * @param string|array $key
-     * @param mixed $value
+     * @param mixed        $value
+     *
      * @return \Ext\Object
      */
-    public function setData($key, $value=null)
+    public function setData($key, $value = null)
     {
-        if(is_array($key)) {
+        if (is_array($key)) {
             $this->_data = $key;
         } else {
             $this->_data[$key] = $value;
         }
+
         return $this;
     }
 
@@ -78,20 +78,22 @@ class Object implements \ArrayAccess {
      * $key can be a string only. Array will be ignored.
      *
      * @param string $key
+     *
      * @return \Ext\Object
      */
-    public function unsetData($key=null)
+    public function unsetData($key = null)
     {
         if (is_null($key)) {
             $this->_data = array();
         } else {
             unset($this->_data[$key]);
         }
+
         return $this;
     }
 
     /**
-     * Retrieves data from the object
+     * Retrieves data from the object.
      *
      * If $key is empty will return all the data as an array
      * Otherwise it will return value of the attribute specified by $key
@@ -99,22 +101,23 @@ class Object implements \ArrayAccess {
      * If $index is specified it will assume that attribute data is an array
      * and retrieve corresponding member.
      *
-     * @param string $key
+     * @param string     $key
      * @param string|int $index
+     *
      * @return mixed
      */
-    public function getData($key='', $index=null)
+    public function getData($key = '', $index = null)
     {
-        if (''===$key) {
+        if ('' === $key) {
             return $this->_data;
         }
         $default = null;
         // accept a/b/c as ['a']['b']['c']
-        if (strpos($key,'/')) {
+        if (strpos($key, '/')) {
             $keyArr = explode('/', $key);
             $data = $this->_data;
-            foreach ($keyArr as $i=>$k) {
-                if ($k==='') {
+            foreach ($keyArr as $i => $k) {
+                if ($k === '') {
                     return $default;
                 }
                 if (is_array($data)) {
@@ -128,6 +131,7 @@ class Object implements \ArrayAccess {
                     return $default;
                 }
             }
+
             return $data;
         }
         // legacy functionality for $index
@@ -140,24 +144,29 @@ class Object implements \ArrayAccess {
                 if (isset($value[$index])) {
                     return $value[$index];
                 }
-                return null;
+
+                return;
             } elseif (is_string($value)) {
                 $arr = explode("\n", $value);
+
                 return (isset($arr[$index]) && (!empty($arr[$index]) || strlen($arr[$index]) > 0))
                     ? $arr[$index] : null;
             } elseif ($value instanceof Object) {
                 return $value->getData($index);
             }
+
             return $default;
         }
+
         return $default;
     }
 
     /**
-     * Get value from _data array without parse key
+     * Get value from _data array without parse key.
      *
-     * @param   string $key
-     * @return  mixed
+     * @param string $key
+     *
+     * @return mixed
      */
     protected function _getData($key)
     {
@@ -169,20 +178,23 @@ class Object implements \ArrayAccess {
      * Otherwise checks if the specified attribute is set.
      *
      * @param string $key
+     *
      * @return boolean
      */
-    public function hasData($key='')
+    public function hasData($key = '')
     {
         if (empty($key) || !is_string($key)) {
             return !empty($this->_data);
         }
+
         return array_key_exists($key, $this->_data);
     }
 
     /**
-     * Convert object attributes to array
+     * Convert object attributes to array.
      *
-     * @param  array $arrAttributes array of required attributes
+     * @param array $arrAttributes array of required attributes
+     *
      * @return array
      */
     public function __toArray(array $arrAttributes = array())
@@ -194,17 +206,18 @@ class Object implements \ArrayAccess {
         foreach ($arrAttributes as $attribute) {
             if (isset($this->_data[$attribute])) {
                 $arrRes[$attribute] = $this->_data[$attribute];
-            }
-            else {
+            } else {
                 $arrRes[$attribute] = null;
             }
         }
+
         return $arrRes;
     }
     /**
-     * Public wrapper for __toArray
+     * Public wrapper for __toArray.
      *
      * @param array $arrAttributes
+     *
      * @return array
      */
     public function toArray(array $arrAttributes = array())
@@ -213,21 +226,24 @@ class Object implements \ArrayAccess {
     }
 
     /**
-     * Convert object attributes to JSON
+     * Convert object attributes to JSON.
      *
-     * @param  array $arrAttributes array of required attributes
+     * @param array $arrAttributes array of required attributes
+     *
      * @return string
      */
     protected function __toJson(array $arrAttributes = array())
     {
         $arrData = $this->toArray($arrAttributes);
         $json = json_encode($arrData);
+
         return $json;
     }
     /**
-     * Public wrapper for __toJson
+     * Public wrapper for __toJson.
      *
      * @param array $arrAttributes
+     *
      * @return string
      */
     public function toJson(array $arrAttributes = array())
@@ -236,29 +252,34 @@ class Object implements \ArrayAccess {
     }
 
     /**
-     * Set/Get attribute wrapper
+     * Set/Get attribute wrapper.
      *
-     * @param   string $method
-     * @param   array $args
-     * @return  mixed
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
      */
     public function __call($method, $args)
     {
         switch (substr($method, 0, 3)) {
             case 'get' :
-                $key = $this->_underscore(substr($method,3));
+                $key = $this->_underscore(substr($method, 3));
                 $data = $this->getData($key, isset($args[0]) ? $args[0] : null);
+
                 return $data;
             case 'set' :
-                $key = $this->_underscore(substr($method,3));
+                $key = $this->_underscore(substr($method, 3));
                 $result = $this->setData($key, isset($args[0]) ? $args[0] : null);
+
                 return $result;
             case 'uns' :
-                $key = $this->_underscore(substr($method,3));
+                $key = $this->_underscore(substr($method, 3));
                 $result = $this->unsetData($key);
+
                 return $result;
             case 'has' :
-                $key = $this->_underscore(substr($method,3));
+                $key = $this->_underscore(substr($method, 3));
+
                 return isset($this->_data[$key]);
         }
         //throw new Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
@@ -266,21 +287,23 @@ class Object implements \ArrayAccess {
     }
 
     /**
-     * Attribute getter (deprecated)
+     * Attribute getter (deprecated).
      *
      * @param string $var
+     *
      * @return mixed
      */
     public function __get($var)
     {
         $var = $this->_underscore($var);
+
         return $this->getData($var);
     }
     /**
-     * Attribute setter (deprecated)
+     * Attribute setter (deprecated).
      *
      * @param string $var
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function __set($var, $value)
     {
@@ -289,12 +312,13 @@ class Object implements \ArrayAccess {
     }
 
     /**
-     * Converts field names for setters and geters
+     * Converts field names for setters and geters.
      *
      * $this->setMyField($value) === $this->setData('my_field', $value)
      * Uses cache to eliminate unneccessary preg_replace
      *
      * @param string $name
+     *
      * @return string
      */
     protected function _underscore($name)
@@ -304,6 +328,7 @@ class Object implements \ArrayAccess {
         }
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         self::$_underscoreCache[$name] = $result;
+
         return $result;
     }
 
@@ -313,21 +338,24 @@ class Object implements \ArrayAccess {
     }
 
     /**
-     * Implementation of ArrayAccess::offsetSet()
+     * Implementation of ArrayAccess::offsetSet().
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @param string $offset
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function offsetSet($offset, $value)
     {
         $this->_data[$offset] = $value;
     }
     /**
-     * Implementation of ArrayAccess::offsetExists()
+     * Implementation of ArrayAccess::offsetExists().
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetexists.php
+     *
      * @param string $offset
+     *
      * @return boolean
      */
     public function offsetExists($offset)
@@ -335,9 +363,10 @@ class Object implements \ArrayAccess {
         return isset($this->_data[$offset]);
     }
     /**
-     * Implementation of ArrayAccess::offsetUnset()
+     * Implementation of ArrayAccess::offsetUnset().
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @param string $offset
      */
     public function offsetUnset($offset)
@@ -346,16 +375,16 @@ class Object implements \ArrayAccess {
     }
 
     /**
-     * Implementation of ArrayAccess::offsetGet()
+     * Implementation of ArrayAccess::offsetGet().
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @param string $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->_data[$offset]) ? $this->_data[$offset] : null;
     }
-
-
 }

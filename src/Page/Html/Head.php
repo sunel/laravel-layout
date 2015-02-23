@@ -1,84 +1,92 @@
 <?php namespace Ext\Page\Html;
 
-
-class Head extends \Ext\Block {
-
-	/**
-     * Initialize template
-     *
+class Head extends \Ext\Block
+{
+    /**
+     * Initialize template.
      */
     protected function _construct()
     {
         $this->setTemplate('render::page.html.head');
     }
-	
-	 /**
-     * Add CSS file to HEAD entity
+
+    /**
+     * Add CSS file to HEAD entity.
      *
      * @param string $name
      * @param string $params
+     *
      * @return \Ext\Page\Html\Head
      */
     public function addCss($name, $params = "")
     {
         $this->addItem('css', $name, $params);
+
         return $this;
     }
 
     /**
-     * Add JavaScript file to HEAD entity
+     * Add JavaScript file to HEAD entity.
      *
      * @param string $name
      * @param string $params
+     *
      * @return \Ext\Page\Html\Head
      */
     public function addJs($name, $params = "")
     {
         $this->addItem('js', $name, $params);
+
         return $this;
     }
 
     /**
-     * Add CSS file for Internet Explorer only to HEAD entity
+     * Add CSS file for Internet Explorer only to HEAD entity.
      *
      * @param string $name
      * @param string $params
+     *
      * @return \Ext\Page\Html\Head
      */
     public function addCssIe($name, $params = "")
     {
         $this->addItem('css', $name, $params, 'IE');
+
         return $this;
     }
 
     /**
-     * Add JavaScript file for Internet Explorer only to HEAD entity
+     * Add JavaScript file for Internet Explorer only to HEAD entity.
      *
      * @param string $name
      * @param string $params
+     *
      * @return \Ext\Page\Html\Head
      */
     public function addJsIe($name, $params = "")
     {
         $this->addItem('js', $name, $params, 'IE');
+
         return $this;
     }
 
     /**
-     * Add Link element to HEAD entity
+     * Add Link element to HEAD entity.
      *
-     * @param string $rel forward link types
+     * @param string $rel  forward link types
      * @param string $href URI for linked resource
+     *
      * @return \Ext\Page\Html\Head
      */
     public function addLinkRel($rel, $href)
     {
-        $this->addItem('link_rel', $href, 'rel="' . $rel . '"');
+        $this->addItem('link_rel', $href, 'rel="'.$rel.'"');
+
         return $this;
     }
 
     /**
-     * Add HEAD Item
+     * Add HEAD Item.
      *
      * Allowed types:
      *  - js
@@ -91,11 +99,12 @@ class Head extends \Ext\Block {
      * @param string $params
      * @param string $if
      * @param string $cond
+     *
      * @return \Ext\Page\Html\Head
      */
-    public function addItem($type, $name, $params=null, $if=null, $cond=null)
+    public function addItem($type, $name, $params = null, $if = null, $cond = null)
     {
-        if ($type==='skin_css' && empty($params)) {
+        if ($type === 'skin_css' && empty($params)) {
             $params = 'media="all"';
         }
         $this->_data['items'][$type.'/'.$name] = array(
@@ -105,25 +114,28 @@ class Head extends \Ext\Block {
             'if'     => $if,
             'cond'   => $cond,
        );
+
         return $this;
     }
 
     /**
-     * Remove Item from HEAD entity
+     * Remove Item from HEAD entity.
      *
      * @param string $type
      * @param string $name
+     *
      * @return \Ext\Page\Html\Head
      */
     public function removeItem($type, $name)
     {
         unset($this->_data['items'][$type.'/'.$name]);
+
         return $this;
     }
-	
-	/**
+
+    /**
      * Get HEAD HTML with CSS/JS/RSS definitions
-     * (actually it also renders other elements, TODO: fix it up or rename this method)
+     * (actually it also renders other elements, TODO: fix it up or rename this method).
      *
      * @return string
      */
@@ -160,9 +172,9 @@ class Head extends \Ext\Block {
             if (!empty($if)) {
                 // open !IE conditional using raw value
                 if (strpos($if, "><!-->") !== false) {
-                    $html .= $if . "\n";
+                    $html .= $if."\n";
                 } else {
-                    $html .= '<!--[if '.$if.']>' . "\n";
+                    $html .= '<!--[if '.$if.']>'."\n";
                 }
             }
 
@@ -174,7 +186,7 @@ class Head extends \Ext\Block {
             );
 
             // static and skin javascripts
-            $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>' . "\n",
+            $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>'."\n",
                 empty($items['js']) ? array() : $items['js'],
                 empty($items['js']) ? array() : $items['js'],
                 $shouldMergeJs ? array(/* TODO MergeClass */'', 'getMergedJsUrl') : null
@@ -182,38 +194,39 @@ class Head extends \Ext\Block {
 
             // other stuff
             if (!empty($items['other'])) {
-                $html .= $this->_prepareOtherHtmlHeadElements($items['other']) . "\n";
+                $html .= $this->_prepareOtherHtmlHeadElements($items['other'])."\n";
             }
 
             if (!empty($if)) {
                 // close !IE conditional comments correctly
                 if (strpos($if, "><!-->") !== false) {
-                    $html .= '<!--<![endif]-->' . "\n";
+                    $html .= '<!--<![endif]-->'."\n";
                 } else {
-                    $html .= '<![endif]-->' . "\n";
+                    $html .= '<![endif]-->'."\n";
                 }
             }
         }
+
         return $html;
     }
 
-	/**
-     * Merge static and skin files of the same format into 1 set of HEAD directives or even into 1 directive
+    /**
+     * Merge static and skin files of the same format into 1 set of HEAD directives or even into 1 directive.
      *
      * Will attempt to merge into 1 directive, if merging callback is provided. In this case it will generate
      * filenames, rather than render urls.
      * The merger callback is responsible for checking whether files exist, merging them and giving result URL
      *
-     * @param string $format - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
-     * @param array $staticItems - array of relative names of static items to be grabbed from js/ folder
-     * @param array $skinItems - array of relative names of skin items to be found in skins according to design config
+     * @param string   $format        - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
+     * @param array    $staticItems   - array of relative names of static items to be grabbed from js/ folder
+     * @param array    $skinItems     - array of relative names of skin items to be found in skins according to design config
      * @param callback $mergeCallback
+     *
      * @return string
      */
     protected function &_prepareStaticAndSkinElements($format, array $staticItems, array $skinItems,
                                                       $mergeCallback = null)
     {
-        
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;
@@ -242,7 +255,7 @@ class Head extends \Ext\Block {
             }
             // render elements
             $params = trim($params);
-            $params = $params ? ' ' . $params : '';
+            $params = $params ? ' '.$params : '';
             if ($mergedUrl) {
                 $html .= sprintf($format, $mergedUrl, $params);
             } else {
@@ -251,23 +264,25 @@ class Head extends \Ext\Block {
                 }
             }
         }
+
         return $html;
     }
 
-	/**
-     * Classify HTML head item and queue it into "lines" array
+    /**
+     * Classify HTML head item and queue it into "lines" array.
      *
      * @see self::getCssJsHtml()
-     * @param array &$lines
+     *
+     * @param array  &$lines
      * @param string $itemIf
      * @param string $itemType
      * @param string $itemParams
      * @param string $itemName
-     * @param array $itemThe
+     * @param array  $itemThe
      */
     protected function _separateOtherHtmlHeadElements(&$lines, $itemIf, $itemType, $itemParams, $itemName, $itemThe)
     {
-        $params = $itemParams ? ' ' . $itemParams : '';
+        $params = $itemParams ? ' '.$itemParams : '';
         $href   = $itemName;
         switch ($itemType) {
             case 'rss':
@@ -282,19 +297,21 @@ class Head extends \Ext\Block {
     }
 
     /**
-     * Render arbitrary HTML head items
+     * Render arbitrary HTML head items.
      *
      * @see self::getCssJsHtml()
+     *
      * @param array $items
+     *
      * @return string
      */
     protected function _prepareOtherHtmlHeadElements($items)
     {
         return implode("\n", $items);
     }
-	
-	/**
-     * Retrieve Content Type
+
+    /**
+     * Retrieve Content Type.
      *
      * @return string
      */
@@ -303,11 +320,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['content_type'])) {
             $this->_data['content_type'] = $this->getMediaType().'; charset='.$this->getCharset();
         }
+
         return $this->_data['content_type'];
     }
 
     /**
-     * Retrieve Media Type
+     * Retrieve Media Type.
      *
      * @return string
      */
@@ -317,11 +335,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['media_type'])) {
             $this->_data['media_type'] = '';
         }
+
         return $this->_data['media_type'];
     }
 
     /**
-     * Retrieve Charset
+     * Retrieve Charset.
      *
      * @return string
      */
@@ -331,26 +350,28 @@ class Head extends \Ext\Block {
         if (empty($this->_data['charset'])) {
             $this->_data['charset'] = '';
         }
+
         return $this->_data['charset'];
     }
 
     /**
-     * Set title element text
+     * Set title element text.
      *
      * @param string $title
+     *
      * @return Mage_Page_Block_Html_Head
      */
     public function setTitle($title)
     {
         #TODO  get config
         # prefix & suffix
-        $this->_data['title'] =   ' ' . $title . ' ' ;
+        $this->_data['title'] =   ' '.$title.' ';
 
         return $this;
     }
 
     /**
-     * Retrieve title element text (encoded)
+     * Retrieve title element text (encoded).
      *
      * @return string
      */
@@ -359,11 +380,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['title'])) {
             $this->_data['title'] = $this->getDefaultTitle();
         }
+
         return htmlspecialchars(html_entity_decode(trim($this->_data['title']), ENT_QUOTES, 'UTF-8'));
     }
 
     /**
-     * Retrieve default title text
+     * Retrieve default title text.
      *
      * @return string
      */
@@ -371,11 +393,11 @@ class Head extends \Ext\Block {
     {
         #TODO  get config
 
-        return ;
+        return;
     }
 
     /**
-     * Retrieve content for description tag
+     * Retrieve content for description tag.
      *
      * @return string
      */
@@ -386,11 +408,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['description'])) {
             $this->_data['description'] = '';
         }
+
         return $this->_data['description'];
     }
 
     /**
-     * Retrieve content for keyvords tag
+     * Retrieve content for keyvords tag.
      *
      * @return string
      */
@@ -400,11 +423,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['keywords'])) {
             $this->_data['keywords'] = '';
         }
+
         return $this->_data['keywords'];
     }
 
     /**
-     * Retrieve URL to robots file
+     * Retrieve URL to robots file.
      *
      * @return string
      */
@@ -414,11 +438,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['robots'])) {
             $this->_data['robots'] = '';
         }
+
         return $this->_data['robots'];
     }
 
     /**
-     * Get miscellanious scripts/styles to be included in head before head closing tag
+     * Get miscellanious scripts/styles to be included in head before head closing tag.
      *
      * @return string
      */
@@ -428,11 +453,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['includes'])) {
             $this->_data['includes'] = '';
         }
+
         return $this->_data['includes'];
     }
 
     /**
-     * Getter for path to Favicon
+     * Getter for path to Favicon.
      *
      * @return string
      */
@@ -441,11 +467,12 @@ class Head extends \Ext\Block {
         if (empty($this->_data['favicon_file'])) {
             $this->_data['favicon_file'] = $this->_getFaviconFile();
         }
+
         return $this->_data['favicon_file'];
     }
 
     /**
-     * Retrieve path to Favicon
+     * Retrieve path to Favicon.
      *
      * @return string
      */
@@ -453,7 +480,7 @@ class Head extends \Ext\Block {
     {
         #TODO  get config
         $url = '';
+
         return $url;
     }
-
 }

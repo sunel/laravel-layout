@@ -23,9 +23,9 @@ Default layout, loads most of the pages
                     <stylesheet>css/print.css</stylesheet>
                     <params>media="print"</params>
                 </action>
-                
+
             </block>
-			
+
             <block class="\Ext\Page\BlockList" name="after_body_start" as="after_body_start" >
             </block>
 

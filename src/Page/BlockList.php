@@ -1,9 +1,8 @@
 <?php namespace Ext\Page;
 
-
-class BlockList extends Text {
-
-	protected function _toHtml()
+class BlockList extends Text
+{
+    protected function _toHtml()
     {
         $this->setText('');
         foreach ($this->getSortedChildren() as $name) {
@@ -13,7 +12,7 @@ class BlockList extends Text {
             }
             $this->addText($block->toHtml());
         }
+
         return parent::_toHtml();
     }
-	
 }

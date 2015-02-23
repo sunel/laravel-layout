@@ -1,7 +1,5 @@
 <?php namespace Ext\Page;
 
-
-class Html extends \Ext\Block {
-
-	
+class Html extends \Ext\Block
+{
 }

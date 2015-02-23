@@ -1,8 +1,8 @@
 <?php namespace Ext\Layout;
 
-class Element extends AbstractXml {
-
-	public function prepare($args)
+class Element extends AbstractXml
+{
+    public function prepare($args)
     {
         switch ($this->getName()) {
             case 'layoutUpdate':
@@ -30,25 +30,28 @@ class Element extends AbstractXml {
         foreach ($this as $child) {
             $child->prepare($args);
         }
+
         return $this;
     }
 
     public function getBlockName()
     {
-        $tagName = (string)$this->getName();
-        if ('block'!==$tagName && 'reference'!==$tagName || empty($this['name'])) {
+        $tagName = (string) $this->getName();
+        if ('block' !== $tagName && 'reference' !== $tagName || empty($this['name'])) {
             return false;
         }
-        return (string)$this['name'];
+
+        return (string) $this['name'];
     }
     public function prepareBlock($args)
     {
-        $name = (string)$this['name'];
-        $className = (string)$this['class'];
+        $name = (string) $this['name'];
+        $className = (string) $this['class'];
         $parent = $this->getParent();
         if (isset($parent['name']) && !isset($this['parent'])) {
-            $this->addAttribute('parent', (string)$parent['name']);
+            $this->addAttribute('parent', (string) $parent['name']);
         }
+
         return $this;
     }
     public function prepareReference($args)
@@ -58,12 +61,12 @@ class Element extends AbstractXml {
     public function prepareAction($args)
     {
         $parent = $this->getParent();
-        $this->addAttribute('block', (string)$parent['name']);
+        $this->addAttribute('block', (string) $parent['name']);
+
         return $this;
     }
     public function prepareActionArgument($args)
     {
         return $this;
     }
-	
 }

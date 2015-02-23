@@ -1,6 +1,5 @@
 <?php namespace Ext;
 
-
-class InvalidRouterNameException extends \Exception {
-	
+class InvalidRouterNameException extends \Exception
+{
 }

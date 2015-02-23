@@ -4,6 +4,6 @@
 		<reference name="left">
             <block class="\Ext\Page\Html" name="home.left" template="page::left">
             </block>
-         </reference> 	
-	</cms_index_index>	
+         </reference>
+	</cms_index_index>
 </layout>

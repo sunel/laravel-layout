@@ -1,18 +1,18 @@
 <?php namespace Ext\Page;
 
-
-class Text extends \Ext\Block {
-
-	public function setText($text)
+class Text extends \Ext\Block
+{
+    public function setText($text)
     {
         $this->setData('text', $text);
+
         return $this;
     }
     public function getText()
     {
         return $this->getData('text');
     }
-    public function addText($text, $before=false)
+    public function addText($text, $before = false)
     {
         if ($before) {
             $this->setText($text.$this->getText());
@@ -25,7 +25,7 @@ class Text extends \Ext\Block {
         if (!$this->_beforeToHtml()) {
             return '';
         }
+
         return $this->getText();
     }
-	
 }

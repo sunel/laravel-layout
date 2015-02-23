@@ -3,30 +3,29 @@
 use Auth;
 use Ext\Object;
 
-class Links extends \Ext\Block {
-
-	/**
-     * All links
+class Links extends \Ext\Block
+{
+    /**
+     * All links.
      *
      * @var array
      */
     protected $_links = array();
     /**
-     * Cache key info
+     * Cache key info.
      *
      * @var null|array
      */
     protected $_cacheKeyInfo = null;
     /**
-     * Set default template
-     *
+     * Set default template.
      */
     protected function _construct()
     {
         $this->setTemplate('render::page.template.links');
     }
     /**
-     * Get all links
+     * Get all links.
      *
      * @return array
      */
@@ -35,27 +34,28 @@ class Links extends \Ext\Block {
         return $this->_links;
     }
     /**
-     * Add link to the list
+     * Add link to the list.
      *
-     * @param string $label
-     * @param string $url
-     * @param string $title
-     * @param boolean $prepare
-     * @param array $urlParams
-     * @param int $position
+     * @param string       $label
+     * @param string       $url
+     * @param string       $title
+     * @param boolean      $prepare
+     * @param array        $urlParams
+     * @param int          $position
      * @param string|array $liParams
      * @param string|array $aParams
-     * @param string $beforeText
-     * @param string $afterText
+     * @param string       $beforeText
+     * @param string       $afterText
+     *
      * @return \Ext\Page\Html\Links
      */
-    public function addLink($label, $url='', $title='', $prepare=false, $urlParams=array(),
-        $position=null, $liParams=null, $aParams=null, $beforeText='', $afterText='')
+    public function addLink($label, $url = '', $title = '', $prepare = false, $urlParams = array(),
+        $position = null, $liParams = null, $aParams = null, $beforeText = '', $afterText = '')
     {
-        if (is_null($label) || false===$label) {
+        if (is_null($label) || false === $label) {
             return $this;
         }
-        # TODO need to prepare url from param 
+        # TODO need to prepare url from param
 
         $link = new Object();
         $link->setData(array(
@@ -68,13 +68,15 @@ class Links extends \Ext\Block {
             'after_text'    => $afterText,
         ));
         $this->_addIntoPosition($link, $position);
+
         return $this;
     }
     /**
-     * Add link into collection
+     * Add link into collection.
      *
      * @param Varien_Object $link
-     * @param int $position
+     * @param int           $position
+     *
      * @return \Ext\Page\Html\Links
      */
     protected function _addIntoPosition($link, $position)
@@ -83,27 +85,31 @@ class Links extends \Ext\Block {
         if (intval($position) > 0) {
             ksort($this->_links);
         }
+
         return $this;
     }
     /**
-     * Add block to link list
+     * Add block to link list.
      *
      * @param string $blockName
+     *
      * @return \Ext\Page\Html\Links
      */
     public function addLinkBlock($blockName)
     {
         $block = $this->getLayout()->getBlock($blockName);
         if ($block) {
-            $position = (int)$block->getPosition();
+            $position = (int) $block->getPosition();
             $this->_addIntoPosition($block, $position);
         }
+
         return $this;
     }
     /**
-     * Remove Link block by blockName
+     * Remove Link block by blockName.
      *
      * @param string $blockName
+     *
      * @return \Ext\Page\Html\Links
      */
     public function removeLinkBlock($blockName)
@@ -113,12 +119,14 @@ class Links extends \Ext\Block {
                 unset($this->_links[$key]);
             }
         }
+
         return $this;
     }
     /**
-     * Removes link by url
+     * Removes link by url.
      *
      * @param string $url
+     *
      * @return \Ext\Page\Html\Links
      */
     public function removeLinkByUrl($url)
@@ -128,11 +136,12 @@ class Links extends \Ext\Block {
                 unset($this->_links[$k]);
             }
         }
+
         return $this;
     }
     /**
      * Get cache key informative items
-     * Provide string array key to share specific info item with FPC placeholder
+     * Provide string array key to share specific info item with FPC placeholder.
      *
      * @return array
      */
@@ -149,15 +158,17 @@ class Links extends \Ext\Block {
             }
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
                 'links' => base64_encode(serialize($links)),
-                'name' => $this->getNameInLayout()
+                'name' => $this->getNameInLayout(),
             );
         }
+
         return $this->_cacheKeyInfo;
     }
     /**
-     * Prepare tag attributes
+     * Prepare tag attributes.
      *
      * @param string|array $params
+     *
      * @return string
      */
     protected function _prepareParams($params)
@@ -166,15 +177,17 @@ class Links extends \Ext\Block {
             return $params;
         } elseif (is_array($params)) {
             $result = '';
-            foreach ($params as $key=>$value) {
-                $result .= ' ' . $key . '="' . addslashes($value) . '"';
+            foreach ($params as $key => $value) {
+                $result .= ' '.$key.'="'.addslashes($value).'"';
             }
+
             return $result;
         }
+
         return '';
     }
     /**
-     * Set first/last
+     * Set first/last.
      *
      * @return \Ext\Page\Html\Links
      */
@@ -186,12 +199,14 @@ class Links extends \Ext\Block {
             end($this->_links);
             $this->_links[key($this->_links)]->setIsLast(true);
         }
+
         return parent::_beforeToHtml();
     }
     /**
-     * Return new link position in list
+     * Return new link position in list.
      *
      * @param int $position
+     *
      * @return int
      */
     protected function _getNewPosition($position = 0)
@@ -202,15 +217,16 @@ class Links extends \Ext\Block {
             }
         } else {
             $position = 0;
-            foreach ($this->_links as $k=>$v) {
+            foreach ($this->_links as $k => $v) {
                 $position = $k;
             }
             $position += 10;
         }
+
         return $position;
     }
     /**
-     * Get tags array for saving cache
+     * Get tags array for saving cache.
      *
      * @return array
      */
@@ -219,6 +235,7 @@ class Links extends \Ext\Block {
         if (Auth::check()) {
             $this->addModelTags(Auth::user());
         }
+
         return parent::getCacheTags();
     }
 }
