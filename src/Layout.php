@@ -1,7 +1,7 @@
 <?php namespace Ext;
 
-use Ext\Layout\Element;
 use Debugbar;
+use Ext\Layout\Element;
 
 class Layout
 {
@@ -283,7 +283,7 @@ class Layout
                         $helperName = implode('/', $helperName);
                         $arg = $arg->asArray();
                         unset($arg['@']);
-                        $args[$key] = call_user_func_array(array(app($helperName), $helperMethod), $arg);
+                        $args[$key] = call_user_func_array([app($helperName), $helperMethod], $arg);
                     } else {
                         /*
                          * if there is no helper we hope that this is assoc array
@@ -307,7 +307,7 @@ class Layout
             }
 
             $this->_translateLayoutNode($node, $args);
-            call_user_func_array(array($block, $method), $args);
+            call_user_func_array([$block, $method], $args);
         }
 
         //Debugbar::stopMeasure($_profilerKey);

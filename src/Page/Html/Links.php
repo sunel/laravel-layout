@@ -156,10 +156,10 @@ class Links extends \Ext\Block
                     }
                 }
             }
-            $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
+            $this->_cacheKeyInfo = parent::getCacheKeyInfo() + [
                 'links' => base64_encode(serialize($links)),
                 'name' => $this->getNameInLayout(),
-            );
+            ];
         }
 
         return $this->_cacheKeyInfo;

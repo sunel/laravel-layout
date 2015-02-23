@@ -1,7 +1,7 @@
 <?php namespace Ext\Layout;
 
-use Symfony\Component\Finder\Finder;
 use SimpleXMLElement;
+use Symfony\Component\Finder\Finder;
 
 class Update
 {

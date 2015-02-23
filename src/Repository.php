@@ -17,7 +17,7 @@ class Repository implements ArrayAccess, RenderContract
      *
      * @param array $items
      */
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         $this->items = $items;
     }

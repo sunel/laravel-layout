@@ -37,7 +37,7 @@ class TopMenu extends \Ext\Block
     public function getHtml($outermostClass = '', $childrenWrapClass = '')
     {
         app('events')->fire('page.block.html.topmenu.gethtml.before', [
-            'menu' => $this->_menu,
+            'menu'  => $this->_menu,
             'block' => $this,
         ]);
 

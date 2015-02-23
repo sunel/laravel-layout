@@ -1,9 +1,9 @@
 <?php namespace Ext\Provider;
 
-use Illuminate\Support\ServiceProvider;
 use Ext\Factory;
 use Ext\Layout;
 use Ext\Layout\Update;
+use Illuminate\Support\ServiceProvider;
 
 class ExtViewServiceProvider extends ServiceProvider
 {
