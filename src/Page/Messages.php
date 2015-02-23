@@ -60,12 +60,12 @@ class Messages extends \Ext\Block
      */
     public function getGroupedHtml()
     {
-        $types = array(
+        $types = [
             self::ERROR,
             self::WARNING,
             self::NOTICE,
             self::SUCCESS,
-        );
+        ];
         $html = '';
         foreach ($types as $type) {
             if ($messages = $this->getMessages($type)) {

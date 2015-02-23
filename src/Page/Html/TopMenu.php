@@ -21,9 +21,9 @@ class TopMenu extends \Ext\Block
     public function _construct()
     {
         $this->_menu = '';
-        $this->addData(array(
+        $this->addData([
             'cache_lifetime' => false,
-        ));
+        ]);
     }
 
     /**
@@ -36,17 +36,17 @@ class TopMenu extends \Ext\Block
      */
     public function getHtml($outermostClass = '', $childrenWrapClass = '')
     {
-        app('events')->fire('page.block.html.topmenu.gethtml.before', array(
+        app('events')->fire('page.block.html.topmenu.gethtml.before', [
             'menu' => $this->_menu,
             'block' => $this,
-        ));
+        ]);
 
         $html = $this->_getHtml($this->_menu, $childrenWrapClass);
 
-        app('events')->fire('page.block.html.topmenu.gethtml.after', array(
+        app('events')->fire('page.block.html.topmenu.gethtml.after', [
             'menu' => $this->_menu,
             'html' => $html,
-        ));
+        ]);
 
         return $html;
     }
@@ -67,7 +67,7 @@ class TopMenu extends \Ext\Block
      */
     protected function _getMenuItemClasses($item)
     {
-        $classes = array();
+        $classes = [];
         $classes[] = 'level'.$item->getLevel();
         $classes[] = $item->getPositionClass();
         if ($item->getIsFirst()) {

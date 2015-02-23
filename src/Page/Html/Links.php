@@ -10,7 +10,7 @@ class Links extends \Ext\Block
      *
      * @var array
      */
-    protected $_links = array();
+    protected $_links = [];
     /**
      * Cache key info.
      *
@@ -49,7 +49,7 @@ class Links extends \Ext\Block
      *
      * @return \Ext\Page\Html\Links
      */
-    public function addLink($label, $url = '', $title = '', $prepare = false, $urlParams = array(),
+    public function addLink($label, $url = '', $title = '', $prepare = false, $urlParams = [],
         $position = null, $liParams = null, $aParams = null, $beforeText = '', $afterText = '')
     {
         if (is_null($label) || false === $label) {
@@ -58,7 +58,7 @@ class Links extends \Ext\Block
         # TODO need to prepare url from param
 
         $link = new Object();
-        $link->setData(array(
+        $link->setData([
             'label'         => $label,
             'url'           => $url,
             'title'         => $title,
@@ -66,7 +66,7 @@ class Links extends \Ext\Block
             'a_params'      => $this->_prepareParams($aParams),
             'before_text'   => $beforeText,
             'after_text'    => $afterText,
-        ));
+        ]);
         $this->_addIntoPosition($link, $position);
 
         return $this;
@@ -148,7 +148,7 @@ class Links extends \Ext\Block
     public function getCacheKeyInfo()
     {
         if (is_null($this->_cacheKeyInfo)) {
-            $links = array();
+            $links = [];
             if (!empty($this->_links)) {
                 foreach ($this->_links as $position => $link) {
                     if ($link instanceof Object) {

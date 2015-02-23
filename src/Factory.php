@@ -12,7 +12,7 @@ class Factory
      *
      * @var array
      */
-    protected $_blocks = array();
+    protected $_blocks = [];
 
     /**
      * The event dispatcher instance.
@@ -108,7 +108,7 @@ class Factory
         // dispatch event for adding handles to layout update
         $this->events->fire(
             'route.layout.load.before',
-            array('route' => $this, 'layout' => $this->getLayout())
+            ['route' => $this, 'layout' => $this->getLayout()]
         );
         // load layout updates by specified handles
         Debugbar::startMeasure("$_profilerKey::layout_load");
@@ -124,7 +124,7 @@ class Factory
 
         $this->events->fire(
             'route.layout.generate.xml.before',
-            array('route' => $this, 'layout' => $this->getLayout())
+            ['route' => $this, 'layout' => $this->getLayout()]
         );
 
         // generate xml from collected text updates
@@ -142,7 +142,7 @@ class Factory
 
         $this->events->fire(
             'route.layout.generate.blocks.before',
-            array('route' => $this, 'layout' => $this->getLayout())
+            ['route' => $this, 'layout' => $this->getLayout()]
         );
 
         // generate blocks from xml layout
@@ -152,7 +152,7 @@ class Factory
 
         $this->events->fire(
             'route.layout.generate.blocks.after',
-            array('route' => $this, 'layout' => $this->getLayout())
+            ['route' => $this, 'layout' => $this->getLayout()]
         );
 
         return $this;

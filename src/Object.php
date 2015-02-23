@@ -9,14 +9,14 @@ class Object implements \ArrayAccess
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Setter/Getter underscore transformation cache.
      *
      * @var array
      */
-    protected static $_underscoreCache = array();
+    protected static $_underscoreCache = [];
 
     public function __construct()
     {
@@ -84,7 +84,7 @@ class Object implements \ArrayAccess
     public function unsetData($key = null)
     {
         if (is_null($key)) {
-            $this->_data = array();
+            $this->_data = [];
         } else {
             unset($this->_data[$key]);
         }
@@ -197,12 +197,12 @@ class Object implements \ArrayAccess
      *
      * @return array
      */
-    public function __toArray(array $arrAttributes = array())
+    public function __toArray(array $arrAttributes = [])
     {
         if (empty($arrAttributes)) {
             return $this->_data;
         }
-        $arrRes = array();
+        $arrRes = [];
         foreach ($arrAttributes as $attribute) {
             if (isset($this->_data[$attribute])) {
                 $arrRes[$attribute] = $this->_data[$attribute];
@@ -220,7 +220,7 @@ class Object implements \ArrayAccess
      *
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function toArray(array $arrAttributes = [])
     {
         return $this->__toArray($arrAttributes);
     }
@@ -232,7 +232,7 @@ class Object implements \ArrayAccess
      *
      * @return string
      */
-    protected function __toJson(array $arrAttributes = array())
+    protected function __toJson(array $arrAttributes = [])
     {
         $arrData = $this->toArray($arrAttributes);
         $json = json_encode($arrData);
@@ -246,7 +246,7 @@ class Object implements \ArrayAccess
      *
      * @return string
      */
-    public function toJson(array $arrAttributes = array())
+    public function toJson(array $arrAttributes = [])
     {
         return $this->__toJson($arrAttributes);
     }

@@ -77,7 +77,7 @@ class AbstractXml extends \SimpleXMLElement
      */
     protected function _asArray($isCanonical = false)
     {
-        $result = array();
+        $result = [];
         if (!$isCanonical) {
             // add attributes
             foreach ($this->attributes() as $attributeName => $attribute) {
@@ -179,7 +179,7 @@ class AbstractXml extends \SimpleXMLElement
         }
         $value = (string) $value;
 
-        $value = str_replace(array('&', '"', "'", '<', '>'), array('&amp;', '&quot;', '&apos;', '&lt;', '&gt;'), $value);
+        $value = str_replace(['&', '"', "'", '<', '>'], ['&amp;', '&quot;', '&apos;', '&lt;', '&gt;'], $value);
 
         return $value;
     }
@@ -310,7 +310,7 @@ class AbstractXml extends \SimpleXMLElement
     public function setNode($path, $value, $overwrite = true)
     {
         $arr1 = explode('/', $path);
-        $arr = array();
+        $arr = [];
         foreach ($arr1 as $v) {
             if (!empty($v)) {
                 $arr[] = $v;

@@ -107,13 +107,13 @@ class Head extends \Ext\Block
         if ($type === 'skin_css' && empty($params)) {
             $params = 'media="all"';
         }
-        $this->_data['items'][$type.'/'.$name] = array(
+        $this->_data['items'][$type.'/'.$name] = [
             'type'   => $type,
             'name'   => $name,
             'params' => $params,
             'if'     => $if,
             'cond'   => $cond,
-       );
+       ];
 
         return $this;
     }
@@ -142,7 +142,7 @@ class Head extends \Ext\Block
     public function getCssJsHtml()
     {
         // separate items by types
-        $lines  = array();
+        $lines  = [];
         foreach ($this->_data['items'] as $item) {
             if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
                 continue;
@@ -180,16 +180,16 @@ class Head extends \Ext\Block
 
             // static and skin css
             $html .= $this->_prepareStaticAndSkinElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
-                empty($items['js_css']) ? array() : $items['js_css'],
-                empty($items['css']) ? array() : $items['css'],
-                $shouldMergeCss ? array(/* TODO MergeClass */'', 'getMergedCssUrl') : null
+                empty($items['js_css']) ? [] : $items['js_css'],
+                empty($items['css']) ? [] : $items['css'],
+                $shouldMergeCss ? [/* TODO MergeClass */'', 'getMergedCssUrl'] : null
             );
 
             // static and skin javascripts
             $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>'."\n",
-                empty($items['js']) ? array() : $items['js'],
-                empty($items['js']) ? array() : $items['js'],
-                $shouldMergeJs ? array(/* TODO MergeClass */'', 'getMergedJsUrl') : null
+                empty($items['js']) ? [] : $items['js'],
+                empty($items['js']) ? [] : $items['js'],
+                $shouldMergeJs ? [/* TODO MergeClass */'', 'getMergedJsUrl'] : null
             );
 
             // other stuff
@@ -227,7 +227,7 @@ class Head extends \Ext\Block
     protected function &_prepareStaticAndSkinElements($format, array $staticItems, array $skinItems,
                                                       $mergeCallback = null)
     {
-        $items = array();
+        $items = [];
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;
         }

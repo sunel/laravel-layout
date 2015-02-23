@@ -44,28 +44,28 @@ class Block extends Object
      *
      * @var array
      */
-    protected $_children = array();
+    protected $_children = [];
 
     /**
      * Sorted children list.
      *
      * @var array
      */
-    protected $_sortedChildren = array();
+    protected $_sortedChildren = [];
 
     /**
      * Children blocks HTML cache array.
      *
      * @var array
      */
-    protected $_childrenHtmlCache = array();
+    protected $_childrenHtmlCache = [];
 
     /**
      * Arbitrary groups of child blocks.
      *
      * @var array
      */
-    protected $_childGroups = array();
+    protected $_childGroups = [];
 
     /**
      * Whether this block was not explicitly named.
@@ -86,7 +86,7 @@ class Block extends Object
      *
      * @var array
      */
-    protected $_sortInstructions = array();
+    protected $_sortInstructions = [];
 
     /**
      * @var \Ext\Object
@@ -105,7 +105,7 @@ class Block extends Object
      *
      * @var array
      */
-    protected $_viewVars = array();
+    protected $_viewVars = [];
 
     protected static $_showTemplateHints;
 
@@ -174,9 +174,9 @@ class Block extends Object
     public function setLayout(\Ext\Layout $layout)
     {
         $this->_layout = $layout;
-        app('events')->fire('block.prepare.layout.before', array('block' => $this));
+        app('events')->fire('block.prepare.layout.before', ['block' => $this]);
         $this->_prepareLayout();
-        app('events')->fire('block.prepare.layout.after', array('block' => $this));
+        app('events')->fire('block.prepare.layout.after', ['block' => $this]);
 
         return $this;
     }
@@ -487,7 +487,7 @@ class Block extends Object
                 }
             }
 
-            $this->_sortInstructions[$name] = array($siblingName, (bool) $after, false !== $key);
+            $this->_sortInstructions[$name] = [$siblingName, (bool) $after, false !== $key];
         }
 
         return $this;
@@ -525,7 +525,7 @@ class Block extends Object
                 $params = $args;
             }
 
-            if ($result == call_user_func_array(array(&$child, $callback), $params)) {
+            if ($result == call_user_func_array([&$child, $callback], $params)) {
                 $this->unsetChild($alias);
             }
         }
@@ -540,8 +540,8 @@ class Block extends Object
      */
     public function unsetChildren()
     {
-        $this->_children = array();
-        $this->_sortedChildren = array();
+        $this->_children = [];
+        $this->_sortedChildren = [];
 
         return $this;
     }
@@ -577,7 +577,7 @@ class Block extends Object
     {
         if ($name === '') {
             if ($sorted) {
-                $children = array();
+                $children = [];
                 foreach ($this->getSortedChildren() as $childName) {
                     $children[$childName] = $this->getLayout()->getBlock($childName);
                 }
@@ -623,7 +623,7 @@ class Block extends Object
      */
     public function getSortedChildBlocks()
     {
-        $children = array();
+        $children = [];
         foreach ($this->getSortedChildren() as $childName) {
             $children[$childName] = $this->getLayout()->getBlock($childName);
         }
@@ -717,18 +717,18 @@ class Block extends Object
                     continue;
                 }
                 // remove sibling from array
-                array_splice($this->_sortedChildren, $index, 1, array());
+                array_splice($this->_sortedChildren, $index, 1, []);
                 // insert sibling after
-                array_splice($this->_sortedChildren, $siblingKey + 1, 0, array($name));
+                array_splice($this->_sortedChildren, $siblingKey + 1, 0, [$name]);
             } else {
                 // insert before block
                 if ($index == $siblingKey - 1) {
                     continue;
                 }
                 // remove sibling from array
-                array_splice($this->_sortedChildren, $index, 1, array());
+                array_splice($this->_sortedChildren, $index, 1, []);
                 // insert sibling after
-                array_splice($this->_sortedChildren, $siblingKey, 0, array($name));
+                array_splice($this->_sortedChildren, $siblingKey, 0, [$name]);
             }
         }
 
@@ -744,7 +744,7 @@ class Block extends Object
     public function addToChildGroup($groupName, \Ext\Block $child)
     {
         if (!isset($this->_childGroups[$groupName])) {
-            $this->_childGroups[$groupName] = array();
+            $this->_childGroups[$groupName] = [];
         }
         if (!in_array($child->getBlockAlias(), $this->_childGroups[$groupName])) {
             $this->_childGroups[$groupName][] = $child->getBlockAlias();
@@ -780,7 +780,7 @@ class Block extends Object
      */
     public function getChildGroup($groupName, $callback = null, $skipEmptyResults = true)
     {
-        $result = array();
+        $result = [];
         if (!isset($this->_childGroups[$groupName])) {
             return $result;
         }
@@ -895,7 +895,7 @@ class Block extends Object
      */
     final public function toHtml()
     {
-        app('events')->fire('block.to.html.before', array('block' => $this));
+        app('events')->fire('block.to.html.before', ['block' => $this]);
 
         # TODO Need to implement this & remove $html :-P
         //$html = $this->_loadCache();
@@ -921,7 +921,7 @@ class Block extends Object
         self::$_transportObject->setHtml($html);
 
         app('events')->fire('block.to.html.after',
-            array('block' => $this, 'transport' => self::$_transportObject));
+            ['block' => $this, 'transport' => self::$_transportObject]);
 
         $html = self::$_transportObject->getHtml();
 

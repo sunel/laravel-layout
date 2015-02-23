@@ -22,13 +22,13 @@ class Update
      *
      * @var array
      */
-    protected $_updates = array();
+    protected $_updates = [];
     /**
      * Handles used in this update.
      *
      * @var array
      */
-    protected $_handles = array();
+    protected $_handles = [];
 
     /**
      * @var Simplexml_Element
@@ -46,7 +46,7 @@ class Update
 
     public function resetUpdates()
     {
-        $this->_updates = array();
+        $this->_updates = [];
 
         return $this;
     }
@@ -70,7 +70,7 @@ class Update
 
     public function resetHandles()
     {
-        $this->_handles = array();
+        $this->_handles = [];
 
         return $this;
     }
@@ -131,7 +131,7 @@ class Update
         $tags = $this->getHandles();
         $tags[] = self::LAYOUT_GENERAL_CACHE_TAG;
 
-        return true; //need to save in cache later
+        return true; //TODO need to save in cache later
     }
 
     /**
@@ -141,10 +141,10 @@ class Update
      *
      * @return \Ext\Layout\Update
      */
-    public function load($handles = array())
+    public function load($handles = [])
     {
         if (is_string($handles)) {
-            $handles = array($handles);
+            $handles = [$handles];
         } elseif (!is_array($handles)) {
             throw new Exception('Invalid layout update handle');
         }
@@ -208,7 +208,7 @@ class Update
     {
         $elementClass = $this->getElementClass();
         $cacheKey = 'LAYOUT_'.'THEME_DEFAULT';
-        $cacheTags = array(self::LAYOUT_GENERAL_CACHE_TAG);
+        $cacheTags = [self::LAYOUT_GENERAL_CACHE_TAG];
 
         /*
             if (($cacheKey)) {

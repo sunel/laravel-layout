@@ -31,14 +31,14 @@ class Layout
      *
      * @var array
      */
-    protected $_blocks = array();
+    protected $_blocks = [];
 
     /**
      * Cache of block callbacks to output during rendering.
      *
      * @var array
      */
-    protected $_output = array();
+    protected $_output = [];
 
     /**
      * Flag to have blocks' output go directly to browser as oppose to return result.
@@ -288,7 +288,7 @@ class Layout
                         /*
                          * if there is no helper we hope that this is assoc array
                          */
-                        $arr = array();
+                        $arr = [];
                         foreach ($arg as $subkey => $value) {
                             $arr[(string) $subkey] = $value->asArray();
                         }
@@ -371,7 +371,7 @@ class Layout
      *
      * @return \Ext\Block
      */
-    public function createBlock($class, $name = '', array $attributes = array())
+    public function createBlock($class, $name = '', array $attributes = [])
     {
         try {
             $block = $this->_getBlockInstance($class, $attributes);
@@ -396,7 +396,7 @@ class Layout
 
         $this->_blocks[$name] = $block;
 
-        $this->events->fire('layout.block.create.after', array('block' => $block));
+        $this->events->fire('layout.block.create.after', ['block' => $block]);
 
         return $this->_blocks[$name];
     }
@@ -422,7 +422,7 @@ class Layout
      *
      * @return \Ext\Block
      */
-    protected function _getBlockInstance($block, array $attributes = array())
+    protected function _getBlockInstance($block, array $attributes = [])
     {
         if (is_string($block)) {
             if (class_exists($block, true)) {
@@ -472,7 +472,7 @@ class Layout
      */
     public function addOutputBlock($blockName, $method = 'toHtml')
     {
-        $this->_output[$blockName] = array($blockName, $method);
+        $this->_output[$blockName] = [$blockName, $method];
 
         return $this;
     }

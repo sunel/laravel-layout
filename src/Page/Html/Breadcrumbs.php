@@ -32,7 +32,7 @@ class Breadcrumbs extends \Ext\Block
     }
     public function addCrumb($crumbName, $crumbInfo, $after = false)
     {
-        $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'first', 'last', 'readonly'));
+        $this->_prepareArray($crumbInfo, ['label', 'title', 'link', 'first', 'last', 'readonly']);
         if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
             $this->_crumbs[$crumbName] = $crumbInfo;
         }
@@ -47,10 +47,10 @@ class Breadcrumbs extends \Ext\Block
     public function getCacheKeyInfo()
     {
         if (null === $this->_cacheKeyInfo) {
-            $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
+            $this->_cacheKeyInfo = parent::getCacheKeyInfo() + [
                 'crumbs' => base64_encode(serialize($this->_crumbs)),
                 'name'   => $this->getNameInLayout(),
-            );
+            ];
         }
 
         return $this->_cacheKeyInfo;
