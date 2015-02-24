@@ -1,6 +1,6 @@
 <div class="container">
     <footer role="contentinfo">
         {!! $_this->getChildHtml() !!}
-        <address>{{ $_this->getCopyright() }}</address>
+        <p>{{ $_this->getCopyright() }}</p>
     </footer>
 </div>

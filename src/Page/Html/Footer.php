@@ -12,9 +12,8 @@ class Footer extends \Ext\Block
     }
     public function getCopyright()
     {
-        #TODO Need to Update from config
         if (!$this->_copyright) {
-            $this->_copyright = '';
+            $this->_copyright = config('layout.footer.copyright');
         }
 
         return $this->_copyright;

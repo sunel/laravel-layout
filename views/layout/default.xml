@@ -11,18 +11,18 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>js/script.js</script></action>
 
                 <action method="addCss"><stylesheet>css/app.css</stylesheet></action>
-                <action method="addItem">
+                <action method="addCss">
+                    <stylesheet>css/styles.css</stylesheet>
+                </action>
+                <!--<action method="addItem">
                         <type>css</type>
                         <name>css/styles-ie.css</name>
                         <params/><if>lt IE 8</if>
                 </action>
                 <action method="addCss">
-                    <stylesheet>css/styles.css</stylesheet>
-                </action>
-                <action method="addCss">
                     <stylesheet>css/print.css</stylesheet>
                     <params>media="print"</params>
-                </action>
+                </action>-->
 
             </block>
 

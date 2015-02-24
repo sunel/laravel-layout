@@ -151,7 +151,6 @@ class Head extends \Ext\Block
             $params = !empty($item['params']) ? $item['params'] : '';
             switch ($item['type']) {
                 case 'js':        // js/*.js
-                case 'js_css':    // js/*.css
                 case 'css':  // css/*/*.css
                     $lines[$if][$item['type']][$params][$item['name']] = $item['name'];
                     break;
@@ -162,8 +161,8 @@ class Head extends \Ext\Block
         }
 
         // prepare HTML
-        $shouldMergeJs = false;
-        $shouldMergeCss = false;
+        $shouldMergeJs = config('layout.mergeJS');
+        $shouldMergeCss = config('layout.mergeCSS');
         $html   = '';
         foreach ($lines as $if => $items) {
             if (empty($items)) {
@@ -180,15 +179,15 @@ class Head extends \Ext\Block
 
             // static and skin css
             $html .= $this->_prepareStaticAndSkinElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
-                empty($items['js_css']) ? [] : $items['js_css'],
                 empty($items['css']) ? [] : $items['css'],
+                empty($items['css']) ? '' : 'css',
                 $shouldMergeCss ? [/* TODO MergeClass */'', 'getMergedCssUrl'] : null
             );
 
             // static and skin javascripts
             $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>'."\n",
                 empty($items['js']) ? [] : $items['js'],
-                empty($items['js']) ? [] : $items['js'],
+                empty($items['js']) ? '' : 'js',
                 $shouldMergeJs ? [/* TODO MergeClass */'', 'getMergedJsUrl'] : null
             );
 
@@ -218,13 +217,13 @@ class Head extends \Ext\Block
      * The merger callback is responsible for checking whether files exist, merging them and giving result URL
      *
      * @param string   $format        - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
-     * @param array    $staticItems   - array of relative names of static items to be grabbed from js/ folder
-     * @param array    $skinItems     - array of relative names of skin items to be found in skins according to design config
+     * @param array    $staticItems   - array of relative names of static items to be grabbed from  folder
+     * @param string   $type     -  js/css
      * @param callback $mergeCallback
      *
      * @return string
      */
-    protected function &_prepareStaticAndSkinElements($format, array $staticItems, array $skinItems,
+    protected function &_prepareStaticAndSkinElements($format, array $staticItems,$type,
                                                       $mergeCallback = null)
     {
         $items = [];
@@ -234,13 +233,6 @@ class Head extends \Ext\Block
 
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
-            foreach ($rows as $name) {
-                $items[$params][] = asset($name);
-            }
-        }
-
-        // lookup each file basing on current theme configuration
-        foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
                 $items[$params][] = asset($name);
             }
@@ -331,9 +323,8 @@ class Head extends \Ext\Block
      */
     public function getMediaType()
     {
-        #TODO  get config
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = '';
+            $this->_data['media_type'] = config('layout.head.media_type');
         }
 
         return $this->_data['media_type'];
@@ -346,9 +337,8 @@ class Head extends \Ext\Block
      */
     public function getCharset()
     {
-        #TODO  get config
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = '';
+            $this->_data['charset'] = config('layout.head.charset');
         }
 
         return $this->_data['charset'];
@@ -359,13 +349,11 @@ class Head extends \Ext\Block
      *
      * @param string $title
      *
-     * @return Mage_Page_Block_Html_Head
+     * @return \Ext\Page\Html\Head
      */
     public function setTitle($title)
     {
-        #TODO  get config
-        # prefix & suffix
-        $this->_data['title'] =   ' '.$title.' ';
+        $this->_data['title'] = config('layout.head.title.prefix').' '.$title.' '.config('layout.head.title.suffix');
 
         return $this;
     }
@@ -391,9 +379,7 @@ class Head extends \Ext\Block
      */
     public function getDefaultTitle()
     {
-        #TODO  get config
-
-        return;
+        return config('layout.head.title.default');
     }
 
     /**
@@ -403,10 +389,8 @@ class Head extends \Ext\Block
      */
     public function getDescription()
     {
-        #TODO  get config
-
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = '';
+            $this->_data['description'] = config('layout.head.description');
         }
 
         return $this->_data['description'];
@@ -419,9 +403,8 @@ class Head extends \Ext\Block
      */
     public function getKeywords()
     {
-        #TODO  get config
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = '';
+            $this->_data['keywords'] = config('layout.head.keywords');
         }
 
         return $this->_data['keywords'];
@@ -434,9 +417,8 @@ class Head extends \Ext\Block
      */
     public function getRobots()
     {
-        #TODO  get config
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = '';
+            $this->_data['robots'] = config('layout.head.robots');
         }
 
         return $this->_data['robots'];
@@ -449,9 +431,8 @@ class Head extends \Ext\Block
      */
     public function getIncludes()
     {
-        #TODO  get config
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = '';
+            $this->_data['includes'] = config('layout.head.includes');
         }
 
         return $this->_data['includes'];
@@ -465,22 +446,10 @@ class Head extends \Ext\Block
     public function getFaviconFile()
     {
         if (empty($this->_data['favicon_file'])) {
-            $this->_data['favicon_file'] = $this->_getFaviconFile();
+            $this->_data['favicon_file'] = config('layout.head.favicon_file');
         }
 
         return $this->_data['favicon_file'];
     }
 
-    /**
-     * Retrieve path to Favicon.
-     *
-     * @return string
-     */
-    protected function _getFaviconFile()
-    {
-        #TODO  get config
-        $url = '';
-
-        return $url;
-    }
 }

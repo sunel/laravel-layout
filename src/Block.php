@@ -1,9 +1,21 @@
 <?php namespace Ext;
 
-use Debugbar;
+use Debugbar,
+    Session,
+    Cache;
 
 class Block extends Object
 {
+    /**
+     * Cache group Tag
+     */
+    const CACHE_GROUP = 'block_html';
+    
+    /**
+     * Cache tags data key
+     */
+    const CACHE_TAGS_DATA_KEY = 'cache_tags';
+
     /**
      * Block name in layout.
      *
@@ -818,23 +830,116 @@ class Block extends Object
     }
 
     /**
+     * Get cache key informative items
+     * Provide string array key to share specific info item with FPC placeholder
+     *
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        return array(
+            $this->getNameInLayout()
+        );
+    }
+
+    /**
+     * Get Key for caching block content
+     *
+     * @return string
+     */
+    public function getCacheKey()
+    {
+        if ($this->hasData('cache_key')) {
+            return $this->getData('cache_key');
+        }
+        $key = $this->getCacheKeyInfo();
+        $key = array_values($key); // ignore array keys
+        $key = implode('|', $key);
+        $key = sha1($key);
+        return $key;
+    }
+
+    /**
+     * Get tags array for saving cache
+     *
+     * @return array
+     */
+    public function getCacheTags()
+    {
+        $tagsCache = Cache::get($this->_getTagsCacheKey(), false);
+        if ($tagsCache) {
+            $tags = json_decode($tagsCache);
+        }
+        if (!isset($tags) || !is_array($tags) || empty($tags)) {
+            $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ? array() : $this->getData(self::CACHE_TAGS_DATA_KEY);
+            if (!in_array(self::CACHE_GROUP, $tags)) {
+                $tags[] = self::CACHE_GROUP;
+            }
+        }
+        return array_unique($tags);
+    }
+
+    /**
+     * Add tag to block
+     *
+     * @param string|array $tag
+     * @return \Ext\Block
+     */
+    public function addCacheTag($tag)
+    {
+        $tag = is_array($tag) ? $tag : array($tag);
+        $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ?
+            $tag : array_merge($this->getData(self::CACHE_TAGS_DATA_KEY), $tag);
+        $this->setData(self::CACHE_TAGS_DATA_KEY, $tags);
+        return $this;
+    }
+
+    /**
+     * Add tags from specified model to current block
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return \Ext\Block
+     */
+    public function addModelTags(\Illuminate\Database\Eloquent\Model $model)
+    {
+        #TODO Need to improve this
+        $cacheTags = get_class($model);
+        if (false !== $cacheTags) {
+            $this->addCacheTag($cacheTags);
+        }
+        return $this;
+    }
+
+    /**
+     * Get block cache life time
+     *
+     * @return int
+     */
+    public function getCacheLifetime()
+    {
+        if (!$this->hasData('cache_lifetime')) {
+            return null;
+        }
+        return $this->getData('cache_lifetime');
+    }
+
+    /**
      * Load block html from cache storage.
      *
      * @return string | false
      */
     protected function _loadCache()
     {
-        if (is_null($this->getCacheLifetime()) || !$this->_getApp()->useCache(self::CACHE_GROUP)) {
+        if (is_null($this->getCacheLifetime()) || !config('layout.cache')) {
             return false;
         }
         $cacheKey = $this->getCacheKey();
-        /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session');
-        $cacheData = $this->_getApp()->loadCache($cacheKey);
+
+        $cacheData = Cache::get($cacheKey, false);
         if ($cacheData) {
             $cacheData = str_replace(
                 $this->_getSidPlaceholder($cacheKey),
-                $session->getSessionIdQueryParam().'='.$session->getEncryptedSessionId(),
+                $this->getSessionIdQueryParam().'='.Session::getId(),
                 $cacheData
             );
         }
@@ -847,33 +952,77 @@ class Block extends Object
      *
      * @param string $data
      *
-     * @return Mage_Core_Block_Abstract
+     * @return \Ext\Block
      */
     protected function _saveCache($data)
     {
-        if (is_null($this->getCacheLifetime()) || !$this->_getApp()->useCache(self::CACHE_GROUP)) {
+        if (is_null($this->getCacheLifetime()) || !config('layout.cache')) {
             return false;
         }
         $cacheKey = $this->getCacheKey();
-        /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('core/session');
         $data = str_replace(
-            $session->getSessionIdQueryParam().'='.$session->getEncryptedSessionId(),
+            $this->getSessionIdQueryParam().'='.Session::getId(),
             $this->_getSidPlaceholder($cacheKey),
             $data
         );
 
         $tags = $this->getCacheTags();
-
-        $this->_getApp()->saveCache($data, $cacheKey, $tags, $this->getCacheLifetime());
-        $this->_getApp()->saveCache(
-            json_encode($tags),
-            $this->_getTagsCacheKey($cacheKey),
-            $tags,
-            $this->getCacheLifetime()
-        );
+        #TODO need to find neat solution
+        if(config('cache.default') == 'file'){
+            Cache::put($cacheKey, $data, $this->getCacheLifetime());
+            Cache::put(
+                $this->_getTagsCacheKey($cacheKey), 
+                json_encode($tags), 
+                $this->getCacheLifetime()
+            );
+        } else {
+            Cache::tags($tags)->put($cacheKey, $data, $this->getCacheLifetime());
+            Cache::tags($tags)->put(
+                $this->_getTagsCacheKey($cacheKey), 
+                json_encode($tags), 
+                $this->getCacheLifetime()
+            );
+        }
 
         return $this;
+    }
+    
+    /**
+     * Get cache key for tags
+     *
+     * @param string $cacheKey
+     * @return string
+     */
+    protected function getSessionIdQueryParam()
+    {
+        return config('layout.session_name');
+    }
+
+    /**
+     * Get cache key for tags
+     *
+     * @param string $cacheKey
+     * @return string
+     */
+    protected function _getTagsCacheKey($cacheKey = null)
+    {
+        $cacheKey = !empty($cacheKey) ? $cacheKey : $this->getCacheKey();
+        $cacheKey = md5($cacheKey . '_tags');
+        return $cacheKey;
+    }
+
+    /**
+     * Get SID placeholder for cache
+     *
+     * @param null|string $cacheKey
+     * @return string
+     */
+    protected function _getSidPlaceholder($cacheKey = null)
+    {
+        if (is_null($cacheKey)) {
+            $cacheKey = $this->getCacheKey();
+        }
+        return '<!--SID=' . $cacheKey . '-->';
     }
 
     /**
@@ -897,17 +1046,13 @@ class Block extends Object
     {
         app('events')->fire('block.to.html.before', ['block' => $this]);
 
-        # TODO Need to implement this & remove $html :-P
-        //$html = $this->_loadCache();
-
-        $html = false;
+        $html = $this->_loadCache();
 
         if ($html === false) {
             $this->_beforeToHtml();
             $html = $this->_toHtml();
 
-            # TODO Need to implement this
-            //$this->_saveCache($html);
+            $this->_saveCache($html);
         }
 
         $html = $this->_afterToHtml($html);
