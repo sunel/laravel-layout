@@ -1,4 +1,4 @@
-<?php namespace Ext;
+<?php namespace Ext\Exceptions;
 
 class InvalidBlockException extends \Exception
 {

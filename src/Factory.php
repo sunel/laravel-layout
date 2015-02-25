@@ -2,6 +2,7 @@
 
 use Debugbar;
 use Illuminate\Contracts\Events\Dispatcher;
+use Ext\Exceptions\InvalidRouterNameException;
 
 class Factory
 {

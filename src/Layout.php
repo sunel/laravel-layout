@@ -2,6 +2,7 @@
 
 use Debugbar;
 use Ext\Layout\Element;
+use Ext\Exceptions\InvalidBlockException;
 
 class Layout
 {
