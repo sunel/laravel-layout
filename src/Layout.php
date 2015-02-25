@@ -1,6 +1,5 @@
 <?php namespace Layout;
 
-use Debugbar;
 use Layout\Exceptions\InvalidBlockException;
 use Layout\Layout\Element;
 

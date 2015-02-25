@@ -19,12 +19,12 @@ class Update
     protected $_elementClass;
 
     /**
-     * Cache key
+     * Cache key.
      *
      * @var string
      */
     protected $_cacheId;
-    
+
     /**
      * Cumulative array of update XML strings.
      *
@@ -133,6 +133,7 @@ class Update
         }
 
         $this->addUpdate($result);
+
         return true;
     }
 
@@ -181,6 +182,7 @@ class Update
         }
 
         $this->saveCache();
+
         return $this;
     }
 
@@ -219,12 +221,13 @@ class Update
             $this->addUpdate($updateXml->innerXml());
         }
         stop_profile($_profilerKey);
+
         return true;
     }
 
     /**
-     * Collect  layout updates
-     * 
+     * Collect  layout updates.
+     *
      * TODO need to plan as for of laravel theming
      *
      * @return \Layout\Layout\Update
@@ -242,7 +245,7 @@ class Update
         if (empty($layoutStr)) {
             $this->_moduleLayout = $this->getFileLayoutUpdatesXml();
             if (config('layout.cache.layout')) {
-               if (config('cache.default') == 'file') {
+                if (config('cache.default') == 'file') {
                     Cache::put($cacheKey, $this->_moduleLayout->asXml(), 0);
                 } else {
                     Cache::tags($cacheTags)->put($cacheKey, $this->_moduleLayout->asXml(), 0);

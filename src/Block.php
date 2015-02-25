@@ -1,7 +1,6 @@
 <?php namespace Layout;
 
 use Cache;
-use Debugbar;
 use Session;
 
 class Block extends Object
@@ -118,7 +117,6 @@ class Block extends Object
      * @var array
      */
     protected $_viewVars = [];
-
 
     public function debug()
     {
@@ -671,7 +669,7 @@ class Block extends Object
     /**
      * Prepare child block before generate html.
      *
-     * @param string                   $name
+     * @param string        $name
      * @param \Layout\Block $child
      */
     protected function _beforeChildToHtml($name, $child)
@@ -1096,7 +1094,7 @@ class Block extends Object
 
     public function getShowTemplateHints()
     {
-        return config('layout.show_templat_hint',false);
+        return config('layout.show_templat_hint', false);
     }
 
     /**
@@ -1115,7 +1113,6 @@ class Block extends Object
         // EXTR_SKIP protects from overriding
         // already defined variables
         extract($this->_viewVars, EXTR_SKIP);
-
 
         if ($this->getShowTemplateHints()) {
             $html .= <<<HTML

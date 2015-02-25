@@ -16,34 +16,32 @@ if (! function_exists('render')) {
 
 if (! function_exists('start_profile')) {
     /**
-     * Start the profile for debugging
+     * Start the profile for debugging.
      *
      * @param string $name
      *
      * @return void
      */
     function start_profile($name)
-    {   
-        if (config('debugbar.enabled',false)) {
-            Debugbar::startMeasure($name);    
+    {
+        if (config('debugbar.enabled', false)) {
+            Debugbar::startMeasure($name);
         }
-        
     }
 }
 
 if (! function_exists('stop_profile')) {
     /**
-     * Stop the profile for debugging
+     * Stop the profile for debugging.
      *
      * @param string $name
      *
      * @return void
      */
     function stop_profile($name)
-    {   
-        if (config('debugbar.enabled',false)) {
-            Debugbar::stopMeasure($name);    
+    {
+        if (config('debugbar.enabled', false)) {
+            Debugbar::stopMeasure($name);
         }
-        
     }
 }

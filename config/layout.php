@@ -12,10 +12,10 @@ return [
     */
     'show_templat_hint' => false,
     'session_name'      => 'SID',
-    
+
     'cache' => [
         'block'  => false,
-        'layout' => false
+        'layout' => false,
     ],
 
     'head' => [
