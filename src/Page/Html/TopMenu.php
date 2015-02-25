@@ -101,10 +101,10 @@ class TopMenu extends \Layout\Block
      */
     public function getCacheKeyInfo()
     {
-        $cacheId = array(
+        $cacheId = [
             'TOPMENU',
-            $this->getNameInLayout()
-        );
+            $this->getNameInLayout(),
+        ];
 
         return $cacheId;
     }

@@ -1,18 +1,18 @@
 <?php namespace Layout;
 
-use Debugbar,
-    Session,
-    Cache;
+use Cache;
+use Debugbar;
+use Session;
 
 class Block extends Object
 {
     /**
-     * Cache group Tag
+     * Cache group Tag.
      */
     const CACHE_GROUP = 'block_html';
-    
+
     /**
-     * Cache tags data key
+     * Cache tags data key.
      */
     const CACHE_TAGS_DATA_KEY = 'cache_tags';
 
@@ -119,9 +119,6 @@ class Block extends Object
      */
     protected $_viewVars = [];
 
-    protected static $_showTemplateHints;
-
-    protected static $_showTemplateHintsBlocks;
 
     public function debug()
     {
@@ -143,7 +140,7 @@ class Block extends Object
      *
      * @param string $template
      *
-     * @return Mage_Core_Block_Template
+     * @return \Layout\Block
      */
     public function setTemplate($template)
     {
@@ -366,7 +363,7 @@ class Block extends Object
     /**
      * Set child block.
      *
-     * @param string     $alias
+     * @param string        $alias
      * @param \Layout\Block $block
      *
      * @return \Layout\Block
@@ -434,7 +431,7 @@ class Block extends Object
      * Append child block.
      *
      * @param \Layout\Block|string $block
-     * @param string            $alias
+     * @param string               $alias
      *
      * @return \Layout\Block
      */
@@ -449,9 +446,9 @@ class Block extends Object
      * Insert child block.
      *
      * @param \Layout\Block|string $block
-     * @param string            $siblingName
-     * @param boolean           $after
-     * @param string            $alias
+     * @param string               $siblingName
+     * @param boolean              $after
+     * @param string               $alias
      *
      * @return object $this
      */
@@ -675,7 +672,7 @@ class Block extends Object
      * Prepare child block before generate html.
      *
      * @param string                   $name
-     * @param Mage_Core_Block_Abstract $child
+     * @param \Layout\Block $child
      */
     protected function _beforeChildToHtml($name, $child)
     {
@@ -750,7 +747,7 @@ class Block extends Object
     /**
      * Make sure specified block will be registered in the specified child groups.
      *
-     * @param string     $groupName
+     * @param string        $groupName
      * @param \Layout\Block $child
      */
     public function addToChildGroup($groupName, \Layout\Block $child)
@@ -831,19 +828,19 @@ class Block extends Object
 
     /**
      * Get cache key informative items
-     * Provide string array key to share specific info item with FPC placeholder
+     * Provide string array key to share specific info item with FPC placeholder.
      *
      * @return array
      */
     public function getCacheKeyInfo()
     {
-        return array(
-            $this->getNameInLayout()
-        );
+        return [
+            $this->getNameInLayout(),
+        ];
     }
 
     /**
-     * Get Key for caching block content
+     * Get Key for caching block content.
      *
      * @return string
      */
@@ -856,11 +853,12 @@ class Block extends Object
         $key = array_values($key); // ignore array keys
         $key = implode('|', $key);
         $key = sha1($key);
+
         return $key;
     }
 
     /**
-     * Get tags array for saving cache
+     * Get tags array for saving cache.
      *
      * @return array
      */
@@ -871,33 +869,37 @@ class Block extends Object
             $tags = json_decode($tagsCache);
         }
         if (!isset($tags) || !is_array($tags) || empty($tags)) {
-            $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ? array() : $this->getData(self::CACHE_TAGS_DATA_KEY);
+            $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ? [] : $this->getData(self::CACHE_TAGS_DATA_KEY);
             if (!in_array(self::CACHE_GROUP, $tags)) {
                 $tags[] = self::CACHE_GROUP;
             }
         }
+
         return array_unique($tags);
     }
 
     /**
-     * Add tag to block
+     * Add tag to block.
      *
      * @param string|array $tag
+     *
      * @return \Layout\Block
      */
     public function addCacheTag($tag)
     {
-        $tag = is_array($tag) ? $tag : array($tag);
+        $tag = is_array($tag) ? $tag : [$tag];
         $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ?
             $tag : array_merge($this->getData(self::CACHE_TAGS_DATA_KEY), $tag);
         $this->setData(self::CACHE_TAGS_DATA_KEY, $tags);
+
         return $this;
     }
 
     /**
-     * Add tags from specified model to current block
+     * Add tags from specified model to current block.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
+     *
      * @return \Layout\Block
      */
     public function addModelTags(\Illuminate\Database\Eloquent\Model $model)
@@ -907,19 +909,21 @@ class Block extends Object
         if (false !== $cacheTags) {
             $this->addCacheTag($cacheTags);
         }
+
         return $this;
     }
 
     /**
-     * Get block cache life time
+     * Get block cache life time.
      *
      * @return int
      */
     public function getCacheLifetime()
     {
         if (!$this->hasData('cache_lifetime')) {
-            return null;
+            return;
         }
+
         return $this->getData('cache_lifetime');
     }
 
@@ -968,29 +972,30 @@ class Block extends Object
 
         $tags = $this->getCacheTags();
         #TODO need to find neat solution
-        if(config('cache.default') == 'file'){
+        if (config('cache.default') == 'file') {
             Cache::put($cacheKey, $data, $this->getCacheLifetime());
             Cache::put(
-                $this->_getTagsCacheKey($cacheKey), 
-                json_encode($tags), 
+                $this->_getTagsCacheKey($cacheKey),
+                json_encode($tags),
                 $this->getCacheLifetime()
             );
         } else {
             Cache::tags($tags)->put($cacheKey, $data, $this->getCacheLifetime());
             Cache::tags($tags)->put(
-                $this->_getTagsCacheKey($cacheKey), 
-                json_encode($tags), 
+                $this->_getTagsCacheKey($cacheKey),
+                json_encode($tags),
                 $this->getCacheLifetime()
             );
         }
 
         return $this;
     }
-    
+
     /**
-     * Get cache key for tags
+     * Get cache key for tags.
      *
      * @param string $cacheKey
+     *
      * @return string
      */
     protected function getSessionIdQueryParam()
@@ -999,22 +1004,25 @@ class Block extends Object
     }
 
     /**
-     * Get cache key for tags
+     * Get cache key for tags.
      *
      * @param string $cacheKey
+     *
      * @return string
      */
     protected function _getTagsCacheKey($cacheKey = null)
     {
         $cacheKey = !empty($cacheKey) ? $cacheKey : $this->getCacheKey();
-        $cacheKey = md5($cacheKey . '_tags');
+        $cacheKey = md5($cacheKey.'_tags');
+
         return $cacheKey;
     }
 
     /**
-     * Get SID placeholder for cache
+     * Get SID placeholder for cache.
      *
      * @param null|string $cacheKey
+     *
      * @return string
      */
     protected function _getSidPlaceholder($cacheKey = null)
@@ -1022,7 +1030,8 @@ class Block extends Object
         if (is_null($cacheKey)) {
             $cacheKey = $this->getCacheKey();
         }
-        return '<!--SID=' . $cacheKey . '-->';
+
+        return '<!--SID='.$cacheKey.'-->';
     }
 
     /**
@@ -1085,27 +1094,9 @@ class Block extends Object
         return $html;
     }
 
-    /**
-     * Check if direct output is allowed for block.
-     *
-     * @return bool
-     */
-    public function getDirectOutput()
-    {
-        if ($this->getLayout()) {
-            return $this->getLayout()->getDirectOutput();
-        }
-
-        return false;
-    }
-
     public function getShowTemplateHints()
     {
-        # TODO Need to Implement this
-        if (is_null(self::$_showTemplateHints)) {
-        }
-
-        return self::$_showTemplateHints;
+        return config('layout.show_templat_hint',false);
     }
 
     /**
@@ -1125,9 +1116,6 @@ class Block extends Object
         // already defined variables
         extract($this->_viewVars, EXTR_SKIP);
 
-        #TODO Need to figures this out
-
-        $do = $this->getDirectOutput();
 
         if ($this->getShowTemplateHints()) {
             echo <<<HTML

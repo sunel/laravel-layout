@@ -2,42 +2,41 @@
 
 
 return [
-	
-	/*
-	|--------------------------------------------------------------------------
-	| 
-	|--------------------------------------------------------------------------
-	| 
-	|
-	*/
-	'cache' => false,
-	'session_name' => 'SID',
 
-	'head' => [
+    /*
+    |--------------------------------------------------------------------------
+    |
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+    'cache'        => false,
+    'session_name' => 'SID',
 
-		'title' => [
-			'default' => 'Home',
-			'prefix' => '',
-			'suffix' => ''
-		],
-		
-		'includes' => '',
-		'media_type' => 'text/html',
-		'charset' => 'utf-8',
-		'description' => 'Hello World',
-		'keywords' => 'Easy Layout for laravel based projects',
-		'robots' => 'INDEX,FOLLOW',
-		'favicon_file' => '/favicon.ico'
+    'head' => [
 
-	],
+        'title' => [
+            'default' => 'Home',
+            'prefix'  => '',
+            'suffix'  => '',
+        ],
 
-	'mergeJS' => false,
-	'mergeCSS' => false,
+        'includes'     => '',
+        'media_type'   => 'text/html',
+        'charset'      => 'utf-8',
+        'description'  => 'Hello World',
+        'keywords'     => 'Easy Layout for laravel based projects',
+        'robots'       => 'INDEX,FOLLOW',
+        'favicon_file' => '/favicon.ico',
 
-	'footer' => [
+    ],
 
-		'copyright' => 'Laravel is a trademark of Taylor Otwell. Copyright © Taylor Otwell.'
-	]
+    'mergeJS'  => false,
+    'mergeCSS' => false,
 
+    'footer' => [
+
+        'copyright' => 'Laravel is a trademark of Taylor Otwell. Copyright © Taylor Otwell.',
+    ],
 
 ];

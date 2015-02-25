@@ -227,7 +227,7 @@ class AbstractXml extends \SimpleXMLElement
      * Otherwise will overwrite existing nodes
      *
      * @param \Layout\Layout\AbstractXml $source
-     * @param boolean                 $overwrite
+     * @param boolean                    $overwrite
      *
      * @return \Layout\Layout\AbstractXml
      */
@@ -248,7 +248,7 @@ class AbstractXml extends \SimpleXMLElement
      * Layoutends one node.
      *
      * @param \Layout\Layout\AbstractXml $source
-     * @param boolean                 $overwrite
+     * @param boolean                    $overwrite
      *
      * @return \Layout\Layout\AbstractXml
      */

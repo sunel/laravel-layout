@@ -1,8 +1,8 @@
 <?php namespace Layout;
 
 use Debugbar;
-use Layout\Layout\Element;
 use Layout\Exceptions\InvalidBlockException;
+use Layout\Layout\Element;
 
 class Layout
 {
@@ -317,7 +317,7 @@ class Layout
      * Translate layout node.
      *
      * @param \Layout\Layout\Element $node
-     * @param array               $args
+     * @param array                  $args
      **/
     protected function _translateLayoutNode($node, &$args)
     {
@@ -337,7 +337,7 @@ class Layout
     /**
      * Save block in blocks registry.
      *
-     * @param string      $name
+     * @param string         $name
      * @param \Layout\Layout $block
      */
     public function setBlock($name, $block)
@@ -403,7 +403,7 @@ class Layout
      * Add a block to registry, create new object if needed.
      *
      * @param string|\Layout\Block $blockClass
-     * @param string            $blockName
+     * @param string               $blockName
      *
      * @return \Layout\Block
      */
@@ -632,7 +632,7 @@ class Layout
      * Enter description here...
      *
      * @param \Layout\Layout\Element $config
-     * @param boolean             $overwrite
+     * @param boolean                $overwrite
      *
      * @return \Layout\Layout\Element
      */

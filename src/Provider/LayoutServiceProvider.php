@@ -1,9 +1,9 @@
 <?php namespace Layout\Provider;
 
+use Illuminate\Support\ServiceProvider;
 use Layout\Factory;
 use Layout\Layout;
 use Layout\Layout\Update;
-use Illuminate\Support\ServiceProvider;
 
 class LayoutServiceProvider extends ServiceProvider
 {
@@ -16,9 +16,9 @@ class LayoutServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../views', 'page');
         $this->publishes([
              __DIR__.'/../../views' => base_path('resources/views/vendor/render'),
-        ],'view');
+        ], 'view');
         $this->publishes([
-            __DIR__ . '/../../config/layout.php' => config_path('layout.php')
+            __DIR__.'/../../config/layout.php' => config_path('layout.php'),
         ], 'config');
     }
 
@@ -36,7 +36,7 @@ class LayoutServiceProvider extends ServiceProvider
             //$loader->alias('StringView', 'sngrl\StringBladeCompiler\Facades\StringView');
         });
 
-        $this->mergeConfigFrom(__DIR__ . '/../../config/layout.php', 'layout');
+        $this->mergeConfigFrom(__DIR__.'/../../config/layout.php', 'layout');
     }
 
     /**

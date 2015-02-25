@@ -218,12 +218,12 @@ class Head extends \Layout\Block
      *
      * @param string   $format        - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
      * @param array    $staticItems   - array of relative names of static items to be grabbed from  folder
-     * @param string   $type     -  js/css
+     * @param string   $type          -  js/css
      * @param callback $mergeCallback
      *
      * @return string
      */
-    protected function &_prepareStaticAndSkinElements($format, array $staticItems,$type,
+    protected function &_prepareStaticAndSkinElements($format, array $staticItems, $type,
                                                       $mergeCallback = null)
     {
         $items = [];
@@ -451,5 +451,4 @@ class Head extends \Layout\Block
 
         return $this->_data['favicon_file'];
     }
-
 }

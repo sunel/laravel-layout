@@ -35,7 +35,7 @@ class Factory
     /**
      * Retrieve current layout object.
      *
-     * @return Mage_Core_Model_Layout
+     * @return \Layout\Layout
      */
     public function getLayout()
     {
@@ -67,7 +67,7 @@ class Factory
      * @param bool             $generateBlocks
      * @param bool             $generateXml
      *
-     * @return Mage_Core_Controller_Varien_Action
+     * @return Layout\Factory
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
