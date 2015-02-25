@@ -16,7 +16,10 @@ class ExtViewServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../views', 'page');
         $this->publishes([
              __DIR__.'/../../views' => base_path('resources/views/vendor/render'),
-        ]);
+        ],'view');
+        $this->publishes([
+            __DIR__ . '/../../config/layout.php' => config_path('layout.php')
+        ], 'config');
     }
 
     /**
@@ -32,6 +35,8 @@ class ExtViewServiceProvider extends ServiceProvider
             //$loader = \Illuminate\Foundation\AliasLoader::getInstance();
             //$loader->alias('StringView', 'sngrl\StringBladeCompiler\Facades\StringView');
         });
+
+        $this->mergeConfigFrom(__DIR__ . '/../../config/layout.php', 'layout');
     }
 
     /**

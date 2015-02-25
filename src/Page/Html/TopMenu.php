@@ -1,5 +1,7 @@
 <?php namespace Ext\Page\Html;
 
+use Carbon\Carbon;
+
 class TopMenu extends \Ext\Block
 {
     /**
@@ -22,7 +24,7 @@ class TopMenu extends \Ext\Block
     {
         $this->_menu = '';
         $this->addData([
-            'cache_lifetime' => false,
+            'cache_lifetime' => Carbon::now()->addMinutes(10),
         ]);
     }
 
@@ -53,7 +55,10 @@ class TopMenu extends \Ext\Block
 
     protected function _getHtml($menuTree, $childrenWrapClass)
     {
-        $html = '';
+        #TODO need to implement this
+        $html = '<ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                </ul>';
 
         return $html;
     }
@@ -96,7 +101,10 @@ class TopMenu extends \Ext\Block
      */
     public function getCacheKeyInfo()
     {
-        $cacheId = '';
+        $cacheId = array(
+            'TOPMENU',
+            $this->getNameInLayout()
+        );
 
         return $cacheId;
     }
