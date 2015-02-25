@@ -5,7 +5,7 @@ use Layout\Layout;
 use Layout\Layout\Update;
 use Illuminate\Support\ServiceProvider;
 
-class LayoutViewServiceProvider extends ServiceProvider
+class LayoutServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
