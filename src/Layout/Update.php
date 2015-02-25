@@ -189,7 +189,7 @@ class Update
     public function fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_update: '.$handle;
-        //Debugbar::startMeasure($_profilerKey);
+        start_profile($_profilerKey);
         if (empty($this->_moduleLayout)) {
             $this->fetchFileLayoutUpdates();
         }
@@ -198,7 +198,7 @@ class Update
             $this->fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        //Debugbar::stopMeasure($_profilerKey);
+        stop_profile($_profilerKey);
         return true;
     }
 

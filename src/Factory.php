@@ -114,7 +114,7 @@ class Factory
         // load layout updates by specified handles
         Debugbar::startMeasure("$_profilerKey::layout_load");
         $this->getLayout()->getUpdate()->load();
-        Debugbar::stopMeasure("$_profilerKey::layout_load");
+        stop_profile("$_profilerKey::layout_load");
 
         return $this;
     }
@@ -129,9 +129,9 @@ class Factory
         );
 
         // generate xml from collected text updates
-        Debugbar::startMeasure("$_profilerKey::layout_generate_xml");
+        start_profile("$_profilerKey::layout_generate_xml");
         $this->getLayout()->generateXml();
-        Debugbar::stopMeasure("$_profilerKey::layout_generate_xml");
+        stop_profile("$_profilerKey::layout_generate_xml");
 
         return $this;
     }
@@ -147,9 +147,9 @@ class Factory
         );
 
         // generate blocks from xml layout
-        Debugbar::startMeasure("$_profilerKey::layout_generate_blocks");
+        start_profile("$_profilerKey::layout_generate_blocks");
         $this->getLayout()->generateBlocks();
-        Debugbar::stopMeasure("$_profilerKey::layout_generate_blocks");
+        stop_profile("$_profilerKey::layout_generate_blocks");
 
         $this->events->fire(
             'route.layout.generate.blocks.after',
@@ -168,7 +168,7 @@ class Factory
     {
         $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
 
-        Debugbar::startMeasure("$_profilerKey::layout_render");
+        start_profile("$_profilerKey::layout_render");
         if ('' !== $output) {
             $this->getLayout()->addOutputBlock($output);
         }
@@ -180,7 +180,7 @@ class Factory
 
         $output = $this->getLayout()->getOutput();
 
-        Debugbar::stopMeasure("$_profilerKey::layout_render");
+        stop_profile("$_profilerKey::layout_render");
 
         return $output;
     }

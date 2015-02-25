@@ -190,7 +190,7 @@ class Layout
         $blockName = (string) $node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
 
-        Debugbar::startMeasure($_profilerKey);
+        start_profile($_profilerKey);
 
         $block = $this->addBlock($className, $blockName);
         if (!$block) {
@@ -232,7 +232,7 @@ class Layout
             $this->addOutputBlock($blockName, $method);
         }
 
-        Debugbar::stopMeasure($_profilerKey);
+        stop_profile($_profilerKey);
 
         return $this;
     }
@@ -264,7 +264,7 @@ class Layout
 
         $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
 
-        Debugbar::startMeasure($_profilerKey);
+        start_profile($_profilerKey);
 
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
@@ -308,7 +308,7 @@ class Layout
             call_user_func_array([$block, $method], $args);
         }
 
-        Debugbar::stopMeasure($_profilerKey);
+        stop_profile($_profilerKey);
 
         return $this;
     }

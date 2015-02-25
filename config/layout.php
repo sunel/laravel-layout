@@ -10,8 +10,9 @@ return [
     |
     |
     */
-    'cache'        => false,
-    'session_name' => 'SID',
+    'cache'             => false,
+    'show_templat_hint' => true,
+    'session_name'      => 'SID',
 
     'head' => [
 
