@@ -1,15 +1,15 @@
-<?php namespace Ext;
+<?php namespace Layout;
 
 use Debugbar;
-use Ext\Layout\Element;
-use Ext\Exceptions\InvalidBlockException;
+use Layout\Layout\Element;
+use Layout\Exceptions\InvalidBlockException;
 
 class Layout
 {
     /**
      * layout xml.
      *
-     * @var \Ext\Layout\Element
+     * @var \Layout\Layout\Element
      */
     protected $_xml = null;
 
@@ -23,7 +23,7 @@ class Layout
     /**
      * Layout Update module.
      *
-     * @var \Ext\Layout\Update
+     * @var \Layout\Layout\Update
      */
     protected $_update;
 
@@ -74,7 +74,7 @@ class Layout
     /**
      * Layout update instance.
      *
-     * @return \Ext\Layout\Update
+     * @return \Layout\Layout\Update
      */
     public function getUpdate()
     {
@@ -86,7 +86,7 @@ class Layout
      *
      * @param bool $flag
      *
-     * @return \Ext\Layout
+     * @return \Layout\Layout
      */
     public function setDirectOutput($flag)
     {
@@ -108,7 +108,7 @@ class Layout
     /**
      * Layout xml generation.
      *
-     * @return \Ext\Layout
+     * @return \Layout\Layout
      */
     public function generateXml()
     {
@@ -147,7 +147,7 @@ class Layout
     /**
      * Create layout blocks hierarchy from layout xml configuration.
      *
-     * @param \Ext\Layout\Element|null $parent
+     * @param \Layout\Layout\Element|null $parent
      */
     public function generateBlocks($parent = null)
     {
@@ -179,10 +179,10 @@ class Layout
     /**
      * Add block object to layout based on xml node data.
      *
-     * @param \Ext\Layout\Element $node
-     * @param \Ext\Layout\Element $parent
+     * @param \Layout\Layout\Element $node
+     * @param \Layout\Layout\Element $parent
      *
-     * @return \Ext\Layout
+     * @return \Layout\Layout
      */
     protected function _generateBlock($node, $parent)
     {
@@ -240,10 +240,10 @@ class Layout
     /**
      * Enter description here...
      *
-     * @param \Ext\Layout\Element $node
-     * @param \Ext\Layout\Element $parent
+     * @param \Layout\Layout\Element $node
+     * @param \Layout\Layout\Element $parent
      *
-     * @return \Ext\Layout
+     * @return \Layout\Layout
      */
     protected function _generateAction($node, $parent)
     {
@@ -274,7 +274,7 @@ class Layout
             unset($args['@attributes']);
 
             foreach ($args as $key => $arg) {
-                if (($arg instanceof \Ext\Layout\Element)) {
+                if (($arg instanceof \Layout\Layout\Element)) {
                     if (isset($arg['helper'])) {
                         $helperName = explode('/', (string) $arg['helper']);
                         $helperMethod = array_pop($helperName);
@@ -316,7 +316,7 @@ class Layout
     /**
      * Translate layout node.
      *
-     * @param \Ext\Layout\Element $node
+     * @param \Layout\Layout\Element $node
      * @param array               $args
      **/
     protected function _translateLayoutNode($node, &$args)
@@ -338,7 +338,7 @@ class Layout
      * Save block in blocks registry.
      *
      * @param string      $name
-     * @param \Ext\Layout $block
+     * @param \Layout\Layout $block
      */
     public function setBlock($name, $block)
     {
@@ -367,7 +367,7 @@ class Layout
      * @param string $name
      * @param array  $attributes
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function createBlock($class, $name = '', array $attributes = [])
     {
@@ -402,10 +402,10 @@ class Layout
     /**
      * Add a block to registry, create new object if needed.
      *
-     * @param string|\Ext\Block $blockClass
+     * @param string|\Layout\Block $blockClass
      * @param string            $blockName
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function addBlock($block, $blockName)
     {
@@ -418,7 +418,7 @@ class Layout
      * @param string $block
      * @param array  $attributes
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     protected function _getBlockInstance($block, array $attributes = [])
     {
@@ -429,7 +429,7 @@ class Layout
                 $block->addData($attributes);
             }
         }
-        if (!$block instanceof \Ext\Block) {
+        if (!$block instanceof \Layout\Block) {
             throw new InvalidBlockException('Invalid block type:'.$block);
         }
 
@@ -451,7 +451,7 @@ class Layout
      *
      * @param string $name
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function getBlock($name)
     {
@@ -509,15 +509,15 @@ class Layout
     /**
      * Returns node found by the $path.
      *
-     * @see     \Ext\Layout\Element::descend
+     * @see     \Layout\Layout\Element::descend
      *
      * @param string $path
      *
-     * @return \Ext\Layout\Element
+     * @return \Layout\Layout\Element
      */
     public function getNode($path = null)
     {
-        if (!$this->_xml instanceof \Ext\Layout\Element) {
+        if (!$this->_xml instanceof \Layout\Layout\Element) {
             return false;
         } elseif ($path === null) {
             return $this->_xml;
@@ -583,7 +583,7 @@ class Layout
     {
         if (is_string($string)) {
             $xml = simplexml_load_string($string, $this->_elementClass);
-            if ($xml instanceof \Ext\Layout\Element) {
+            if ($xml instanceof \Layout\Layout\Element) {
                 $this->_xml = $xml;
 
                 return true;
@@ -599,7 +599,7 @@ class Layout
      *
      * @param DOMNode $dom
      *
-     * @return \Ext\Layout\Element
+     * @return \Layout\Layout\Element
      */
     public function loadDom($dom)
     {
@@ -619,7 +619,7 @@ class Layout
      * @param string  $value
      * @param boolean $overwrite
      *
-     * @return \Ext\Layout\Element
+     * @return \Layout\Layout\Element
      */
     public function setNode($path, $value, $overwrite = true)
     {
@@ -631,12 +631,12 @@ class Layout
     /**
      * Enter description here...
      *
-     * @param \Ext\Layout\Element $config
+     * @param \Layout\Layout\Element $config
      * @param boolean             $overwrite
      *
-     * @return \Ext\Layout\Element
+     * @return \Layout\Layout\Element
      */
-    public function extend(\Ext\Layout\Element $config, $overwrite = true)
+    public function extend(\Layout\Layout\Element $config, $overwrite = true)
     {
         $this->getNode()->extend($config->getNode(), $overwrite);
 

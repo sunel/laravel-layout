@@ -1,6 +1,6 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
-class Header extends \Ext\Block
+class Header extends \Layout\Block
 {
     public function _construct()
     {

@@ -1,4 +1,4 @@
-<?php namespace Ext\Contracts\Render;
+<?php namespace Layout\Contracts\Render;
 
 interface Repository
 {

@@ -1,9 +1,9 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
 use Auth;
-use Ext\Object;
+use Layout\Object;
 
-class Links extends \Ext\Block
+class Links extends \Layout\Block
 {
     /**
      * All links.
@@ -47,7 +47,7 @@ class Links extends \Ext\Block
      * @param string       $beforeText
      * @param string       $afterText
      *
-     * @return \Ext\Page\Html\Links
+     * @return \Layout\Page\Html\Links
      */
     public function addLink($label, $url = '', $title = '', $prepare = false, $urlParams = [],
         $position = null, $liParams = null, $aParams = null, $beforeText = '', $afterText = '')
@@ -77,7 +77,7 @@ class Links extends \Ext\Block
      * @param Varien_Object $link
      * @param int           $position
      *
-     * @return \Ext\Page\Html\Links
+     * @return \Layout\Page\Html\Links
      */
     protected function _addIntoPosition($link, $position)
     {
@@ -93,7 +93,7 @@ class Links extends \Ext\Block
      *
      * @param string $blockName
      *
-     * @return \Ext\Page\Html\Links
+     * @return \Layout\Page\Html\Links
      */
     public function addLinkBlock($blockName)
     {
@@ -110,7 +110,7 @@ class Links extends \Ext\Block
      *
      * @param string $blockName
      *
-     * @return \Ext\Page\Html\Links
+     * @return \Layout\Page\Html\Links
      */
     public function removeLinkBlock($blockName)
     {
@@ -127,7 +127,7 @@ class Links extends \Ext\Block
      *
      * @param string $url
      *
-     * @return \Ext\Page\Html\Links
+     * @return \Layout\Page\Html\Links
      */
     public function removeLinkByUrl($url)
     {
@@ -189,7 +189,7 @@ class Links extends \Ext\Block
     /**
      * Set first/last.
      *
-     * @return \Ext\Page\Html\Links
+     * @return \Layout\Page\Html\Links
      */
     protected function _beforeToHtml()
     {

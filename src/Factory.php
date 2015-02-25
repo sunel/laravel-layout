@@ -1,8 +1,8 @@
-<?php namespace Ext;
+<?php namespace Layout;
 
 use Debugbar;
 use Illuminate\Contracts\Events\Dispatcher;
-use Ext\Exceptions\InvalidRouterNameException;
+use Layout\Exceptions\InvalidRouterNameException;
 
 class Factory
 {

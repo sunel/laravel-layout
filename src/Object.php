@@ -1,4 +1,4 @@
-<?php namespace Ext;
+<?php namespace Layout;
 
 use Exception;
 
@@ -37,7 +37,7 @@ class Object implements \ArrayAccess
      *
      * @param array $arr
      *
-     * @return \Ext\Object
+     * @return \Layout\Object
      */
     public function addData(array $arr)
     {
@@ -59,7 +59,7 @@ class Object implements \ArrayAccess
      * @param string|array $key
      * @param mixed        $value
      *
-     * @return \Ext\Object
+     * @return \Layout\Object
      */
     public function setData($key, $value = null)
     {
@@ -79,7 +79,7 @@ class Object implements \ArrayAccess
      *
      * @param string $key
      *
-     * @return \Ext\Object
+     * @return \Layout\Object
      */
     public function unsetData($key = null)
     {
