@@ -1,5 +1,6 @@
 <?php namespace Layout\Layout;
 
+use Cache;
 use SimpleXMLElement;
 use Symfony\Component\Finder\Finder;
 
@@ -17,6 +18,13 @@ class Update
      */
     protected $_elementClass;
 
+    /**
+     * Cache key
+     *
+     * @var string
+     */
+    protected $_cacheId;
+    
     /**
      * Cumulative array of update XML strings.
      *
@@ -116,22 +124,34 @@ class Update
 
     public function loadCache()
     {
-        //check if its need to load cache else return false
+        if (!config('layout.cache.layout')) {
+            return false;
+        }
 
+        if (!$result = Cache::get($this->getCacheId(), false)) {
+            return false;
+        }
 
-        //$this->addUpdate($result);
+        $this->addUpdate($result);
         return true;
     }
 
     public function saveCache()
     {
-        //check if its need to cache else return false
+        if (!config('layout.cache.layout')) {
+            return false;
+        }
 
         $str = $this->asString();
         $tags = $this->getHandles();
         $tags[] = self::LAYOUT_GENERAL_CACHE_TAG;
 
-        return true; //TODO need to save in cache later
+        #TODO need to find neat solution
+        if (config('cache.default') == 'file') {
+            return Cache::put($this->getCacheId(), $str, 0);
+        } else {
+            return Cache::tags($tags)->add($this->getCacheId(), $str, 0);
+        }
     }
 
     /**
@@ -152,15 +172,15 @@ class Update
             $this->addHandle($handle);
         }
 
-        /*if ($this->loadCache()) {
+        if ($this->loadCache()) {
             return $this;
-        }*/
+        }
 
         foreach ($this->getHandles() as $handle) {
             $this->merge($handle);
         }
 
-        //$this->saveCache();
+        $this->saveCache();
         return $this;
     }
 
@@ -202,26 +222,35 @@ class Update
         return true;
     }
 
-    // need to plan as for of laravel theming
-
+    /**
+     * Collect  layout updates
+     * 
+     * TODO need to plan as for of laravel theming
+     *
+     * @return \Layout\Layout\Update
+     */
     public function fetchFileLayoutUpdates()
     {
         $elementClass = $this->getElementClass();
         $cacheKey = 'LAYOUT_'.'THEME_DEFAULT';
         $cacheTags = [self::LAYOUT_GENERAL_CACHE_TAG];
 
-        /*
-            if (($cacheKey)) {
-                $this->_moduleLayout = simplexml_load_string($layoutStr, $elementClass);
-            }
-        */
+        if (config('layout.cache.layout') && ($layoutStr = Cache::get($cacheKey, false))) {
+            $this->_moduleLayout = simplexml_load_string($layoutStr, $elementClass);
+        }
 
-        //if (empty($layoutStr)) {
+        if (empty($layoutStr)) {
             $this->_moduleLayout = $this->getFileLayoutUpdatesXml();
-            //if (useCache('layout')) {
-              // saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
-            //}
-        //}
+            if (config('layout.cache.layout')) {
+               if (config('cache.default') == 'file') {
+                    Cache::put($cacheKey, $this->_moduleLayout->asXml(), 0);
+                } else {
+                    Cache::tags($cacheTags)->put($cacheKey, $this->_moduleLayout->asXml(), 0);
+                }
+            }
+        }
+
+        return $this;
     }
 
     public function fetchRecursiveUpdates($updateXml)
@@ -249,7 +278,7 @@ class Update
 
         $layoutStr = '';
 
-        foreach (Finder::create()->files()->name('*.xml')->in(__DIR__.'/../../views/layout') as $file) {
+        foreach (Finder::create()->files()->name('*.xml')->in(__DIR__.'/../../layout') as $file) {
             $fileStr =  $file->getContents();
             $fileXml = simplexml_load_string($fileStr, $elementClass);
 

@@ -5,7 +5,7 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <block class="\Layout\Page\Html" name="root" output="toHtml" template="render::page.3columns">
+        <block class="\Layout\Page\Html" name="root" output="toHtml" template="render::template.page.3columns">
 
             <block class="\Layout\Page\Html\Head" name="head" as="head">
                 <action method="addJs"><script>js/script.js</script></action>
@@ -33,7 +33,7 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\Html\Header" name="header" as="header">
                 <block class="\Layout\Page\Html\Links" name="top.links" as="topLinks"/>
                 <block class="\Layout\Page\BlockList" name="top.menu" as="topMenu" >
-                    <block class="\Layout\Page\Html\TopMenu" name="topnav" template="render::page.html.topmenu"/>
+                    <block class="\Layout\Page\Html\TopMenu" name="topnav" template="render::template.page.html.topmenu"/>
                 </block>
                 <block class="\Layout\Page\Html\Wrapper" name="top.container" as="topContainer">
                     <action method="setElementClass"><value>top-container</value></action>
@@ -53,16 +53,16 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\BlockList" name="right" as="right">
             </block>
 
-            <block class="\Layout\Page\Html\Footer" name="footer" as="footer" template="render::page.html.footer">
+            <block class="\Layout\Page\Html\Footer" name="footer" as="footer" template="render::template.page.html.footer">
                 <block class="\Layout\Page\Html\Wrapper" name="bottom.container" as="bottomContainer">
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>
 
-                <block class="\Layout\Page\Html\Links" name="footer_links" as="footer_links" template="render::page.template.links"/>
+                <block class="\Layout\Page\Html\Links" name="footer_links" as="footer_links" template="render::template.page.template.links"/>
             </block>
 
             <block class="\Layout\Page\BlockList" name="before_body_end" as="before_body_end">
-                <block class="\Layout\Page\Html\CookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="render::page.html.cookienotice" before="-" />
+                <block class="\Layout\Page\Html\CookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="render::template.page.html.cookienotice" before="-" />
             </block>
         </block>
 

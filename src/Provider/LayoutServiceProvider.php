@@ -12,14 +12,19 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../../views/template', 'render');
-        $this->loadViewsFrom(__DIR__.'/../../views', 'page');
+        $this->loadViewsFrom(__DIR__.'/../../views', 'render');
         $this->publishes([
-             __DIR__.'/../../views' => base_path('resources/views/vendor/render'),
+             __DIR__.'/../../views' => base_path('resources/views/vendor/layout'),
         ], 'view');
+        $this->publishes([
+             __DIR__.'/../../layout' => base_path('resources/layout/vendor/layout'),
+        ], 'layout');
         $this->publishes([
             __DIR__.'/../../config/layout.php' => config_path('layout.php'),
         ], 'config');
+        $this->publishes([
+            __DIR__.'/../../assets' => public_path(),
+        ], 'public');
     }
 
     /**

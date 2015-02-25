@@ -10,9 +10,13 @@ return [
     |
     |
     */
-    'cache'             => false,
-    'show_templat_hint' => true,
+    'show_templat_hint' => false,
     'session_name'      => 'SID',
+    
+    'cache' => [
+        'block'  => false,
+        'layout' => false
+    ],
 
     'head' => [
 

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-	<cms_index_index>
+	<home>
 		<reference name="left">
-            <block class="\Layout\Page\Html" name="home.left" template="page::left">
+            <block class="\Layout\Page\Html" name="home.left" template="render::left">
             </block>
          </reference>
-	</cms_index_index>
+	</home>
 </layout>

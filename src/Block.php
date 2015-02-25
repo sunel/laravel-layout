@@ -934,7 +934,7 @@ class Block extends Object
      */
     protected function _loadCache()
     {
-        if (is_null($this->getCacheLifetime()) || !config('layout.cache')) {
+        if (is_null($this->getCacheLifetime()) || !config('layout.cache.block')) {
             return false;
         }
         $cacheKey = $this->getCacheKey();
@@ -960,7 +960,7 @@ class Block extends Object
      */
     protected function _saveCache($data)
     {
-        if (is_null($this->getCacheLifetime()) || !config('layout.cache')) {
+        if (is_null($this->getCacheLifetime()) || !config('layout.cache.block')) {
             return false;
         }
         $cacheKey = $this->getCacheKey();

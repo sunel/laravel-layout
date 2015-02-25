@@ -57,7 +57,7 @@ class Factory
 
         $view = $this->renderLayout();
 
-        return view('render::page.root', ['html' => $view]);
+        return view('render::template.page.root', ['html' => $view]);
     }
 
     /**

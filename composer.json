@@ -24,5 +24,13 @@
         "psr-4": {
             "Layout\\": "src/"
         }
-    }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan vendor:publish --provider=Layout\Provider\LayoutServiceProvider --tag=public"
+        ],
+        "post-update-cmd": [
+            "php artisan vendor:publish --provider=Layout\Provider\LayoutServiceProvider --tag=public"
+        ]
+    },
 }

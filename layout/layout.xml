@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<home>
+		<reference name="content">
+            <block class="\Layout\Page\Html" name="home" template="render::home">
+            </block>
+            <block class="\Layout\Page\Html" name="home" template="render::home">
+            </block>
+         </reference>
+	</home>
+</layout>

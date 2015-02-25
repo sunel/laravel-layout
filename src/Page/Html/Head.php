@@ -7,7 +7,7 @@ class Head extends \Layout\Block
      */
     protected function _construct()
     {
-        $this->setTemplate('render::page.html.head');
+        $this->setTemplate('render::template.page.html.head');
     }
 
     /**
