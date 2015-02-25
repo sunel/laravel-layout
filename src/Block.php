@@ -1,4 +1,4 @@
-<?php namespace Ext;
+<?php namespace Layout;
 
 use Debugbar,
     Session,
@@ -26,14 +26,14 @@ class Block extends Object
     /**
      * Parent layout of the block.
      *
-     * @var \Ext\Layout
+     * @var \Layout\Layout
      */
     protected $_layout;
 
     /**
      * Parent block.
      *
-     * @var \Ext\Block
+     * @var \Layout\Block
      */
     protected $_parent;
 
@@ -89,7 +89,7 @@ class Block extends Object
     /**
      * Parent block.
      *
-     * @var \Ext\Block
+     * @var \Layout\Block
      */
     protected $_parentBlock;
 
@@ -101,7 +101,7 @@ class Block extends Object
     protected $_sortInstructions = [];
 
     /**
-     * @var \Ext\Object
+     * @var \Layout\Object
      */
     private static $_transportObject;
 
@@ -155,7 +155,7 @@ class Block extends Object
     /**
      * Retrieve parent block.
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function getParentBlock()
     {
@@ -165,11 +165,11 @@ class Block extends Object
     /**
      * Set parent block.
      *
-     * @param \Ext\Block $block
+     * @param \Layout\Block $block
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
-    public function setParentBlock(\Ext\Block $block)
+    public function setParentBlock(\Layout\Block $block)
     {
         $this->_parentBlock = $block;
 
@@ -179,11 +179,11 @@ class Block extends Object
     /**
      * Set layout object.
      *
-     * @param \Ext\Layout $layout
+     * @param \Layout\Layout $layout
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
-    public function setLayout(\Ext\Layout $layout)
+    public function setLayout(\Layout\Layout $layout)
     {
         $this->_layout = $layout;
         app('events')->fire('block.prepare.layout.before', ['block' => $this]);
@@ -198,7 +198,7 @@ class Block extends Object
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     protected function _prepareLayout()
     {
@@ -208,7 +208,7 @@ class Block extends Object
     /**
      * Retrieve layout object.
      *
-     * @return \Ext\Layout
+     * @return \Layout\Layout
      */
     public function getLayout()
     {
@@ -230,7 +230,7 @@ class Block extends Object
      *
      * @param bool $flag
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function setIsAnonymous($flag)
     {
@@ -254,7 +254,7 @@ class Block extends Object
      *
      * @param string $suffix
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function setAnonSuffix($suffix)
     {
@@ -278,7 +278,7 @@ class Block extends Object
      *
      * @param string $alias
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function setBlockAlias($alias)
     {
@@ -292,7 +292,7 @@ class Block extends Object
      *
      * @param string $name
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function setNameInLayout($name)
     {
@@ -335,7 +335,7 @@ class Block extends Object
      * @param string $name
      * @param mixed  $value
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function setAttribute($name, $value = null)
     {
@@ -348,7 +348,7 @@ class Block extends Object
      * @param string|array $key
      * @param mixed        $value
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function assign($key, $value = null)
     {
@@ -367,9 +367,9 @@ class Block extends Object
      * Set child block.
      *
      * @param string     $alias
-     * @param \Ext\Block $block
+     * @param \Layout\Block $block
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function setChild($alias, $block)
     {
@@ -412,12 +412,12 @@ class Block extends Object
      *
      * @param string $alias
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function unsetChild($alias)
     {
         if (isset($this->_children[$alias])) {
-            /** @var \Ext\Block $block */
+            /** @var \Layout\Block $block */
             $block = $this->_children[$alias];
             $name = $block->getNameInLayout();
             unset($this->_children[$alias]);
@@ -433,10 +433,10 @@ class Block extends Object
     /**
      * Append child block.
      *
-     * @param \Ext\Block|string $block
+     * @param \Layout\Block|string $block
      * @param string            $alias
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function append($block, $alias = '')
     {
@@ -448,7 +448,7 @@ class Block extends Object
     /**
      * Insert child block.
      *
-     * @param \Ext\Block|string $block
+     * @param \Layout\Block|string $block
      * @param string            $siblingName
      * @param boolean           $after
      * @param string            $alias
@@ -523,7 +523,7 @@ class Block extends Object
      * @param mixed  $result
      * @param array  $params
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function unsetCallChild($alias, $callback, $result, $params)
     {
@@ -548,7 +548,7 @@ class Block extends Object
     /**
      * Unset all children blocks.
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function unsetChildren()
     {
@@ -705,7 +705,7 @@ class Block extends Object
      *
      * @param boolean $force force re-sort all children
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function sortChildren($force = false)
     {
@@ -751,9 +751,9 @@ class Block extends Object
      * Make sure specified block will be registered in the specified child groups.
      *
      * @param string     $groupName
-     * @param \Ext\Block $child
+     * @param \Layout\Block $child
      */
-    public function addToChildGroup($groupName, \Ext\Block $child)
+    public function addToChildGroup($groupName, \Layout\Block $child)
     {
         if (!isset($this->_childGroups[$groupName])) {
             $this->_childGroups[$groupName] = [];
@@ -768,7 +768,7 @@ class Block extends Object
      *
      * @param string $groupName
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function addToParentGroup($groupName)
     {
@@ -883,7 +883,7 @@ class Block extends Object
      * Add tag to block
      *
      * @param string|array $tag
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function addCacheTag($tag)
     {
@@ -898,7 +898,7 @@ class Block extends Object
      * Add tags from specified model to current block
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     public function addModelTags(\Illuminate\Database\Eloquent\Model $model)
     {
@@ -952,7 +952,7 @@ class Block extends Object
      *
      * @param string $data
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     protected function _saveCache($data)
     {
@@ -1028,7 +1028,7 @@ class Block extends Object
     /**
      * Before rendering html, but after trying to load cache.
      *
-     * @return \Ext\Block
+     * @return \Layout\Block
      */
     protected function _beforeToHtml()
     {

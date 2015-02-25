@@ -1,8 +1,8 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
 use Carbon\Carbon;
 
-class TopMenu extends \Ext\Block
+class TopMenu extends \Layout\Block
 {
     /**
      * Top menu data tree.

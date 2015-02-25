@@ -1,6 +1,6 @@
-<?php namespace Ext\Page;
+<?php namespace Layout\Page;
 
-class Messages extends \Ext\Block
+class Messages extends \Layout\Block
 {
     const ERROR     = 'error';
     const WARNING   = 'warning';

@@ -1,11 +1,11 @@
-<?php namespace Ext\Provider;
+<?php namespace Layout\Provider;
 
-use Ext\Factory;
-use Ext\Layout;
-use Ext\Layout\Update;
+use Layout\Factory;
+use Layout\Layout;
+use Layout\Layout\Update;
 use Illuminate\Support\ServiceProvider;
 
-class ExtViewServiceProvider extends ServiceProvider
+class LayoutServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

@@ -1,6 +1,6 @@
-<?php namespace Ext\Page;
+<?php namespace Layout\Page;
 
-class Text extends \Ext\Block
+class Text extends \Layout\Block
 {
     public function setText($text)
     {

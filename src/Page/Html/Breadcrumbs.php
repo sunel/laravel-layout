@@ -1,6 +1,6 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
-class Breadcrumbs extends \Ext\Block
+class Breadcrumbs extends \Layout\Block
 {
     /**
      * Array of breadcrumbs.

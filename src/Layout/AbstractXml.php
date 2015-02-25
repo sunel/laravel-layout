@@ -1,4 +1,4 @@
-<?php namespace Ext\Layout;
+<?php namespace Layout\Layout;
 
 class AbstractXml extends \SimpleXMLElement
 {
@@ -7,7 +7,7 @@ class AbstractXml extends \SimpleXMLElement
      *
      * Currently using xpath
      *
-     * @return \Ext\Layout\AbstractXml
+     * @return \Layout\Layout\AbstractXml
      */
     public function getParent()
     {
@@ -187,9 +187,9 @@ class AbstractXml extends \SimpleXMLElement
     /**
      * Appends $source to current node.
      *
-     * @param \Ext\Layout\AbstractXml $source
+     * @param \Layout\Layout\AbstractXml $source
      *
-     * @return \Ext\Layout\AbstractXml
+     * @return \Layout\Layout\AbstractXml
      */
     public function appendChild($source)
     {
@@ -221,19 +221,19 @@ class AbstractXml extends \SimpleXMLElement
     }
 
     /**
-     * Extends current node with xml from $source.
+     * Layoutends current node with xml from $source.
      *
      * If $overwrite is false will merge only missing nodes
      * Otherwise will overwrite existing nodes
      *
-     * @param \Ext\Layout\AbstractXml $source
+     * @param \Layout\Layout\AbstractXml $source
      * @param boolean                 $overwrite
      *
-     * @return \Ext\Layout\AbstractXml
+     * @return \Layout\Layout\AbstractXml
      */
     public function extend($source, $overwrite = false)
     {
-        if (!$source instanceof \Ext\Layout\AbstractXml) {
+        if (!$source instanceof \Layout\Layout\AbstractXml) {
             return $this;
         }
 
@@ -245,12 +245,12 @@ class AbstractXml extends \SimpleXMLElement
     }
 
     /**
-     * Extends one node.
+     * Layoutends one node.
      *
-     * @param \Ext\Layout\AbstractXml $source
+     * @param \Layout\Layout\AbstractXml $source
      * @param boolean                 $overwrite
      *
-     * @return \Ext\Layout\AbstractXml
+     * @return \Layout\Layout\AbstractXml
      */
     public function extendChild($source, $overwrite = false)
     {

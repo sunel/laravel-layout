@@ -1,4 +1,4 @@
-<?php namespace Ext\Layout;
+<?php namespace Layout\Layout;
 
 use SimpleXMLElement;
 use Symfony\Component\Finder\Finder;
@@ -139,7 +139,7 @@ class Update
      *
      * @param array|string $handles
      *
-     * @return \Ext\Layout\Update
+     * @return \Layout\Layout\Update
      */
     public function load($handles = [])
     {
@@ -177,7 +177,7 @@ class Update
      *
      * @param string $handle
      *
-     * @return \Ext\Layout\Update
+     * @return \Layout\Layout\Update
      */
     public function merge($handle)
     {
@@ -240,7 +240,7 @@ class Update
     /**
      * Collect and merge layout updates from file.
      *
-     * @return \Ext\Layout\Element
+     * @return \Layout\Layout\Element
      */
     public function getFileLayoutUpdatesXml()
     {

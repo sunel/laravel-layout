@@ -1,6 +1,6 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
-class Head extends \Ext\Block
+class Head extends \Layout\Block
 {
     /**
      * Initialize template.
@@ -16,7 +16,7 @@ class Head extends \Ext\Block
      * @param string $name
      * @param string $params
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function addCss($name, $params = "")
     {
@@ -31,7 +31,7 @@ class Head extends \Ext\Block
      * @param string $name
      * @param string $params
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function addJs($name, $params = "")
     {
@@ -46,7 +46,7 @@ class Head extends \Ext\Block
      * @param string $name
      * @param string $params
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function addCssIe($name, $params = "")
     {
@@ -61,7 +61,7 @@ class Head extends \Ext\Block
      * @param string $name
      * @param string $params
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function addJsIe($name, $params = "")
     {
@@ -76,7 +76,7 @@ class Head extends \Ext\Block
      * @param string $rel  forward link types
      * @param string $href URI for linked resource
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function addLinkRel($rel, $href)
     {
@@ -100,7 +100,7 @@ class Head extends \Ext\Block
      * @param string $if
      * @param string $cond
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function addItem($type, $name, $params = null, $if = null, $cond = null)
     {
@@ -124,7 +124,7 @@ class Head extends \Ext\Block
      * @param string $type
      * @param string $name
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function removeItem($type, $name)
     {
@@ -349,7 +349,7 @@ class Head extends \Ext\Block
      *
      * @param string $title
      *
-     * @return \Ext\Page\Html\Head
+     * @return \Layout\Page\Html\Head
      */
     public function setTitle($title)
     {

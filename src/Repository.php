@@ -1,7 +1,7 @@
-<?php namespace Ext;
+<?php namespace Layout;
 
 use ArrayAccess;
-use Ext\Contracts\Render\Repository as RenderContract;
+use Layout\Contracts\Render\Repository as RenderContract;
 
 class Repository implements ArrayAccess, RenderContract
 {

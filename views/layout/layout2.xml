@@ -2,7 +2,7 @@
 <layout version="0.1.0">
 	<cms_index_index>
 		<reference name="right">
-            <block class="\Ext\Page\Html" name="home.right" template="page::left">
+            <block class="\Layout\Page\Html" name="home.right" template="page::left">
             </block>
          </reference>
 	</cms_index_index>

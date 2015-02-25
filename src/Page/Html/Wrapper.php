@@ -1,6 +1,6 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
-class Wrapper extends \Ext\Block
+class Wrapper extends \Layout\Block
 {
     /**
      * Whether block should render its content if there are no children (no).
@@ -52,7 +52,7 @@ class Wrapper extends \Ext\Block
      *
      * @param $depends
      *
-     * @return \Ext\Page\Html\Wrapper
+     * @return \Layout\Page\Html\Wrapper
      */
     public function dependsOnChildren($depends = '0')
     {
@@ -62,7 +62,7 @@ class Wrapper extends \Ext\Block
     }
     /**
      * Whether the wrapper element should be eventually rendered
-     * If it becomes "invisible", the behaviour will be somewhat similar to \Ext\Page\BlockList.
+     * If it becomes "invisible", the behaviour will be somewhat similar to \Layout\Page\BlockList.
      *
      * @return bool
      */

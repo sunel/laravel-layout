@@ -1,4 +1,4 @@
-<?php namespace Ext\Layout;
+<?php namespace Layout\Layout;
 
 class Element extends AbstractXml
 {

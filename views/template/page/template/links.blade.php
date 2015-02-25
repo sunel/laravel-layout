@@ -3,7 +3,7 @@
 <ul class="links" @if($_this->getName()) id="{{ $_this->getName() }}" @endif >
     	@foreach($_links as $_link)
 
-        @if($_link instanceof \Ext\Block)
+        @if($_link instanceof \Layout\Block)
             {!! $_link->toHtml() !!}
         @else
             <li

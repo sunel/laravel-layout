@@ -1,6 +1,6 @@
-<?php namespace Ext\Page\Html;
+<?php namespace Layout\Page\Html;
 
-class Footer extends \Ext\Block
+class Footer extends \Layout\Block
 {
     protected $_copyright;
 

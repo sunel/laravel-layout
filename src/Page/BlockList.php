@@ -1,4 +1,4 @@
-<?php namespace Ext\Page;
+<?php namespace Layout\Page;
 
 class BlockList extends Text
 {
@@ -8,7 +8,7 @@ class BlockList extends Text
         foreach ($this->getSortedChildren() as $name) {
             $block = $this->getLayout()->getBlock($name);
             if (!$block) {
-                throw new \Ext\InvalidBlockException('Invalid block type:'.$block);
+                throw new \Layout\InvalidBlockException('Invalid block type:'.$block);
             }
             $this->addText($block->toHtml());
         }
