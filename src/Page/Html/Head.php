@@ -71,6 +71,38 @@ class Head extends \Layout\Block
     }
 
     /**
+     * Add HEAD External Item
+     *
+     * Allowed types:
+     *  - js
+     *  - css
+     *  - rss
+     *
+     * @param string $type
+     * @param string $name
+     * @param string $params
+     * @param string $if
+     * @param string $cond
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addExternalItem($type, $name, $params=null, $if=null, $cond=null)
+    {
+        $this->addItem($type, $name, $params=null, $if=null, $cond=null);
+    }
+
+    /**
+     * Remove External Item from HEAD entity
+     *
+     * @param string $type
+     * @param string $name
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function removeExternalItem($type, $name)
+    {
+        $this->removeItem($type, $name);
+    }
+
+    /**
      * Add Link element to HEAD entity.
      *
      * @param string $rel  forward link types
@@ -104,7 +136,7 @@ class Head extends \Layout\Block
      */
     public function addItem($type, $name, $params = null, $if = null, $cond = null)
     {
-        if ($type === 'skin_css' && empty($params)) {
+        if ($type === 'css' && empty($params)) {
             $params = 'media="all"';
         }
         $this->_data['items'][$type.'/'.$name] = [
@@ -285,6 +317,13 @@ class Head extends \Layout\Block
             case 'link_rel':
                 $lines[$itemIf]['other'][] = sprintf('<link%s href="%s" />', $params, $href);
                 break;
+            case 'external_js':
+                $lines[$itemIf]['other'][] = sprintf('<script type="text/javascript" src="%s" %s></script>', $href, $params);
+                break;
+                            
+            case 'external_css':
+                $lines[$itemIf]['other'][] = sprintf('<link rel="stylesheet" type="text/css" href="%s" %s/>', $href, $params);
+                break;    
         }
     }
 
