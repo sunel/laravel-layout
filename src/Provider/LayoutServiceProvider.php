@@ -34,7 +34,7 @@ class LayoutServiceProvider extends ServiceProvider
     {
         $this->registerFactory();
         $this->registerTemplatLayout();
-        $this->registerBladeTemplat();
+        $this->registerBladeTemplate();
 
         $this->app->booting(function () {
             //$loader = \Illuminate\Foundation\AliasLoader::getInstance();
@@ -70,7 +70,7 @@ class LayoutServiceProvider extends ServiceProvider
     /**
      * Register the view environment.
      */
-    public function registerBladeTemplat()
+    public function registerBladeTemplate()
     {
         \Blade::extend(function ($view, $compiler) {
            return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $view);

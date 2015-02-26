@@ -112,7 +112,7 @@ class Factory
             ['route' => $this, 'layout' => $this->getLayout()]
         );
         // load layout updates by specified handles
-        Debugbar::startMeasure("$_profilerKey::layout_load");
+        start_profile("$_profilerKey::layout_load");
         $this->getLayout()->getUpdate()->load();
         stop_profile("$_profilerKey::layout_load");
 

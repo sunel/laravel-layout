@@ -914,12 +914,12 @@ class Block extends Object
     /**
      * Get block cache life time.
      *
-     * @return int
+     * @return int|null
      */
     public function getCacheLifetime()
     {
         if (!$this->hasData('cache_lifetime')) {
-            return;
+            return null;
         }
 
         return $this->getData('cache_lifetime');
