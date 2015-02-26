@@ -71,7 +71,7 @@ class Head extends \Layout\Block
     }
 
     /**
-     * Add HEAD External Item
+     * Add HEAD External Item.
      *
      * Allowed types:
      *  - js
@@ -83,18 +83,20 @@ class Head extends \Layout\Block
      * @param string $params
      * @param string $if
      * @param string $cond
+     *
      * @return Mage_Page_Block_Html_Head
      */
-    public function addExternalItem($type, $name, $params=null, $if=null, $cond=null)
+    public function addExternalItem($type, $name, $params = null, $if = null, $cond = null)
     {
-        $this->addItem($type, $name, $params=null, $if=null, $cond=null);
+        $this->addItem($type, $name, $params = null, $if = null, $cond = null);
     }
 
     /**
-     * Remove External Item from HEAD entity
+     * Remove External Item from HEAD entity.
      *
      * @param string $type
      * @param string $name
+     *
      * @return Mage_Page_Block_Html_Head
      */
     public function removeExternalItem($type, $name)
@@ -320,10 +322,10 @@ class Head extends \Layout\Block
             case 'external_js':
                 $lines[$itemIf]['other'][] = sprintf('<script type="text/javascript" src="%s" %s></script>', $href, $params);
                 break;
-                            
+
             case 'external_css':
                 $lines[$itemIf]['other'][] = sprintf('<link rel="stylesheet" type="text/css" href="%s" %s/>', $href, $params);
-                break;    
+                break;
         }
     }
 

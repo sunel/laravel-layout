@@ -919,7 +919,7 @@ class Block extends Object
     public function getCacheLifetime()
     {
         if (!$this->hasData('cache_lifetime')) {
-            return null;
+            return;
         }
 
         return $this->getData('cache_lifetime');

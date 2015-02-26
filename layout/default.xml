@@ -21,7 +21,7 @@ Default layout, loads most of the pages
                     <stylesheet>css/print.css</stylesheet>
                     <params>media="print"</params>
                 </action>-->
-                
+
                 <action method="addJs"><script>js/script.js</script></action>
                 <action method="addExternalItem">
                     <type>external_js</type>

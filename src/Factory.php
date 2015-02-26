@@ -1,6 +1,5 @@
 <?php namespace Layout;
 
-use Debugbar;
 use Illuminate\Contracts\Events\Dispatcher;
 use Layout\Exceptions\InvalidRouterNameException;
 
