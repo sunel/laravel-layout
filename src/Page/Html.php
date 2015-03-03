@@ -2,30 +2,30 @@
 
 class Html extends \Layout\Block
 {
-
-	public function _construct()
+    public function _construct()
     {
         parent::_construct();
-        
+
         $action = $this->routeHandler();
         if ($action) {
             $this->addBodyClass($action);
         }
     }
 
-	/**
-     * Add CSS class to page body tag
+    /**
+     * Add CSS class to page body tag.
      *
      * @param string $className
+     *
      * @return \Layout\Page\Html
      */
     public function addBodyClass($className)
     {
         $className = preg_replace('#[^a-z0-9]+#', '-', strtolower($className));
-        $this->setBodyClass($this->getBodyClass() . ' ' . $className);
+        $this->setBodyClass($this->getBodyClass().' '.$className);
+
         return $this;
     }
-
 
     public function getBodyClass()
     {

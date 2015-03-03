@@ -53,7 +53,7 @@ class Factory
     public function render($handles = null, $generateBlocks = true, $generateXml = true)
     {
         $this->loadLayout($handles, $generateBlocks, $generateXml);
-        
+
         $view = $this->renderLayout();
 
         return view('render::template.page.root', ['html' => $view]);
@@ -199,58 +199,61 @@ class Factory
      * <layout>
      *   <operating_system_linux>
      *   </operating_system_linux>
-     * </layout>
+     * </layout>.
+     *
      * @return Layout\Factory
      */
     public function operatingSystemHandle()
     {
         $agent = $_SERVER['HTTP_USER_AGENT'];
-        if(preg_match('/Linux/',$agent)){
+        if (preg_match('/Linux/', $agent)) {
             $os = 'linux';
-        } elseif(preg_match('/Win/',$agent)){
+        } elseif (preg_match('/Win/', $agent)) {
             $os = 'windows';
-        } elseif(preg_match('/Mac/',$agent)){
+        } elseif (preg_match('/Mac/', $agent)) {
             $os = 'osx';
         } else {
             $os = null;
         }
-        if($os){
+        if ($os) {
             $update = $this->getLayout()->getUpdate();
-            $update->addHandle('operating_system_' . $os);
+            $update->addHandle('operating_system_'.$os);
         }
-        return $this;
 
+        return $this;
     }
     /**
      * Add layout handle for browser type, e.g.:
      * <layout>
      *   <browser_firefox>
      *   </browser_firefox>
-     * </layout>
+     * </layout>.
+     *
      * @return Layout\Factory
      */
     public function browserHandle()
     {
         $agent = $_SERVER['HTTP_USER_AGENT'];
-        if ( stripos($agent, 'Firefox') !== false ) {
+        if (stripos($agent, 'Firefox') !== false) {
             $agent = 'firefox';
-        } elseif ( stripos($agent, 'MSIE') !== false ) {
+        } elseif (stripos($agent, 'MSIE') !== false) {
             $agent = 'ie';
-        } elseif ( stripos($agent, 'iPad') !== false ) {
+        } elseif (stripos($agent, 'iPad') !== false) {
             $agent = 'ipad';
-        } elseif ( stripos($agent, 'Android') !== false ) {
+        } elseif (stripos($agent, 'Android') !== false) {
             $agent = 'android';
-        } elseif ( stripos($agent, 'Chrome') !== false ) {
+        } elseif (stripos($agent, 'Chrome') !== false) {
             $agent = 'chrome';
-        } elseif ( stripos($agent, 'Safari') !== false ) {
+        } elseif (stripos($agent, 'Safari') !== false) {
             $agent = 'safari';
         } else {
             $agent = null;
         }
-        if($agent){
+        if ($agent) {
             $update = $this->getLayout()->getUpdate();
-            $update->addHandle('browser_' . $agent);
+            $update->addHandle('browser_'.$agent);
         }
+
         return $this;
     }
 }
