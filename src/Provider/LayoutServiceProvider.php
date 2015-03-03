@@ -38,7 +38,7 @@ class LayoutServiceProvider extends ServiceProvider
 
         $this->app->booting(function () {
             //$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            //$loader->alias('StringView', 'sngrl\StringBladeCompiler\Facades\StringView');
+            //$loader->alias('Layout', '\Layout\Facades\Layout');
         });
 
         $this->mergeConfigFrom(__DIR__.'/../../config/layout.php', 'layout');

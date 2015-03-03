@@ -53,7 +53,7 @@ class Factory
     public function render($handles = null, $generateBlocks = true, $generateXml = true)
     {
         $this->loadLayout($handles, $generateBlocks, $generateXml);
-
+        
         $view = $this->renderLayout();
 
         return view('render::template.page.root', ['html' => $view]);
@@ -76,6 +76,8 @@ class Factory
         }
         // add default layout handles for this action
         $this->addRouteLayoutHandles();
+        $this->operatingSystemHandle();
+        $this->browserHandle();
         $this->loadLayoutUpdates();
         if (!$generateXml) {
             return $this;
@@ -93,9 +95,6 @@ class Factory
     public function addRouteLayoutHandles()
     {
         $update = $this->getLayout()->getUpdate();
-
-        $update->addHandle('XXXX__YYYY');
-
         // load action handle
         $update->addHandle($this->routeHandler());
 
@@ -193,5 +192,65 @@ class Factory
         }
 
         return str_replace('.', '_', strtolower($route_name));
+    }
+
+    /**
+     * Add a handle for operating systems, e.g.:
+     * <layout>
+     *   <operating_system_linux>
+     *   </operating_system_linux>
+     * </layout>
+     * @return Layout\Factory
+     */
+    public function operatingSystemHandle()
+    {
+        $agent = $_SERVER['HTTP_USER_AGENT'];
+        if(preg_match('/Linux/',$agent)){
+            $os = 'linux';
+        } elseif(preg_match('/Win/',$agent)){
+            $os = 'windows';
+        } elseif(preg_match('/Mac/',$agent)){
+            $os = 'osx';
+        } else {
+            $os = null;
+        }
+        if($os){
+            $update = $this->getLayout()->getUpdate();
+            $update->addHandle('operating_system_' . $os);
+        }
+        return $this;
+
+    }
+    /**
+     * Add layout handle for browser type, e.g.:
+     * <layout>
+     *   <browser_firefox>
+     *   </browser_firefox>
+     * </layout>
+     * @return Layout\Factory
+     */
+    public function browserHandle()
+    {
+        $agent = $_SERVER['HTTP_USER_AGENT'];
+        if ( stripos($agent, 'Firefox') !== false ) {
+            $agent = 'firefox';
+        } elseif ( stripos($agent, 'MSIE') !== false ) {
+            $agent = 'ie';
+        } elseif ( stripos($agent, 'iPad') !== false ) {
+            $agent = 'ipad';
+        } elseif ( stripos($agent, 'Android') !== false ) {
+            $agent = 'android';
+        } elseif ( stripos($agent, 'Chrome') !== false ) {
+            $agent = 'chrome';
+        } elseif ( stripos($agent, 'Safari') !== false ) {
+            $agent = 'safari';
+        } else {
+            $agent = null;
+        }
+        if($agent){
+            $update = $this->getLayout()->getUpdate();
+            $update->addHandle('browser_' . $agent);
+        }
+        return $this;
     }
 }

@@ -217,6 +217,18 @@ class Update
         }
         foreach ($this->_moduleLayout->$handle as $updateXml) {
             #echo '<textarea style="width:600px; height:400px;">'.$handle.':'.print_r($updateXml,1).'</textarea>';
+            
+            /** @var Mage_Core_Model_Layout_Element $updateXml */
+            
+            $handle = $updateXml->getAttribute( 'ifhandle' );
+            if( $handle ) {
+                $handle = explode( ' ', $handle );
+                $handle = array_diff( $handle, $this->getHandles() );
+                if( !empty( $handle ) ) {
+                    continue;
+                }
+            }
+            
             $this->fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }

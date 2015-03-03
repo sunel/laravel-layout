@@ -41,7 +41,6 @@ Think of Layout as an easy way to structure a page.
     {!! $_this->getChildHtml('header') !!}
 
     <div class="container">
-        {!! $_this->getChildHtml('global_notices') !!}
         {!! $_this->getChildHtml('breadcrumbs') !!}
 
         <div class="layout layout-3-cols">
@@ -49,7 +48,7 @@ Think of Layout as an easy way to structure a page.
                 {!! $_this->getChildHtml('left') !!}
             </aside>
             <div role="main">
-                {!! $_this->getChildHtml('global_messages') !!}
+                {!! $_this->getChildHtml('messages') !!}
                 {!! $_this->getChildHtml('content') !!}
             </div>
             <aside role="complementary">
@@ -74,15 +73,35 @@ Default layout, loads most of the pages
 -->
 
     <default>
-        <block class="\Layout\Page\Html" name="root" output="toHtml" template="render::page.3columns">
+        <block class="\Layout\Page\Html" name="root" output="toHtml" template="render::template.page.3columns">
 
             <block class="\Layout\Page\Html\Head" name="head" as="head">
-                <action method="addJs"><script>js/script.js</script></action>
-
                 <action method="addCss"><stylesheet>css/app.css</stylesheet></action>
                 <action method="addCss">
                     <stylesheet>css/styles.css</stylesheet>
                 </action>
+                <!--<action method="addItem">
+                        <type>css</type>
+                        <name>css/styles-ie.css</name>
+                        <params/><if>lt IE 8</if>
+                </action>
+                <action method="addCss">
+                    <stylesheet>css/print.css</stylesheet>
+                    <params>media="print"</params>
+                </action>-->
+
+                <action method="addJs"><script>js/script.js</script></action>
+                <action method="addExternalItem">
+                    <type>external_js</type>
+                    <name>//code.jquery.com/jquery.js</name>
+                    <params/>
+                </action>
+                <action method="addExternalItem">
+                    <type>external_js</type>
+                    <name>//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js</name>
+                    <params/>
+                </action>
+
             </block>
 
             <block class="\Layout\Page\BlockList" name="after_body_start" as="after_body_start" >
@@ -92,7 +111,7 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\Html\Header" name="header" as="header">
                 <block class="\Layout\Page\Html\Links" name="top.links" as="topLinks"/>
                 <block class="\Layout\Page\BlockList" name="top.menu" as="topMenu" >
-                    <block class="\Layout\Page\Html\TopMenu" name="topnav" template="render::page.html.topmenu"/>
+                    <block class="\Layout\Page\Html\TopMenu" name="topnav" template="render::template.page.html.topmenu"/>
                 </block>
                 <block class="\Layout\Page\Html\Wrapper" name="top.container" as="topContainer">
                     <action method="setElementClass"><value>top-container</value></action>
@@ -112,16 +131,16 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\BlockList" name="right" as="right">
             </block>
 
-            <block class="\Layout\Page\Html\Footer" name="footer" as="footer" template="render::page.html.footer">
+            <block class="\Layout\Page\Html\Footer" name="footer" as="footer" template="render::template.page.html.footer">
                 <block class="\Layout\Page\Html\Wrapper" name="bottom.container" as="bottomContainer">
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>
 
-                <block class="\Layout\Page\Html\Links" name="footer_links" as="footer_links" template="render::page.template.links"/>
+                <block class="\Layout\Page\Html\Links" name="footer_links" as="footer_links" template="render::template.page.template.links"/>
             </block>
 
             <block class="\Layout\Page\BlockList" name="before_body_end" as="before_body_end">
-                <block class="\Layout\Page\Html\CookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="render::page.html.cookienotice" before="-" />
+                <block class="\Layout\Page\Html\CookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="render::template.page.html.cookienotice" before="-" />
             </block>
         </block>
 
@@ -135,17 +154,17 @@ Default layout, loads most of the pages
 <layout version="0.1.0">
 	<home>
 		<reference name="content">
-        <block class="\Layout\Page\Html" name="home" template="page::home">
-        </block>
-    </reference>
-		<reference name="left">
-        <block class="\Layout\Page\Html" name="home.left" template="page::left">
-        </block>
-    </reference>
-    <reference name="right">
-        <block class="\Layout\Page\Html" name="home.right" template="page::right">
-        </block>
-    </reference>
+            <block class="\Layout\Page\Html" name="home" template="render::home">
+            </block>
+        </reference>
+    		<reference name="left">
+            <block class="\Layout\Page\Html" name="home.left" template="render::left">
+            </block>
+        </reference>
+        <reference name="right">
+            <block class="\Layout\Page\Html" name="home.right" template="render::right">
+            </block>
+        </reference>
 	</home>
 </layout>
 ```
@@ -158,3 +177,16 @@ Route::get('/',['as'=>'home',function(){
 ```
 
 ## That's it you will see a fully render page 
+
+## Features
+
+* MultipleHandles
+
+## This extension allows developers to target their layout updates to multiple layout handles at once.
+```xml
+    <home ifhandle="customer_logged_in">
+        <reference name="content">
+            ...
+        </reference>
+    </home>
+```

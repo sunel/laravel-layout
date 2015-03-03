@@ -9,12 +9,11 @@
     {!! $_this->getChildHtml('header') !!}
 
     <div class="container">
-        {!! $_this->getChildHtml('global_notices') !!}
         {!! $_this->getChildHtml('breadcrumbs') !!}
 
         <div class="layout layout-2-cols">
             <div role="main">
-                {!! $_this->getChildHtml('global_messages') !!}
+                {!! $_this->getChildHtml('messages') !!}
                 {!! $_this->getChildHtml('content') !!}
             </div>
             <aside role="complementary">
