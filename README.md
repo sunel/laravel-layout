@@ -157,7 +157,7 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\Html" name="home" template="render::home">
             </block>
         </reference>
-    		<reference name="left">
+    	<reference name="left">
             <block class="\Layout\Page\Html" name="home.left" template="render::left">
             </block>
         </reference>
@@ -182,7 +182,8 @@ Route::get('/',['as'=>'home',function(){
 
 * MultipleHandles
 
-## This extension allows developers to target their layout updates to multiple layout handles at once.
+This allows developers to target their layout updates to multiple layout handles at once.
+
 ```xml
     <home ifhandle="customer_logged_in">
         <reference name="content">
