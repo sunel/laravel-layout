@@ -22,7 +22,10 @@ Add `sunel/laravel-layout` as a requirement to composer.json:
 Update your packages with `composer update` or install with `composer install`.
 
 In *app/config/app.php* add:
-* `'Layout\Provider\LayoutServiceProvider',` to providers 
+* `'Layout\Provider\LayoutServiceProvider',` 
+* `'Dowilcox\KnpMenu\MenuServiceProvider',`
+
+to providers 
 
 ## Usage
 

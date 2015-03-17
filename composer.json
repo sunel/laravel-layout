@@ -13,7 +13,8 @@
         "illuminate/support": "~5.0",
         "illuminate/view": "~5.0",
         "illuminate/cache": "~5.0",
-        "symfony/finder": "2.6.*"
+        "symfony/finder": "2.6.*",
+        "dowilcox/knp-menu-laravel": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "~2.0"

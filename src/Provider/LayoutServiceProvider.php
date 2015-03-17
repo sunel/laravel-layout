@@ -37,8 +37,9 @@ class LayoutServiceProvider extends ServiceProvider
         $this->registerBladeTemplate();
 
         $this->app->booting(function () {
-            //$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             //$loader->alias('Layout', '\Layout\Facades\Layout');
+            $loader->alias('Menu', 'Dowilcox\KnpMenu\Facades\Menu');
         });
 
         $this->mergeConfigFrom(__DIR__.'/../../config/layout.php', 'layout');
