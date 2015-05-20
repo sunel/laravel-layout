@@ -35,6 +35,11 @@ return [
         'favicon_file' => '/favicon.ico',
 
     ],
+    'cookienotice' => [
+    	
+    	'content' => 'Cookie notice content.',
+		'noshow' => true,
+    ],
 
     'mergeJS'  => false,
     'mergeCSS' => false,

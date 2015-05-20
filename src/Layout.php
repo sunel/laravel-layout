@@ -185,6 +185,12 @@ class Layout
      */
     protected function _generateBlock($node, $parent)
     {
+    	if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
+            if (config($configPath,false)) {
+                return $this;
+            }
+        }
+		
         $className = (string) $node['class'];
         $blockName = (string) $node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
@@ -246,13 +252,11 @@ class Layout
      */
     protected function _generateAction($node, $parent)
     {
-        # TODO Need to implement this
-
-        #if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
-         #   if () {
-          #      return $this;
-           # }
-        #}
+        if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
+            if (config($configPath,false)) {
+                return $this;
+            }
+        }
 
         $method = (string) $node['method'];
         if (!empty($node['block'])) {
