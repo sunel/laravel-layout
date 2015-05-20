@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Laravel Layout by sunel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Laravel Layout</h1>
+      <h2 class="project-tagline">Simple way to build your page in an upgrade-compatible way.</h2>
+      <a href="https://github.com/sunel/laravel-layout" class="btn">View on GitHub</a>
+      <a href="https://github.com/sunel/laravel-layout/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/sunel/laravel-layout/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="this-package-is-under-heavy-development" class="anchor" href="#this-package-is-under-heavy-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>This package is under heavy development</h2>
+
+<blockquote>
+<p>I am working when i get time so please bare with me.
+I am working on full documentation and this read me gives you a small glimpse what this package about.
+Feel free to open issues and let's start a coverstation.</p>
+</blockquote>
+
+<h1>
+<a id="laravel-layout" class="anchor" href="#laravel-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Laravel Layout</h1>
+
+<blockquote>
+<p>Simple way to build your page in an upgrade-compatible way</p>
+</blockquote>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Add <code>sunel/laravel-layout</code> as a requirement to composer.json:</p>
+
+<div class="highlight highlight-json"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>require<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>sunel/laravel-layout<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>dev-develop<span class="pl-pds">"</span></span>
+  }
+}</pre></div>
+
+<p>Update your packages with <code>composer update</code> or install with <code>composer install</code>.</p>
+
+<p>In <em>app/config/app.php</em> add:</p>
+
+<ul>
+<li>
+<code>'Layout\Provider\LayoutServiceProvider',</code> </li>
+<li><code>'Dowilcox\KnpMenu\MenuServiceProvider',</code></li>
+</ul>
+
+<p>to providers </p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Think of Layout as an easy way to structure a page. </p>
+
+<h2>
+<a id="sample-page-template" class="anchor" href="#sample-page-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample page template</h2>
+
+<div class="highlight highlight-html"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">head</span>&gt;
+    {!! $_this-&gt;getChildHtml('head') !!}
+&lt;/<span class="pl-ent">head</span>&gt;
+&lt;<span class="pl-ent">body</span>{!! $_this<span class="pl-e">-</span>&gt;getBodyClass()?' class="'.$_this-&gt;getBodyClass().'"':'' !!}&gt;
+
+    {!! $_this-&gt;getChildHtml('after_body_start') !!}
+    {!! $_this-&gt;getChildHtml('header') !!}
+
+    &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>container<span class="pl-pds">"</span></span>&gt;
+        {!! $_this-&gt;getChildHtml('breadcrumbs') !!}
+
+        &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>layout layout-3-cols<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">aside</span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>complementary<span class="pl-pds">"</span></span>&gt;
+                {!! $_this-&gt;getChildHtml('left') !!}
+            &lt;/<span class="pl-ent">aside</span>&gt;
+            &lt;<span class="pl-ent">div</span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>&gt;
+                {!! $_this-&gt;getChildHtml('messages') !!}
+                {!! $_this-&gt;getChildHtml('content') !!}
+            &lt;/<span class="pl-ent">div</span>&gt;
+            &lt;<span class="pl-ent">aside</span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>complementary<span class="pl-pds">"</span></span>&gt;
+                {!! $_this-&gt;getChildHtml('right') !!}
+            &lt;/<span class="pl-ent">aside</span>&gt;
+        &lt;/<span class="pl-ent">div</span>&gt;
+    &lt;/<span class="pl-ent">div</span>&gt;
+
+    {!! $_this-&gt;getChildHtml('footer') !!}
+    {!! $_this-&gt;getChildHtml('before_body_end') !!}
+    {!! $_this-&gt;getAbsoluteFooter() !!}
+
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+
+<h2>
+<a id="sample-page-layout" class="anchor" href="#sample-page-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample page layout</h2>
+
+<div class="highlight highlight-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span>?&gt;
+&lt;<span class="pl-ent">layout</span> <span class="pl-e">version</span>=<span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>&gt;
+<span class="pl-c">&lt;!--</span>
+<span class="pl-c">Default layout, loads most of the pages</span>
+<span class="pl-c">--&gt;</span>
+
+    &lt;<span class="pl-ent">default</span>&gt;
+        &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span> <span class="pl-e">output</span>=<span class="pl-s"><span class="pl-pds">"</span>toHtml<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.3columns<span class="pl-pds">"</span></span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Head<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>head<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>head<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addCss<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">stylesheet</span>&gt;css/app.css&lt;/<span class="pl-ent">stylesheet</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
+                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addCss<span class="pl-pds">"</span></span>&gt;
+                    &lt;<span class="pl-ent">stylesheet</span>&gt;css/styles.css&lt;/<span class="pl-ent">stylesheet</span>&gt;
+                &lt;/<span class="pl-ent">action</span>&gt;
+                <span class="pl-c">&lt;!--&lt;action method="addItem"&gt;</span>
+<span class="pl-c">                        &lt;type&gt;css&lt;/type&gt;</span>
+<span class="pl-c">                        &lt;name&gt;css/styles-ie.css&lt;/name&gt;</span>
+<span class="pl-c">                        &lt;params/&gt;&lt;if&gt;lt IE 8&lt;/if&gt;</span>
+<span class="pl-c">                &lt;/action&gt;</span>
+<span class="pl-c">                &lt;action method="addCss"&gt;</span>
+<span class="pl-c">                    &lt;stylesheet&gt;css/print.css&lt;/stylesheet&gt;</span>
+<span class="pl-c">                    &lt;params&gt;media="print"&lt;/params&gt;</span>
+<span class="pl-c">                &lt;/action&gt;--&gt;</span>
+
+                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addJs<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">script</span>&gt;js/script.js&lt;/<span class="pl-ent">script</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
+                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addExternalItem<span class="pl-pds">"</span></span>&gt;
+                    &lt;<span class="pl-ent">type</span>&gt;external_js&lt;/<span class="pl-ent">type</span>&gt;
+                    &lt;<span class="pl-ent">name</span>&gt;//code.jquery.com/jquery.js&lt;/<span class="pl-ent">name</span>&gt;
+                    &lt;<span class="pl-ent">params</span>/&gt;
+                &lt;/<span class="pl-ent">action</span>&gt;
+                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addExternalItem<span class="pl-pds">"</span></span>&gt;
+                    &lt;<span class="pl-ent">type</span>&gt;external_js&lt;/<span class="pl-ent">type</span>&gt;
+                    &lt;<span class="pl-ent">name</span>&gt;//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js&lt;/<span class="pl-ent">name</span>&gt;
+                    &lt;<span class="pl-ent">params</span>/&gt;
+                &lt;/<span class="pl-ent">action</span>&gt;
+
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>after_body_start<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>after_body_start<span class="pl-pds">"</span></span> &gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Header<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>header<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>header<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Links<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>top.links<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>topLinks<span class="pl-pds">"</span></span>/&gt;
+                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>top.menu<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>topMenu<span class="pl-pds">"</span></span> &gt;
+                    &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\TopMenu<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>topnav<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.html.topmenu<span class="pl-pds">"</span></span>/&gt;
+                &lt;/<span class="pl-ent">block</span>&gt;
+                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Wrapper<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>top.container<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>topContainer<span class="pl-pds">"</span></span>&gt;
+                    &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>setElementClass<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">value</span>&gt;top-container&lt;/<span class="pl-ent">value</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
+                &lt;/<span class="pl-ent">block</span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Breadcrumbs<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>breadcrumbs<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>breadcrumbs<span class="pl-pds">"</span></span>/&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Messages<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>messages<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>messages<span class="pl-pds">"</span></span>/&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>right<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>right<span class="pl-pds">"</span></span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Footer<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>footer<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>footer<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.html.footer<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Wrapper<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>bottom.container<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>bottomContainer<span class="pl-pds">"</span></span>&gt;
+                    &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>setElementClass<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">value</span>&gt;bottom-container&lt;/<span class="pl-ent">value</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
+                &lt;/<span class="pl-ent">block</span>&gt;
+
+                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Links<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>footer_links<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>footer_links<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.template.links<span class="pl-pds">"</span></span>/&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>before_body_end<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>before_body_end<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\CookieNotice<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>global_cookie_notice<span class="pl-pds">"</span></span> as =<span class="pl-s"><span class="pl-pds">"</span>global_cookie_notice<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.html.cookienotice<span class="pl-pds">"</span></span> <span class="pl-e">before</span>=<span class="pl-s"><span class="pl-pds">"</span>-<span class="pl-pds">"</span></span> /&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+        &lt;/<span class="pl-ent">block</span>&gt;
+
+    &lt;/<span class="pl-ent">default</span>&gt;
+&lt;/<span class="pl-ent">layout</span>&gt;</pre></div>
+
+<h2>
+<a id="sample-router-layout" class="anchor" href="#sample-router-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Router layout</h2>
+
+<div class="highlight highlight-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span>?&gt;
+&lt;<span class="pl-ent">layout</span> <span class="pl-e">version</span>=<span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">home</span>&gt;
+        &lt;<span class="pl-ent">reference</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>home<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::home<span class="pl-pds">"</span></span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+        &lt;/<span class="pl-ent">reference</span>&gt;
+        &lt;<span class="pl-ent">reference</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>home.left<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::left<span class="pl-pds">"</span></span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+        &lt;/<span class="pl-ent">reference</span>&gt;
+        &lt;<span class="pl-ent">reference</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>right<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>home.right<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::right<span class="pl-pds">"</span></span>&gt;
+            &lt;/<span class="pl-ent">block</span>&gt;
+        &lt;/<span class="pl-ent">reference</span>&gt;
+    &lt;/<span class="pl-ent">home</span>&gt;
+&lt;/<span class="pl-ent">layout</span>&gt;</pre></div>
+
+<h2>
+<a id="sample-router" class="anchor" href="#sample-router" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Router</h2>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">Route</span><span class="pl-k">::</span>get(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>,[<span class="pl-s"><span class="pl-pds">'</span>as<span class="pl-pds">'</span></span><span class="pl-k">=&gt;</span><span class="pl-s"><span class="pl-pds">'</span>home<span class="pl-pds">'</span></span>,<span class="pl-k">function</span>(){    </span>
+<span class="pl-s1">    <span class="pl-k">return</span> render();    </span>
+<span class="pl-s1">}]);</span></pre></div>
+
+<h2>
+<a id="thats-it-you-will-see-a-fully-render-page" class="anchor" href="#thats-it-you-will-see-a-fully-render-page" aria-hidden="true"><span class="octicon octicon-link"></span></a>That's it you will see a fully render page</h2>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>MultipleHandles</li>
+</ul>
+
+<p>This allows developers to target their layout updates to multiple layout handles at once.</p>
+
+<div class="highlight highlight-xml"><pre>    &lt;<span class="pl-ent">home</span> <span class="pl-e">ifhandle</span>=<span class="pl-s"><span class="pl-pds">"</span>customer_logged_in<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">reference</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>&gt;
+            ...
+        &lt;/<span class="pl-ent">reference</span>&gt;
+    &lt;/<span class="pl-ent">home</span>&gt;</pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/sunel/laravel-layout">Laravel Layout</a> is maintained by <a href="https://github.com/sunel">sunel</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
