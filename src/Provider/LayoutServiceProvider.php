@@ -35,11 +35,15 @@ class LayoutServiceProvider extends ServiceProvider
         $this->registerFactory();
         $this->registerTemplatLayout();
         $this->registerBladeTemplate();
-
+		
+		$this->app->register('Layout\Provider\LavaryMenuServiceProvider');
+		$this->app->register('Collective\Html\HtmlServiceProvider');
+		
         $this->app->booting(function () {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             //$loader->alias('Layout', '\Layout\Facades\Layout');
-            $loader->alias('Menu', 'Dowilcox\KnpMenu\Facades\Menu');
+            $loader->alias('Menu', 'Lavary\Menu\Facade');
+			$loader->alias('HTML', 'Collective\Html\HtmlFacade');
         });
 
         $this->mergeConfigFrom(__DIR__.'/../../config/layout.php', 'layout');

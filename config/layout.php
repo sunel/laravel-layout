@@ -10,6 +10,7 @@ return [
     |
     |
     */
+    'strict' 			=> false,
     'show_templat_hint' => false,
     'session_name'      => 'SID',
 

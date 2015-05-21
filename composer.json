@@ -14,7 +14,8 @@
         "illuminate/view": "~5.0",
         "illuminate/cache": "~5.0",
         "symfony/finder": "2.6.*",
-        "dowilcox/knp-menu-laravel": "dev-master"
+        "lavary/laravel-menu": "1.5.*",
+        "laravelcollective/html": "~5.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "~2.0"

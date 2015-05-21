@@ -1,5 +1,6 @@
 <?php namespace Layout\Page\Html;
 
+use Menu;
 use Carbon\Carbon;
 
 class TopMenu extends \Layout\Block
@@ -21,11 +22,30 @@ class TopMenu extends \Layout\Block
      * Init top menu tree structure.
      */
     public function _construct()
-    {
-        $this->_menu = '';
+    { 
         $this->addData([
             'cache_lifetime' => Carbon::now()->addMinutes(10),
         ]);
+    }
+	
+	/**
+	 * Before rendering html, but after trying to load cache.
+	 *
+	 * @return \Layout\Block
+	 */
+	protected function _beforeToHtml()
+    {	
+		$this->_menu = Menu::make('topMenu',function($menu) {
+		    $menu->add('Home', '');
+		    $menu->add('About', 'about')->add('Level2', 'link address')
+                  ->add('level3', 'Link address')
+                       ->add('level4', 'Link address');
+		    $menu->add('Blog', 'blog');
+		    $menu->add('Contact Me', 'contact-me');
+		});
+		
+		
+        return $this;
     }
 
     /**
@@ -36,16 +56,16 @@ class TopMenu extends \Layout\Block
      *
      * @return string
      */
-    public function getHtml($outermostClass = '', $childrenWrapClass = '')
+    public function getMenus()
     {
-        app('events')->fire('page.block.html.topmenu.gethtml.before', [
+        app('events')->fire('page.block.html.topmenu.getMenus.before', [
             'menu'  => $this->_menu,
             'block' => $this,
         ]);
+		
+        $html = $this->_getHtml($this->_menu);
 
-        $html = $this->_getHtml($this->_menu, $childrenWrapClass);
-
-        app('events')->fire('page.block.html.topmenu.gethtml.after', [
+        app('events')->fire('page.block.html.topmenu.getMenus.after', [
             'menu' => $this->_menu,
             'html' => $html,
         ]);
@@ -53,45 +73,9 @@ class TopMenu extends \Layout\Block
         return $html;
     }
 
-    protected function _getHtml($menuTree, $childrenWrapClass)
+    protected function _getHtml($menuTree)
     {
-        #TODO need to implement this
-        $html = '<ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                </ul>';
-
-        return $html;
-    }
-
-    /**
-     * Returns array of menu item's classes.
-     *
-     * @param  $item
-     *
-     * @return array
-     */
-    protected function _getMenuItemClasses($item)
-    {
-        $classes = [];
-        $classes[] = 'level'.$item->getLevel();
-        $classes[] = $item->getPositionClass();
-        if ($item->getIsFirst()) {
-            $classes[] = 'first';
-        }
-        if ($item->getIsActive()) {
-            $classes[] = 'active';
-        }
-        if ($item->getIsLast()) {
-            $classes[] = 'last';
-        }
-        if ($item->getClass()) {
-            $classes[] = $item->getClass();
-        }
-        if ($item->hasChildren()) {
-            $classes[] = 'parent';
-        }
-
-        return $classes;
+        return $menuTree->roots();
     }
 
     /**

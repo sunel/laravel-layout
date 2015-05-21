@@ -96,7 +96,9 @@ class Factory
     {
         $update = $this->getLayout()->getUpdate();
         // load action handle
-        $update->addHandle($this->routeHandler());
+        if(!empty($this->routeHandler())){
+        	$update->addHandle($this->routeHandler());
+		}
 
         return $this;
     }
@@ -187,7 +189,7 @@ class Factory
     {
         $route_name = \Route::currentRouteName();
 
-        if (empty($route_name)) {
+        if (empty($route_name) && config('layout.strict', false)) {
             throw new InvalidRouterNameException('Invalid Router Name supplied');
         }
 

@@ -8,4 +8,22 @@
             </block>
          </reference>
 	</home>
+	
+	<about>
+		<reference name="root">
+			 <action method="setTemplate">
+	            <template>render::template.page.2columns-left</template>
+	        </action>
+		</reference>
+		<reference name="left">
+			<block class="\Layout\Page\Html" name="home" template="render::home">
+            </block>
+		</reference>		
+		<reference name="content">
+            <block class="\Layout\Page\Html" name="home" template="render::home">
+            </block>
+            <block class="\Layout\Page\Html" name="home" template="render::home">
+            </block>
+         </reference>
+	</about>
 </layout>
