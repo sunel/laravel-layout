@@ -167,7 +167,7 @@ class Update
         if (is_string($handles)) {
             $handles = [$handles];
         } elseif (!is_array($handles)) {
-            throw new Exception('Invalid layout update handle');
+            throw new \Exception('Invalid layout update handle');
         }
         foreach ($handles as $handle) {
             $this->addHandle($handle);

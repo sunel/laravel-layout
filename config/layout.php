@@ -15,6 +15,7 @@ return [
     'session_name'      => 'SID',
 
     'cache' => [
+        'fpc'    => false,
         'block'  => false,
         'layout' => false,
     ],

@@ -1,11 +1,16 @@
 <?php namespace Layout;
 
+use Cache;
 use Illuminate\Contracts\Events\Dispatcher;
 use Layout\Exceptions\InvalidRouterNameException;
 
 class Factory
 {
     const PROFILER_KEY   = 'dispatch::route';
+    /**
+     * Additional tag for cleaning layout cache convenience.
+     */
+    const LAYOUT_GENERAL_CACHE_TAG = 'LAYOUT_GENERAL_FPC_CACHE_TAG';
 
     /**
      * Blocks registry.
@@ -42,6 +47,46 @@ class Factory
     }
 
     /**
+     * Get cache id.
+     *
+     * @return string
+     */
+    public function getCacheId()
+    {
+        return 'LAYOUT_FPC_'.md5(implode('__', $this->getLayout()->getUpdate()->getHandles()));
+    }
+
+    public function loadCache()
+    {
+        if (!config('layout.cache.fpc',false)) {
+            return false;
+        }
+
+        if (!$result = Cache::get($this->getCacheId(), false)) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    public function saveCache($html)
+    {
+        if (!config('layout.cache.fpc',false)) {
+            return false;
+        }
+
+        $tags = $this->getLayout()->getUpdate()->getHandles();
+        $tags[] = self::LAYOUT_GENERAL_CACHE_TAG;
+
+        #TODO need to find neat solution
+        if (config('cache.default') == 'file') {
+            return Cache::put($this->getCacheId(), $html, 0);
+        } else {
+            return Cache::tags($tags)->add($this->getCacheId(), $html, 0);
+        }
+    }
+
+    /**
      * Get the evaluated view contents for the given view.
      *
      * @param string $view
@@ -52,11 +97,27 @@ class Factory
      */
     public function render($handles = null, $generateBlocks = true, $generateXml = true)
     {
-        $this->loadLayout($handles, $generateBlocks, $generateXml);
+        $this->loadHandles($handles);
 
-        $view = $this->renderLayout();
-
+        if(!$view = $this->loadCache()){
+            $this->loadLayout($generateBlocks, $generateXml);
+            $view = $this->renderLayout();
+            $this->saveCache($view);
+        }
         return view('render::template.page.root', ['html' => $view]);
+    }
+
+    public function loadHandles($handles = null) {
+
+        // if handles were specified in arguments load them first
+        if (false !== $handles && '' !== $handles) {
+            $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
+        }
+        // add default layout handles for this action
+        $this->addRouteLayoutHandles();
+        $this->operatingSystemHandle();
+        $this->browserHandle();
+        $this->loadLayoutUpdates();
     }
 
     /**
@@ -68,17 +129,8 @@ class Factory
      *
      * @return Layout\Factory
      */
-    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
+    public function loadLayout($generateBlocks = true, $generateXml = true)
     {
-        // if handles were specified in arguments load them first
-        if (false !== $handles && '' !== $handles) {
-            $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
-        }
-        // add default layout handles for this action
-        $this->addRouteLayoutHandles();
-        $this->operatingSystemHandle();
-        $this->browserHandle();
-        $this->loadLayoutUpdates();
         if (!$generateXml) {
             return $this;
         }
