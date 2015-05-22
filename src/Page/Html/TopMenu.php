@@ -39,9 +39,6 @@ class TopMenu extends \Layout\Block
     {
         $this->_menu = Menu::make('topMenu', function ($menu) {
             $menu->add('Home', '');
-            $menu->add('About', 'about');
-            $menu->add('Blog', 'blog');
-            $menu->add('Contact Me', 'contact-me');
         });
 
         return $this;

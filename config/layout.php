@@ -12,6 +12,7 @@ return [
     */
     'strict' => false,
     'show_templat_hint' => false,
+    'add_sample_menu' => true,
     'session_name' => 'SID',
 
     'cache' => [
