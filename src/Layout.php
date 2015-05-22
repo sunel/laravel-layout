@@ -2,8 +2,12 @@
 
 namespace Layout;
 
-use Layout\Exceptions\InvalidBlockException;
+
+use ReflectionMethod;
+use ReflectionFunctionAbstract;
 use Layout\Layout\Element;
+use Layout\Exceptions\InvalidBlockException;
+use Layout\Exceptions\MethodNotFoundException;
 
 class Layout
 {
@@ -281,12 +285,7 @@ class Layout
             foreach ($args as $key => $arg) {
                 if (($arg instanceof \Layout\Layout\Element)) {
                     if (isset($arg['helper'])) {
-                        $helperName = explode('/', (string) $arg['helper']);
-                        $helperMethod = array_pop($helperName);
-                        $helperName = implode('/', $helperName);
-                        $arg = $arg->asArray();
-                        unset($arg['@']);
-                        $args[$key] = call_user_func_array([app($helperName), $helperMethod], $arg);
+                        $args[$key] = $this->runHelper((string) $arg['helper']);
                     } else {
                         /*
                          * if there is no helper we hope that this is assoc array
@@ -318,6 +317,27 @@ class Layout
         return $this;
     }
 
+	/**
+	 *
+	 * @param  String  $helper
+	 * @return mixed
+	 */
+	protected function runHelper($helper)
+	{
+		list($class, $method) = explode('@', $helper);
+
+		$parameters = $this->resolveClassMethodDependencies(
+			[], $class, $method
+		);
+
+		if ( ! method_exists($instance = app($class), $method))
+		{
+			throw new MethodNotFoundException;
+		}
+
+		return call_user_func_array([$instance, $method], $parameters);
+	}
+
     /**
      * Translate layout node.
      *
@@ -327,14 +347,10 @@ class Layout
     protected function _translateLayoutNode($node, &$args)
     {
         if (isset($node['translate'])) {
-            // Translate value by core module if module attribute was not set
-            $moduleName = (isset($node['module'])) ? (string) $node['module'] : 'core';
-
             // Handle translations in arrays if needed
             $translatableArguments = explode(' ', (string) $node['translate']);
             foreach ($translatableArguments as $translatableArgumentName) {
-
-               #TODO Need to implement
+				$args[$translatableArgumentName] = trans($args[$translatableArgumentName]);
             }
         }
     }
@@ -647,4 +663,77 @@ class Layout
 
         return $this;
     }
+	
+	/**
+	 * Call a class method with the resolved dependencies.
+	 *
+	 * @param  object  $instance
+	 * @param  string  $method
+	 * @return mixed
+	 */
+	protected function callWithDependencies($instance, $method)
+	{
+		return call_user_func_array(
+			[$instance, $method], $this->resolveClassMethodDependencies([], $instance, $method)
+		);
+	}
+
+	/**
+	 * Resolve the object method's type-hinted dependencies.
+	 *
+	 * @param  array  $parameters
+	 * @param  object  $instance
+	 * @param  string  $method
+	 * @return array
+	 */
+	protected function resolveClassMethodDependencies(array $parameters, $instance, $method)
+	{
+		if ( ! method_exists($instance, $method)) return $parameters;
+
+		return $this->resolveMethodDependencies(
+			$parameters, new ReflectionMethod($instance, $method)
+		);
+	}
+
+	/**
+	 * Resolve the given method's type-hinted dependencies.
+	 *
+	 * @param  array  $parameters
+	 * @param  \ReflectionFunctionAbstract  $reflector
+	 * @return array
+	 */
+	public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector)
+	{
+		foreach ($reflector->getParameters() as $key => $parameter)
+		{
+			// If the parameter has a type-hinted class, we will check to see if it is already in
+			// the list of parameters. If it is we will just skip it as it is probably a model
+			// binding and we do not want to mess with those; otherwise, we resolve it here.
+			$class = $parameter->getClass();
+
+			if ($class && ! $this->alreadyInParameters($class->name, $parameters))
+			{
+				array_splice(
+					$parameters, $key, 0, [$this->container->make($class->name)]
+				);
+			}
+		}
+
+		return $parameters;
+	}
+
+	/**
+	 * Determine if an object of the given class is in a list of parameters.
+	 *
+	 * @param  string  $class
+	 * @param  array  $parameters
+	 * @return bool
+	 */
+	protected function alreadyInParameters($class, array $parameters)
+	{
+		return ! is_null(array_first($parameters, function($key, $value) use ($class)
+		{
+			return $value instanceof $class;
+		}));
+	}
 }

@@ -1,6 +1,45 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
 	<home>
+		<reference name="top.links">
+	       	<action method="addLink" translate="label title">
+	        	<label>My Account</label>
+	        	<url helper="\Layout\Page\Html@getAccountUrl"/>
+	        	<title>My Account</title>
+	        	<prepare/>
+	        	<urlParams/>
+	        	<position>1</position>
+	        </action>
+	        <action method="addLink" translate="label title">
+			    <label>Register</label>
+			    <url>/auth/register</url>
+			    <title>Register</title>
+			    <prepare/>
+			    <urlParams/>
+			    <position>2</position>
+			 </action>
+			 <action method="addLink" translate="label title">
+			    <label>About</label>
+			    <url>about</url>
+			    <title>About</title>
+			    <prepare>true</prepare>
+			    <urlParams>
+			    	<id>bar</id>
+			    	<foo>bar</foo>
+			    </urlParams>
+			    <position>3</position>
+			    <liParams>
+			    	<id>bar</id>
+			    	<foo>bar</foo>
+			    </liParams>
+			    <aParams>
+			    	<id>bar</id>
+			    	<foo>bar</foo>
+			    </aParams>
+			    <beforeText>[</beforeText>
+			    <afterText>]</afterText>	
+			 </action>
+	    </reference>
 		<reference name="content">
             <block class="\Layout\Page\Html" name="home" template="render::home">
             </block>

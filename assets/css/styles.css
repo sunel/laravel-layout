@@ -10,6 +10,15 @@ header[role="banner"] > .logo {
   padding-left: 15px;
   padding-right: 15px;
 }
+.links li {
+  display: inline;
+}
+.links li:first-child {
+  padding-left: 0;
+}
+.links li:last-child {
+  padding-right: 0;
+}
 @media (min-width: 992px) {
   header[role="banner"] > .logo {
     float: left;

@@ -57,12 +57,11 @@ class Links extends \Layout\Block
         if (is_null($label) || false === $label) {
             return $this;
         }
-        # TODO need to prepare url from param
-
+		
         $link = new Object();
         $link->setData([
             'label' => $label,
-            'url' => $url,
+            'url' => ($prepare ? $this->getUrl($url, (is_array($urlParams) ? $urlParams : array())) : $url),
             'title' => $title,
             'li_params' => $this->_prepareParams($liParams),
             'a_params' => $this->_prepareParams($aParams),
@@ -117,7 +116,7 @@ class Links extends \Layout\Block
     public function removeLinkBlock($blockName)
     {
         foreach ($this->_links as $key => $link) {
-            if ($link instanceof Mage_Core_Block_Abstract && $link->getNameInLayout() == $blockName) {
+            if ($link instanceof \Layout\Block && $link->getNameInLayout() == $blockName) {
                 unset($this->_links[$key]);
             }
         }
@@ -180,7 +179,7 @@ class Links extends \Layout\Block
         } elseif (is_array($params)) {
             $result = '';
             foreach ($params as $key => $value) {
-                $result .= ' '.$key.'="'.addslashes($value).'"';
+                $result .= ' '.$key.'='.addslashes($value).'';
             }
 
             return $result;
