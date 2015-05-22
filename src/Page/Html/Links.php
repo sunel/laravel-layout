@@ -52,7 +52,7 @@ class Links extends \Layout\Block
      * @return \Layout\Page\Html\Links
      */
     public function addLink($label, $url = '', $title = '', $prepare = false, $urlParams = [],
-        $position = null, $liParams = null, $aParams = null, $beforeText = '', $afterText = '')
+        $position = null, $liParams = null, $aParams = null)
     {
         if (is_null($label) || false === $label) {
             return $this;
@@ -65,13 +65,16 @@ class Links extends \Layout\Block
             'title' => $title,
             'li_params' => $this->_prepareParams($liParams),
             'a_params' => $this->_prepareParams($aParams),
-            'before_text' => $beforeText,
-            'after_text' => $afterText,
         ]);
         $this->_addIntoPosition($link, $position);
 
         return $this;
     }
+	
+	public function addClass($names)
+	{
+		$this->setClassNames($names);
+	}
     /**
      * Add link into collection.
      *

@@ -36,11 +36,8 @@
 			    	<id>bar</id>
 			    	<foo>bar</foo>
 			    </aParams>
-			    <beforeText>[</beforeText>
-			    <afterText>]</afterText>	
 			 </action>
 	    </reference>
-	    
 	    <reference name="footer.links">
 	       	<action method="addLink" translate="label title">
 	        	<label>My Account</label>

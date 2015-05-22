@@ -8,7 +8,7 @@
     {!! $_this->getChildHtml('after_body_start') !!}
     {!! $_this->getChildHtml('header') !!}
 
-    <div class="container">
+    <div class="container-fluid">
         {!! $_this->getChildHtml('breadcrumbs') !!}
 
         <div class="layout layout-2-cols">
