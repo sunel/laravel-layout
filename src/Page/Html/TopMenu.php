@@ -2,8 +2,8 @@
 
 namespace Layout\Page\Html;
 
-use Menu;
 use Carbon\Carbon;
+use Menu;
 
 class TopMenu extends \Layout\Block
 {
@@ -55,7 +55,7 @@ class TopMenu extends \Layout\Block
     public function getMenus()
     {
         app('events')->fire('page.block.html.topmenu.getMenus.before', [
-            'menu' => $this->_menu,
+            'menu'  => $this->_menu,
             'block' => $this,
         ]);
 

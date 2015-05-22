@@ -57,24 +57,24 @@ class Links extends \Layout\Block
         if (is_null($label) || false === $label) {
             return $this;
         }
-		
+
         $link = new Object();
         $link->setData([
-            'label' => $label,
-            'url' => ($prepare ? $this->getUrl($url, (is_array($urlParams) ? $urlParams : array())) : $url),
-            'title' => $title,
+            'label'     => $label,
+            'url'       => ($prepare ? $this->getUrl($url, (is_array($urlParams) ? $urlParams : [])) : $url),
+            'title'     => $title,
             'li_params' => $this->_prepareParams($liParams),
-            'a_params' => $this->_prepareParams($aParams),
+            'a_params'  => $this->_prepareParams($aParams),
         ]);
         $this->_addIntoPosition($link, $position);
 
         return $this;
     }
-	
-	public function addClass($names)
-	{
-		$this->setClassNames($names);
-	}
+
+    public function addClass($names)
+    {
+        $this->setClassNames($names);
+    }
     /**
      * Add link into collection.
      *
@@ -162,7 +162,7 @@ class Links extends \Layout\Block
             }
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + [
                 'links' => base64_encode(serialize($links)),
-                'name' => $this->getNameInLayout(),
+                'name'  => $this->getNameInLayout(),
             ];
         }
 

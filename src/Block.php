@@ -323,19 +323,19 @@ class Block extends Object
 
         return $this->_sortedChildren;
     }
-	
-	/**
-     * Generate url by route and parameters
+
+    /**
+     * Generate url by route and parameters.
      *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
+     * @param string $route
+     * @param array  $params
+     *
+     * @return string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         return route($route, $params);
     }
-	
 
     /**
      * Set block attribute value.

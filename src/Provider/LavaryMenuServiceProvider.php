@@ -2,8 +2,8 @@
 
 namespace Layout\Provider;
 
-use Layout\Lavary\Menu;
 use Lavary\Menu\ServiceProvider;
+use Layout\Lavary\Menu;
 
 class LavaryMenuServiceProvider extends ServiceProvider
 {

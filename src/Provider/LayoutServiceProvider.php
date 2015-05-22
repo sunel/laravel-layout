@@ -27,7 +27,6 @@ class LayoutServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../assets' => public_path(),
         ], 'public');
-		
     }
 
     /**
@@ -50,7 +49,7 @@ class LayoutServiceProvider extends ServiceProvider
         });
 
         $this->mergeConfigFrom(__DIR__.'/../../config/layout.php', 'layout');
-		$this->addListerForTopMenu();
+        $this->addListerForTopMenu();
     }
 
     /**
@@ -85,21 +84,20 @@ class LayoutServiceProvider extends ServiceProvider
            return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $view);
         });
     }
-	
-	/**
+
+    /**
      * Register the top menu when the event is triggred.
-	 * 
-	 * (this is for example purpose)
-	 * 
+     *
+     * (this is for example purpose)
      */
-	public function addListerForTopMenu()
-	{
-		if ($this->app['config']['layout.add_sample_menu']) {
-			$this->app['events']->listen('page.block.html.topmenu.getMenus.before',function($menu,$block){
-		 		$menu->add('About', 'about');
-		        $menu->add('Blog', 'blog');
-		        $menu->add('Contact Me', 'contact-me');
-			});
-		}
-	}
+    public function addListerForTopMenu()
+    {
+        if ($this->app['config']['layout.add_sample_menu']) {
+            $this->app['events']->listen('page.block.html.topmenu.getMenus.before', function ($menu, $block) {
+                $menu->add('About', 'about');
+                $menu->add('Blog', 'blog');
+                $menu->add('Contact Me', 'contact-me');
+            });
+        }
+    }
 }

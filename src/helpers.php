@@ -6,11 +6,11 @@ if (!function_exists('getlayout')) {
      *
      * @return \Layout\Factory
      */
-    function getlayout($handles = null,$generateBlocks = true, $generateXml = true)
+    function getlayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         $factory = app('render');
-		
-		return $factory->loadHandles($handles)->loadLayout($generateBlocks, $generateXml);
+
+        return $factory->loadHandles($handles)->loadLayout($generateBlocks, $generateXml);
     }
 }
 
@@ -23,7 +23,7 @@ if (!function_exists('render')) {
     function render($handles = null, $generateBlocks = true, $generateXml = true)
     {
         $factory = app('render');
-		
+
         return $factory->render($handles, $generateBlocks, $generateXml);
     }
 }

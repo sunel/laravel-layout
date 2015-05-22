@@ -2,8 +2,8 @@
 
 namespace Layout\Lavary;
 
-use Lavary\Menu\Menu as BaseMenu;
 use Lavary\Menu\Collection;
+use Lavary\Menu\Menu as BaseMenu;
 
 class Menu extends BaseMenu
 {
@@ -16,7 +16,7 @@ class Menu extends BaseMenu
     /**
      * Initializing the menu builder.
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         // creating a collection for storing menus
         $this->collection = new Collection();

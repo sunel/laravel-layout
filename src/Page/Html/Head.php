@@ -41,8 +41,8 @@ class Head extends \Layout\Block
 
         return $this;
     }
-	
-	/**
+
+    /**
      * Add Master CSS file to HEAD entity.
      *
      * @param string $name
@@ -53,7 +53,8 @@ class Head extends \Layout\Block
     public function addMasterCss($name, $params = '')
     {
         $this->addItem('master_css', $name, $params);
-		$this->setLoadMasterCss(true);
+        $this->setLoadMasterCss(true);
+
         return $this;
     }
 
@@ -68,7 +69,8 @@ class Head extends \Layout\Block
     public function addMasterJs($name, $params = '')
     {
         $this->addItem('master_js', $name, $params);
-		$this->setLoadMasterJs(true);
+        $this->setLoadMasterJs(true);
+
         return $this;
     }
 
@@ -174,11 +176,11 @@ class Head extends \Layout\Block
             $params = 'media="all"';
         }
         $this->_data['items'][$type.'/'.$name] = [
-            'type' => $type,
-            'name' => $name,
+            'type'   => $type,
+            'name'   => $name,
             'params' => $params,
-            'if' => $if,
-            'cond' => $cond,
+            'if'     => $if,
+            'cond'   => $cond,
        ];
 
         return $this;
@@ -213,21 +215,25 @@ class Head extends \Layout\Block
             if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
                 continue;
             }
-			if($this->getLoadMasterCss()){
-				if($item['type'] == 'css'){continue;};
-			}
-			
-			if($this->getLoadMasterJs()){
-				if($item['type'] == 'js'){continue;};
-			}
-			
+            if ($this->getLoadMasterCss()) {
+                if ($item['type'] == 'css') {
+                    continue;
+                };
+            }
+
+            if ($this->getLoadMasterJs()) {
+                if ($item['type'] == 'js') {
+                    continue;
+                };
+            }
+
             $if = !empty($item['if']) ? $item['if'] : '';
             $params = !empty($item['params']) ? $item['params'] : '';
             switch ($item['type']) {
                 case 'js':        // js/*.js
                 case 'css':  // css/*/*.css
-				case 'master_js':
-				case 'master_css':
+                case 'master_js':
+                case 'master_css':
                     $lines[$if][$item['type']][$params][$item['name']] = $item['name'];
                     break;
                 default:
@@ -250,17 +256,16 @@ class Head extends \Layout\Block
                 }
             }
 
-
-			$html .= $this->_prepareStaticElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
+            $html .= $this->_prepareStaticElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
                 empty($items['master_css']) ? [] : $items['master_css'],
                 empty($items['master_css']) ? '' : 'css'
             );
-			
-			$html .= $this->_prepareStaticElements('<script type="text/javascript" src="%s"%s></script>'."\n",
+
+            $html .= $this->_prepareStaticElements('<script type="text/javascript" src="%s"%s></script>'."\n",
                 empty($items['master_js']) ? [] : $items['master_js'],
                 empty($items['master_js']) ? '' : 'js'
             );
-				
+
             // static and skin css
             $html .= $this->_prepareStaticElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
                 empty($items['css']) ? [] : $items['css'],
@@ -292,10 +297,9 @@ class Head extends \Layout\Block
     }
 
     /**
-     *
-     * @param string   $format        - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
-     * @param array    $staticItems   - array of relative names of static items to be grabbed from  folder
-     * @param string   $type          -  js/css
+     * @param string $format      - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
+     * @param array  $staticItems - array of relative names of static items to be grabbed from  folder
+     * @param string $type        -  js/css
      *
      * @return string
      */

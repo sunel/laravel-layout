@@ -115,8 +115,8 @@ class Factory
         $this->operatingSystemHandle();
         $this->browserHandle();
         $this->loadLayoutUpdates();
-		
-		return $this;
+
+        return $this;
     }
 
     /**
