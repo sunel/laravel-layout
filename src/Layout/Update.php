@@ -295,7 +295,7 @@ class Update
 
         $layoutStr = '';
 
-        foreach (Finder::create()->files()->name('*.xml')->in(__DIR__.'/../../layout') as $file) {
+        foreach (Finder::create()->files()->name('*.xml')->in(config('layout.xml_location')) as $file) {
             $fileStr = $file->getContents();
             $fileXml = simplexml_load_string($fileStr, $elementClass);
 

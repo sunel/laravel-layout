@@ -196,10 +196,9 @@ class Factory
     {
         $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
         // dispatch event for adding xml layout elements
-
         $this->events->fire(
             'route.layout.generate.blocks.before',
-            ['route' => $this, 'layout' => $this->getLayout()]
+            ['route' => app('request'), 'layout' => $this->getLayout()]
         );
 
         // generate blocks from xml layout

@@ -41,6 +41,36 @@ class Head extends \Layout\Block
 
         return $this;
     }
+	
+	/**
+     * Add Master CSS file to HEAD entity.
+     *
+     * @param string $name
+     * @param string $params
+     *
+     * @return \Layout\Page\Html\Head
+     */
+    public function addMasterCss($name, $params = '')
+    {
+        $this->addItem('master_css', $name, $params);
+		$this->setLoadMasterCss(true);
+        return $this;
+    }
+
+    /**
+     * Add Master JavaScript file to HEAD entity.
+     *
+     * @param string $name
+     * @param string $params
+     *
+     * @return \Layout\Page\Html\Head
+     */
+    public function addMasterJs($name, $params = '')
+    {
+        $this->addItem('master_js', $name, $params);
+		$this->setLoadMasterJs(true);
+        return $this;
+    }
 
     /**
      * Add CSS file for Internet Explorer only to HEAD entity.
@@ -183,11 +213,21 @@ class Head extends \Layout\Block
             if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
                 continue;
             }
+			if($this->getLoadMasterCss()){
+				if($item['type'] == 'css'){continue;};
+			}
+			
+			if($this->getLoadMasterJs()){
+				if($item['type'] == 'js'){continue;};
+			}
+			
             $if = !empty($item['if']) ? $item['if'] : '';
             $params = !empty($item['params']) ? $item['params'] : '';
             switch ($item['type']) {
                 case 'js':        // js/*.js
                 case 'css':  // css/*/*.css
+				case 'master_js':
+				case 'master_css':
                     $lines[$if][$item['type']][$params][$item['name']] = $item['name'];
                     break;
                 default:
@@ -196,9 +236,6 @@ class Head extends \Layout\Block
             }
         }
 
-        // prepare HTML
-        $shouldMergeJs = config('layout.mergeJS');
-        $shouldMergeCss = config('layout.mergeCSS');
         $html = '';
         foreach ($lines as $if => $items) {
             if (empty($items)) {
@@ -213,18 +250,27 @@ class Head extends \Layout\Block
                 }
             }
 
+
+			$html .= $this->_prepareStaticElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
+                empty($items['master_css']) ? [] : $items['master_css'],
+                empty($items['master_css']) ? '' : 'css'
+            );
+			
+			$html .= $this->_prepareStaticElements('<script type="text/javascript" src="%s"%s></script>'."\n",
+                empty($items['master_js']) ? [] : $items['master_js'],
+                empty($items['master_js']) ? '' : 'js'
+            );
+				
             // static and skin css
-            $html .= $this->_prepareStaticAndSkinElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
+            $html .= $this->_prepareStaticElements('<link rel="stylesheet" type="text/css" href="%s"%s />'."\n",
                 empty($items['css']) ? [] : $items['css'],
-                empty($items['css']) ? '' : 'css',
-                $shouldMergeCss ? [/* TODO MergeClass */'', 'getMergedCssUrl'] : null
+                empty($items['css']) ? '' : 'css'
             );
 
             // static and skin javascripts
-            $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>'."\n",
+            $html .= $this->_prepareStaticElements('<script type="text/javascript" src="%s"%s></script>'."\n",
                 empty($items['js']) ? [] : $items['js'],
-                empty($items['js']) ? '' : 'js',
-                $shouldMergeJs ? [/* TODO MergeClass */'', 'getMergedJsUrl'] : null
+                empty($items['js']) ? '' : 'js'
             );
 
             // other stuff
@@ -246,26 +292,16 @@ class Head extends \Layout\Block
     }
 
     /**
-     * Merge static and skin files of the same format into 1 set of HEAD directives or even into 1 directive.
-     *
-     * Will attempt to merge into 1 directive, if merging callback is provided. In this case it will generate
-     * filenames, rather than render urls.
-     * The merger callback is responsible for checking whether files exist, merging them and giving result URL
      *
      * @param string   $format        - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
      * @param array    $staticItems   - array of relative names of static items to be grabbed from  folder
      * @param string   $type          -  js/css
-     * @param callback $mergeCallback
      *
      * @return string
      */
-    protected function &_prepareStaticAndSkinElements($format, array $staticItems, $type,
-                                                      $mergeCallback = null)
+    protected function &_prepareStaticElements($format, array $staticItems, $type)
     {
         $items = [];
-        if ($mergeCallback && !is_callable($mergeCallback)) {
-            $mergeCallback = null;
-        }
 
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
@@ -276,20 +312,11 @@ class Head extends \Layout\Block
 
         $html = '';
         foreach ($items as $params => $rows) {
-            // attempt to merge
-            $mergedUrl = false;
-            if ($mergeCallback) {
-                $mergedUrl = call_user_func($mergeCallback, $rows);
-            }
             // render elements
             $params = trim($params);
             $params = $params ? ' '.$params : '';
-            if ($mergedUrl) {
-                $html .= sprintf($format, $mergedUrl, $params);
-            } else {
-                foreach ($rows as $src) {
-                    $html .= sprintf($format, $src, $params);
-                }
+            foreach ($rows as $src) {
+                $html .= sprintf($format, $src, $params);
             }
         }
 

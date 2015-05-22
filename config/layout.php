@@ -13,10 +13,12 @@ return [
     'strict' => false,
     'show_templat_hint' => false,
     'add_sample_menu' => true,
-    'session_name' => 'SID',
-
+    'session_name' => 'laravel_session',
+	
+	'xml_location' => __DIR__.'/../layout',
+	
     'cache' => [
-        'fpc' => false,
+        'fpc' => false, //Danger Still Experimental   
         'block' => false,
         'layout' => false,
     ],
@@ -29,13 +31,13 @@ return [
             'suffix' => '',
         ],
 
-        'includes' => '',
         'media_type' => 'text/html',
         'charset' => 'utf-8',
         'description' => 'Hello World',
         'keywords' => 'Easy Layout for laravel based projects',
         'robots' => 'INDEX,FOLLOW',
         'favicon_file' => '/favicon.ico',
+        'includes' => '',
 
     ],
     'cookienotice' => [
@@ -43,10 +45,7 @@ return [
         'content' => 'Cookie notice content.',
         'noshow' => true,
     ],
-
-    'mergeJS' => false,
-    'mergeCSS' => false,
-
+    
     'footer' => [
 
         'copyright' => 'Laravel is a trademark of Taylor Otwell. Copyright © Taylor Otwell.',
