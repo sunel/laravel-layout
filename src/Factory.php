@@ -15,13 +15,6 @@ class Factory
     const LAYOUT_GENERAL_CACHE_TAG = 'LAYOUT_GENERAL_FPC_CACHE_TAG';
 
     /**
-     * Blocks registry.
-     *
-     * @var array
-     */
-    protected $_blocks = [];
-
-    /**
      * The event dispatcher instance.
      *
      * @var \Illuminate\Contracts\Events\Dispatcher
@@ -122,6 +115,8 @@ class Factory
         $this->operatingSystemHandle();
         $this->browserHandle();
         $this->loadLayoutUpdates();
+		
+		return $this;
     }
 
     /**
@@ -165,7 +160,7 @@ class Factory
         // dispatch event for adding handles to layout update
         $this->events->fire(
             'route.layout.load.before',
-            ['route' => $this, 'layout' => $this->getLayout()]
+            ['route' => app('request'), 'layout' => $this->getLayout()]
         );
         // load layout updates by specified handles
         start_profile("$_profilerKey::layout_load");
@@ -181,7 +176,7 @@ class Factory
 
         $this->events->fire(
             'route.layout.generate.xml.before',
-            ['route' => $this, 'layout' => $this->getLayout()]
+            ['route' => app('request'), 'layout' => $this->getLayout()]
         );
 
         // generate xml from collected text updates
@@ -208,7 +203,7 @@ class Factory
 
         $this->events->fire(
             'route.layout.generate.blocks.after',
-            ['route' => $this, 'layout' => $this->getLayout()]
+            ['route' => app('request'), 'layout' => $this->getLayout()]
         );
 
         return $this;
