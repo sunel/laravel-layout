@@ -5,7 +5,6 @@
 <meta name="robots" content="{{ htmlspecialchars($_this->getRobots()) }}" />
 <link rel="icon" href="{{ $_this->getFaviconFile() }}" type="image/x-icon" />
 <link rel="shortcut icon" href="{{ $_this->getFaviconFile() }}" type="image/x-icon" />
-
 {!! $_this->getCssJsHtml() !!}
 {!! $_this->getChildHtml() !!}
 {!! $_this->getIncludes() !!}

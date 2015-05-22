@@ -66,9 +66,8 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\Html\Footer" name="footer" as="footer" template="render::template.page.html.footer">
                 <block class="\Layout\Page\Html\Wrapper" name="bottom.container" as="bottomContainer">
                     <action method="setElementClass"><value>bottom-container</value></action>
+                    <block class="\Layout\Page\Html\Links" name="footer.links" as="footerLinks" template="render::template.page.template.links"/>
                 </block>
-
-                <block class="\Layout\Page\Html\Links" name="footer_links" as="footer_links" template="render::template.page.template.links"/>
             </block>
 
             <block class="\Layout\Page\BlockList" name="before_body_end" as="before_body_end">
