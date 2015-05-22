@@ -9,9 +9,9 @@
     @endif
     @if($item->hasChildren())
       <ul class="dropdown-menu">
-        @include('render::template.page.html.topmenu.items', 
+        @include('render::template.page.html.topmenu.items',
           array('items' => $item->children()))
-      </ul> 
+      </ul>
     @endif
   </li>
   @if($item->divider)

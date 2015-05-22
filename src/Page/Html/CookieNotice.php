@@ -1,9 +1,11 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 class CookieNotice extends \Layout\Block
 {
-	public function getCookieRestrictionBlockContent(){
-		
-		return config('layout.cookienotice.content');
-	}
+    public function getCookieRestrictionBlockContent()
+    {
+        return config('layout.cookienotice.content');
+    }
 }

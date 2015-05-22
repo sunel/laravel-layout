@@ -1,4 +1,6 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 use Auth;
 use Layout\Object;
@@ -39,7 +41,7 @@ class Links extends \Layout\Block
      * @param string       $label
      * @param string       $url
      * @param string       $title
-     * @param boolean      $prepare
+     * @param bool         $prepare
      * @param array        $urlParams
      * @param int          $position
      * @param string|array $liParams
@@ -59,13 +61,13 @@ class Links extends \Layout\Block
 
         $link = new Object();
         $link->setData([
-            'label'         => $label,
-            'url'           => $url,
-            'title'         => $title,
-            'li_params'     => $this->_prepareParams($liParams),
-            'a_params'      => $this->_prepareParams($aParams),
-            'before_text'   => $beforeText,
-            'after_text'    => $afterText,
+            'label' => $label,
+            'url' => $url,
+            'title' => $title,
+            'li_params' => $this->_prepareParams($liParams),
+            'a_params' => $this->_prepareParams($aParams),
+            'before_text' => $beforeText,
+            'after_text' => $afterText,
         ]);
         $this->_addIntoPosition($link, $position);
 
@@ -158,7 +160,7 @@ class Links extends \Layout\Block
             }
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + [
                 'links' => base64_encode(serialize($links)),
-                'name'  => $this->getNameInLayout(),
+                'name' => $this->getNameInLayout(),
             ];
         }
 

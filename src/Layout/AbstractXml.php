@@ -1,4 +1,6 @@
-<?php namespace Layout\Layout;
+<?php
+
+namespace Layout\Layout;
 
 class AbstractXml extends \SimpleXMLElement
 {
@@ -20,7 +22,7 @@ class AbstractXml extends \SimpleXMLElement
     /**
      * Enter description here...
      *
-     * @return boolean
+     * @return bool
      */
     public function hasChildren()
     {
@@ -107,15 +109,15 @@ class AbstractXml extends \SimpleXMLElement
     /**
      * Makes nicely formatted XML from the node.
      *
-     * @param string      $filename
-     * @param int|boolean $level    if false
+     * @param string   $filename
+     * @param int|bool $level    if false
      *
      * @return string
      */
     public function asNiceXml($filename = '', $level = 0)
     {
         if (is_numeric($level)) {
-            $pad = str_pad('', $level*3, ' ', STR_PAD_LEFT);
+            $pad = str_pad('', $level * 3, ' ', STR_PAD_LEFT);
             $nl = "\n";
         } else {
             $pad = '';
@@ -130,7 +132,7 @@ class AbstractXml extends \SimpleXMLElement
         if ($this->hasChildren()) {
             $out .= '>'.$nl;
             foreach ($this->children() as $child) {
-                $out .= $child->asNiceXml('', is_numeric($level) ? $level+1 : true);
+                $out .= $child->asNiceXml('', is_numeric($level) ? $level + 1 : true);
             }
             $out .= $pad.'</'.$this->getName().'>'.$nl;
         } else {
@@ -227,7 +229,7 @@ class AbstractXml extends \SimpleXMLElement
      * Otherwise will overwrite existing nodes
      *
      * @param \Layout\Layout\AbstractXml $source
-     * @param boolean                    $overwrite
+     * @param bool                       $overwrite
      *
      * @return \Layout\Layout\AbstractXml
      */
@@ -248,7 +250,7 @@ class AbstractXml extends \SimpleXMLElement
      * Layoutends one node.
      *
      * @param \Layout\Layout\AbstractXml $source
-     * @param boolean                    $overwrite
+     * @param bool                       $overwrite
      *
      * @return \Layout\Layout\AbstractXml
      */

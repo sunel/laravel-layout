@@ -1,4 +1,6 @@
-<?php namespace Layout\Layout;
+<?php
+
+namespace Layout\Layout;
 
 class Element extends AbstractXml
 {

@@ -1,4 +1,6 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 class Footer extends \Layout\Block
 {

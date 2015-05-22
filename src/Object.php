@@ -1,4 +1,6 @@
-<?php namespace Layout;
+<?php
+
+namespace Layout;
 
 use Exception;
 
@@ -125,7 +127,7 @@ class Object implements \ArrayAccess
                         return $default;
                     }
                     $data = $data[$k];
-                } elseif ($data instanceof Object) {
+                } elseif ($data instanceof self) {
                     $data = $data->getData($k);
                 } else {
                     return $default;
@@ -151,7 +153,7 @@ class Object implements \ArrayAccess
 
                 return (isset($arr[$index]) && (!empty($arr[$index]) || strlen($arr[$index]) > 0))
                     ? $arr[$index] : null;
-            } elseif ($value instanceof Object) {
+            } elseif ($value instanceof self) {
                 return $value->getData($index);
             }
 
@@ -179,7 +181,7 @@ class Object implements \ArrayAccess
      *
      * @param string $key
      *
-     * @return boolean
+     * @return bool
      */
     public function hasData($key = '')
     {
@@ -283,7 +285,7 @@ class Object implements \ArrayAccess
                 return isset($this->_data[$key]);
         }
         //throw new Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
-        throw new Exception("Invalid method ".get_class($this)."::".$method);
+        throw new Exception('Invalid method '.get_class($this).'::'.$method);
     }
 
     /**
@@ -326,7 +328,7 @@ class Object implements \ArrayAccess
         if (isset(self::$_underscoreCache[$name])) {
             return self::$_underscoreCache[$name];
         }
-        $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+        $result = strtolower(preg_replace('/(.)([A-Z])/', '$1_$2', $name));
         self::$_underscoreCache[$name] = $result;
 
         return $result;
@@ -356,7 +358,7 @@ class Object implements \ArrayAccess
      *
      * @param string $offset
      *
-     * @return boolean
+     * @return bool
      */
     public function offsetExists($offset)
     {

@@ -1,4 +1,6 @@
-<?php namespace Layout\Page;
+<?php
+
+namespace Layout\Page;
 
 class Text extends \Layout\Block
 {

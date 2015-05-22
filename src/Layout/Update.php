@@ -1,4 +1,6 @@
-<?php namespace Layout\Layout;
+<?php
+
+namespace Layout\Layout;
 
 use Cache;
 use SimpleXMLElement;
@@ -294,7 +296,7 @@ class Update
         $layoutStr = '';
 
         foreach (Finder::create()->files()->name('*.xml')->in(__DIR__.'/../../layout') as $file) {
-            $fileStr =  $file->getContents();
+            $fileStr = $file->getContents();
             $fileXml = simplexml_load_string($fileStr, $elementClass);
 
             if (!$fileXml instanceof SimpleXMLElement) {

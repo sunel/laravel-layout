@@ -1,4 +1,6 @@
-<?php namespace Layout;
+<?php
+
+namespace Layout;
 
 use Cache;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -6,7 +8,7 @@ use Layout\Exceptions\InvalidRouterNameException;
 
 class Factory
 {
-    const PROFILER_KEY   = 'dispatch::route';
+    const PROFILER_KEY = 'dispatch::route';
     /**
      * Additional tag for cleaning layout cache convenience.
      */
@@ -58,7 +60,7 @@ class Factory
 
     public function loadCache()
     {
-        if (!config('layout.cache.fpc',false)) {
+        if (!config('layout.cache.fpc', false)) {
             return false;
         }
 
@@ -71,7 +73,7 @@ class Factory
 
     public function saveCache($html)
     {
-        if (!config('layout.cache.fpc',false)) {
+        if (!config('layout.cache.fpc', false)) {
             return false;
         }
 
@@ -99,15 +101,17 @@ class Factory
     {
         $this->loadHandles($handles);
 
-        if(!$view = $this->loadCache()){
+        if (!$view = $this->loadCache()) {
             $this->loadLayout($generateBlocks, $generateXml);
             $view = $this->renderLayout();
             $this->saveCache($view);
         }
+
         return view('render::template.page.root', ['html' => $view]);
     }
 
-    public function loadHandles($handles = null) {
+    public function loadHandles($handles = null)
+    {
 
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
@@ -148,9 +152,9 @@ class Factory
     {
         $update = $this->getLayout()->getUpdate();
         // load action handle
-        if(!empty($this->routeHandler())){
-        	$update->addHandle($this->routeHandler());
-		}
+        if (!empty($this->routeHandler())) {
+            $update->addHandle($this->routeHandler());
+        }
 
         return $this;
     }

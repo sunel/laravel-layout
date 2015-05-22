@@ -10,13 +10,13 @@ return [
     |
     |
     */
-    'strict' 			=> false,
+    'strict' => false,
     'show_templat_hint' => false,
-    'session_name'      => 'SID',
+    'session_name' => 'SID',
 
     'cache' => [
-        'fpc'    => false,
-        'block'  => false,
+        'fpc' => false,
+        'block' => false,
         'layout' => false,
     ],
 
@@ -24,26 +24,26 @@ return [
 
         'title' => [
             'default' => 'Home',
-            'prefix'  => '',
-            'suffix'  => '',
+            'prefix' => '',
+            'suffix' => '',
         ],
 
-        'includes'     => '',
-        'media_type'   => 'text/html',
-        'charset'      => 'utf-8',
-        'description'  => 'Hello World',
-        'keywords'     => 'Easy Layout for laravel based projects',
-        'robots'       => 'INDEX,FOLLOW',
+        'includes' => '',
+        'media_type' => 'text/html',
+        'charset' => 'utf-8',
+        'description' => 'Hello World',
+        'keywords' => 'Easy Layout for laravel based projects',
+        'robots' => 'INDEX,FOLLOW',
         'favicon_file' => '/favicon.ico',
 
     ],
     'cookienotice' => [
-    	
-    	'content' => 'Cookie notice content.',
-		'noshow' => true,
+
+        'content' => 'Cookie notice content.',
+        'noshow' => true,
     ],
 
-    'mergeJS'  => false,
+    'mergeJS' => false,
     'mergeCSS' => false,
 
     'footer' => [

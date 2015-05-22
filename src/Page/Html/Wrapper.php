@@ -1,4 +1,6 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 class Wrapper extends \Layout\Block
 {
@@ -30,8 +32,8 @@ class Wrapper extends \Layout\Block
         if ($this->_isInvisible()) {
             return $html;
         }
-        $id          = $this->hasElementId() ? sprintf(' id="%s"', $this->getElementId()) : '';
-        $class       = $this->hasElementClass() ? sprintf(' class="%s"', $this->getElementClass()) : '';
+        $id = $this->hasElementId() ? sprintf(' id="%s"', $this->getElementId()) : '';
+        $class = $this->hasElementClass() ? sprintf(' class="%s"', $this->getElementClass()) : '';
         $otherParams = $this->hasOtherParams() ? ' '.$this->getOtherParams() : '';
 
         return sprintf('<%1$s%2$s%3$s%4$s>%5$s</%1$s>', $this->getElementTagName(), $id, $class, $otherParams, $html);

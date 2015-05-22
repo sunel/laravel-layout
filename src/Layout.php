@@ -1,4 +1,6 @@
-<?php namespace Layout;
+<?php
+
+namespace Layout;
 
 use Layout\Exceptions\InvalidBlockException;
 use Layout\Layout\Element;
@@ -43,7 +45,7 @@ class Layout
     /**
      * Flag to have blocks' output go directly to browser as oppose to return result.
      *
-     * @var boolean
+     * @var bool
      */
     protected $_directOutput = false;
 
@@ -113,7 +115,7 @@ class Layout
     {
         $xml = $this->getUpdate()->asSimplexml();
 
-        $removeInstructions = $xml->xpath("//remove");
+        $removeInstructions = $xml->xpath('//remove');
         if (is_array($removeInstructions)) {
             foreach ($removeInstructions as $infoNode) {
                 $attributes = $infoNode->attributes();
@@ -185,12 +187,12 @@ class Layout
      */
     protected function _generateBlock($node, $parent)
     {
-    	if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
-            if (config($configPath,false)) {
+        if (isset($node['ifconfig']) && ($configPath = (string) $node['ifconfig'])) {
+            if (config($configPath, false)) {
                 return $this;
             }
         }
-		
+
         $className = (string) $node['class'];
         $blockName = (string) $node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
@@ -252,8 +254,8 @@ class Layout
      */
     protected function _generateAction($node, $parent)
     {
-        if (isset($node['ifconfig']) && ($configPath = (string)$node['ifconfig'])) {
-            if (config($configPath,false)) {
+        if (isset($node['ifconfig']) && ($configPath = (string) $node['ifconfig'])) {
+            if (config($configPath, false)) {
                 return $this;
             }
         }
@@ -562,7 +564,7 @@ class Layout
      *
      * @param string $filePath
      *
-     * @return boolean
+     * @return bool
      */
     public function loadFile($filePath)
     {
@@ -580,7 +582,7 @@ class Layout
      *
      * @param string $string
      *
-     * @return boolean
+     * @return bool
      */
     public function loadString($string)
     {
@@ -618,9 +620,9 @@ class Layout
     /**
      * Create node by $path and set its value.
      *
-     * @param string  $path      separated by slashes
-     * @param string  $value
-     * @param boolean $overwrite
+     * @param string $path      separated by slashes
+     * @param string $value
+     * @param bool   $overwrite
      *
      * @return \Layout\Layout\Element
      */
@@ -635,7 +637,7 @@ class Layout
      * Enter description here...
      *
      * @param \Layout\Layout\Element $config
-     * @param boolean                $overwrite
+     * @param bool                   $overwrite
      *
      * @return \Layout\Layout\Element
      */

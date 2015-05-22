@@ -1,4 +1,6 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 use Menu;
 use Carbon\Carbon;
@@ -22,27 +24,26 @@ class TopMenu extends \Layout\Block
      * Init top menu tree structure.
      */
     public function _construct()
-    { 
+    {
         $this->addData([
             'cache_lifetime' => Carbon::now()->addMinutes(10),
         ]);
     }
-	
-	/**
-	 * Before rendering html, but after trying to load cache.
-	 *
-	 * @return \Layout\Block
-	 */
-	protected function _beforeToHtml()
-    {	
-		$this->_menu = Menu::make('topMenu',function($menu) {
-		    $menu->add('Home', '');
-		    $menu->add('About', 'about');
-		    $menu->add('Blog', 'blog');
-		    $menu->add('Contact Me', 'contact-me');
-		});
-		
-		
+
+    /**
+     * Before rendering html, but after trying to load cache.
+     *
+     * @return \Layout\Block
+     */
+    protected function _beforeToHtml()
+    {
+        $this->_menu = Menu::make('topMenu', function ($menu) {
+            $menu->add('Home', '');
+            $menu->add('About', 'about');
+            $menu->add('Blog', 'blog');
+            $menu->add('Contact Me', 'contact-me');
+        });
+
         return $this;
     }
 
@@ -57,10 +58,10 @@ class TopMenu extends \Layout\Block
     public function getMenus()
     {
         app('events')->fire('page.block.html.topmenu.getMenus.before', [
-            'menu'  => $this->_menu,
+            'menu' => $this->_menu,
             'block' => $this,
         ]);
-		
+
         $html = $this->_getHtml($this->_menu);
 
         app('events')->fire('page.block.html.topmenu.getMenus.after', [

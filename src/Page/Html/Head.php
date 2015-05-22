@@ -1,4 +1,6 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 class Head extends \Layout\Block
 {
@@ -18,7 +20,7 @@ class Head extends \Layout\Block
      *
      * @return \Layout\Page\Html\Head
      */
-    public function addCss($name, $params = "")
+    public function addCss($name, $params = '')
     {
         $this->addItem('css', $name, $params);
 
@@ -33,7 +35,7 @@ class Head extends \Layout\Block
      *
      * @return \Layout\Page\Html\Head
      */
-    public function addJs($name, $params = "")
+    public function addJs($name, $params = '')
     {
         $this->addItem('js', $name, $params);
 
@@ -48,7 +50,7 @@ class Head extends \Layout\Block
      *
      * @return \Layout\Page\Html\Head
      */
-    public function addCssIe($name, $params = "")
+    public function addCssIe($name, $params = '')
     {
         $this->addItem('css', $name, $params, 'IE');
 
@@ -63,7 +65,7 @@ class Head extends \Layout\Block
      *
      * @return \Layout\Page\Html\Head
      */
-    public function addJsIe($name, $params = "")
+    public function addJsIe($name, $params = '')
     {
         $this->addItem('js', $name, $params, 'IE');
 
@@ -142,11 +144,11 @@ class Head extends \Layout\Block
             $params = 'media="all"';
         }
         $this->_data['items'][$type.'/'.$name] = [
-            'type'   => $type,
-            'name'   => $name,
+            'type' => $type,
+            'name' => $name,
             'params' => $params,
-            'if'     => $if,
-            'cond'   => $cond,
+            'if' => $if,
+            'cond' => $cond,
        ];
 
         return $this;
@@ -176,12 +178,12 @@ class Head extends \Layout\Block
     public function getCssJsHtml()
     {
         // separate items by types
-        $lines  = [];
+        $lines = [];
         foreach ($this->_data['items'] as $item) {
             if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
                 continue;
             }
-            $if     = !empty($item['if']) ? $item['if'] : '';
+            $if = !empty($item['if']) ? $item['if'] : '';
             $params = !empty($item['params']) ? $item['params'] : '';
             switch ($item['type']) {
                 case 'js':        // js/*.js
@@ -197,14 +199,14 @@ class Head extends \Layout\Block
         // prepare HTML
         $shouldMergeJs = config('layout.mergeJS');
         $shouldMergeCss = config('layout.mergeCSS');
-        $html   = '';
+        $html = '';
         foreach ($lines as $if => $items) {
             if (empty($items)) {
                 continue;
             }
             if (!empty($if)) {
                 // open !IE conditional using raw value
-                if (strpos($if, "><!-->") !== false) {
+                if (strpos($if, '><!-->') !== false) {
                     $html .= $if."\n";
                 } else {
                     $html .= '<!--[if '.$if.']>'."\n";
@@ -232,7 +234,7 @@ class Head extends \Layout\Block
 
             if (!empty($if)) {
                 // close !IE conditional comments correctly
-                if (strpos($if, "><!-->") !== false) {
+                if (strpos($if, '><!-->') !== false) {
                     $html .= '<!--<![endif]-->'."\n";
                 } else {
                     $html .= '<![endif]-->'."\n";
@@ -309,7 +311,7 @@ class Head extends \Layout\Block
     protected function _separateOtherHtmlHeadElements(&$lines, $itemIf, $itemType, $itemParams, $itemName, $itemThe)
     {
         $params = $itemParams ? ' '.$itemParams : '';
-        $href   = $itemName;
+        $href = $itemName;
         switch ($itemType) {
             case 'rss':
                 $lines[$itemIf]['other'][] = sprintf('<link href="%s"%s rel="alternate" type="application/rss+xml" />',

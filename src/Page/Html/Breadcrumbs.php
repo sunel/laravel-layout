@@ -1,4 +1,6 @@
-<?php namespace Layout\Page\Html;
+<?php
+
+namespace Layout\Page\Html;
 
 class Breadcrumbs extends \Layout\Block
 {
@@ -49,7 +51,7 @@ class Breadcrumbs extends \Layout\Block
         if (null === $this->_cacheKeyInfo) {
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + [
                 'crumbs' => base64_encode(serialize($this->_crumbs)),
-                'name'   => $this->getNameInLayout(),
+                'name' => $this->getNameInLayout(),
             ];
         }
 

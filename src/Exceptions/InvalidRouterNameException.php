@@ -1,4 +1,6 @@
-<?php namespace Layout\Exceptions;
+<?php
+
+namespace Layout\Exceptions;
 
 class InvalidRouterNameException extends \Exception
 {

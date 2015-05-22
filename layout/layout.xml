@@ -8,7 +8,7 @@
             </block>
          </reference>
 	</home>
-	
+
 	<about>
 		<reference name="root">
 			 <action method="setTemplate">
@@ -18,7 +18,7 @@
 		<reference name="left">
 			<block class="\Layout\Page\Html" name="home" template="render::home">
             </block>
-		</reference>		
+		</reference>
 		<reference name="content">
             <block class="\Layout\Page\Html" name="home" template="render::home">
             </block>

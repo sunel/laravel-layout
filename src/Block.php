@@ -1,4 +1,6 @@
-<?php namespace Layout;
+<?php
+
+namespace Layout;
 
 use Cache;
 use Session;
@@ -81,7 +83,7 @@ class Block extends Object
     /**
      * Whether this block was not explicitly named.
      *
-     * @var boolean
+     * @var bool
      */
     protected $_isAnonymous = false;
 
@@ -445,7 +447,7 @@ class Block extends Object
      *
      * @param \Layout\Block|string $block
      * @param string               $siblingName
-     * @param boolean              $after
+     * @param bool                 $after
      * @param string               $alias
      *
      * @return object $this
@@ -574,9 +576,9 @@ class Block extends Object
     /**
      * Retrieve child block HTML.
      *
-     * @param string  $name
-     * @param boolean $useCache
-     * @param boolean $sorted
+     * @param string $name
+     * @param bool   $useCache
+     * @param bool   $sorted
      *
      * @return string
      */
@@ -641,8 +643,8 @@ class Block extends Object
     /**
      * Retrieve child block HTML.
      *
-     * @param string  $name
-     * @param boolean $useCache
+     * @param string $name
+     * @param bool   $useCache
      *
      * @return string
      */
@@ -698,7 +700,7 @@ class Block extends Object
     /**
      * Sort block's children.
      *
-     * @param boolean $force force re-sort all children
+     * @param bool $force force re-sort all children
      *
      * @return \Layout\Block
      */

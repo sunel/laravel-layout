@@ -1,11 +1,13 @@
-<?php namespace Layout\Page;
+<?php
+
+namespace Layout\Page;
 
 class Messages extends \Layout\Block
 {
-    const ERROR     = 'error';
-    const WARNING   = 'warning';
-    const NOTICE    = 'notice';
-    const SUCCESS   = 'success';
+    const ERROR = 'error';
+    const WARNING = 'warning';
+    const NOTICE = 'notice';
+    const SUCCESS = 'success';
 
     /**
      * Messages collection.
