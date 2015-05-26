@@ -86,6 +86,11 @@
 	</home>
 
 	<about>
+		 <reference name="head">
+	        <action method="setTitle" translate="title"><title>Title here</title></action>
+	        <action method="setDescription" translate="description"><description>Meta description here</description></action>
+	        <action method="setKeywords" translate="keywords"><keywords>Meta keywords here</keywords></action>
+	    </reference>
 		<reference name="root">
 			 <action method="setTemplate">
 	            <template>render::template.page.2columns-left</template>

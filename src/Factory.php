@@ -20,6 +20,30 @@ class Factory
      * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
+	
+	 /**
+     * Title parts to be rendered in the page head title
+     *
+     * @see self::title()
+     * @var array
+     */
+    protected $titles = array();
+	
+	 /**
+     * Options parts to be rendered in the page head
+     *
+     * @var array
+     */
+    protected $headOptions = array();
+	
+	/**
+     * Whether the default title should be removed
+     *
+     * @see self::_title()
+     * @var bool
+     */
+    protected $removeDefaultTitle = false;
+	
 
     /**
      * Create a new view factory instance.
@@ -217,7 +241,10 @@ class Factory
     public function renderLayout($output = '')
     {
         $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
-
+		
+		$this->_renderTitles();
+		$this->_renderHeadOptions();
+		 
         start_profile("$_profilerKey::layout_render");
         if ('' !== $output) {
             $this->getLayout()->addOutputBlock($output);
@@ -244,6 +271,79 @@ class Factory
         }
 
         return str_replace('.', '_', strtolower($route_name));
+    }
+	
+	 /**
+     * Add an extra title to the end or one from the end, or remove all
+     *
+     * Usage examples:
+     * $this->_title('foo')->_title('bar');
+     * => bar / foo / <default title>
+     *
+     * $this->_title()->_title('foo')->_title('bar');
+     * => bar / foo
+     *
+     * $this->_title('foo')->_title(false)->_title('bar');
+     * bar / <default title>
+     *
+     * @see self::_renderTitles()
+     * @param string|false|-1|null $text
+     * @param bool $resetIfExists
+     * @return Layout\Factory
+     */
+    public function title($text = null)
+    {
+        if (is_string($text)) {
+            $this->titles[] = $text;
+        } elseif (-1 === $text) {
+            if (empty($this->titles)) {
+                $this->removeDefaultTitle = true;
+            } else {
+                array_pop($this->titles);
+            }
+        }
+        return $this;
+    }
+		
+	public function setHeadOption($key,$value) {
+		
+		$this->headOptions[$key] = $value;
+		
+	}
+	
+	protected function _renderHeadOptions() {
+		
+		$titleBlock = $this->getLayout()->getBlock('head');
+        if ($titleBlock) {
+            foreach ($this->headOptions as $key => $value) {
+            	$titleBlock->setData($key, $value);    
+            }
+        }
+	}
+	
+	
+    /**
+     * Prepare titles in the 'head' layout block
+     * Supposed to work only in actions where layout is rendered
+     * Falls back to the default logic if there are no titles eventually
+     *
+     * @see self::loadLayout()
+     * @see self::renderLayout()
+     */
+    protected function _renderTitles()
+    {
+        if ($this->_isLayoutLoaded && $this->titles) {
+            $titleBlock = $this->getLayout()->getBlock('head');
+            if ($titleBlock) {
+                if (!$this->removeDefaultTitle) {
+                    $title = trim($titleBlock->getTitle());
+                    if ($title) {
+                        array_unshift($this->titles, $title);
+                    }
+                }
+                $titleBlock->setTitle(implode(' / ', array_reverse($this->titles)));
+            }
+        }
     }
 
     /**

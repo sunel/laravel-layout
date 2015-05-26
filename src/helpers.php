@@ -1,12 +1,12 @@
 <?php
 
-if (!function_exists('getlayout')) {
+if (!function_exists('loadLayout')) {
     /**
      * Get the evaluated view contents for the given view.
      *
      * @return \Layout\Factory
      */
-    function getlayout($handles = null, $generateBlocks = true, $generateXml = true)
+    function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         $factory = app('render');
 
@@ -25,6 +25,35 @@ if (!function_exists('render')) {
         $factory = app('render');
 
         return $factory->render($handles, $generateBlocks, $generateXml);
+    }
+}
+
+if (!function_exists('renderWithOptions')) {
+    /**
+     * Get the evaluated view contents for the given view.
+     *
+     * @return \Illuminate\View\View
+     */
+    function renderWithOptions(array $options, $handles = null, $generateBlocks = true, $generateXml = true)
+    {
+        $factory = app('render');
+		
+		foreach ($options as $key => $option) {
+			switch ($key) {
+				case 'titles':
+					foreach ($option as $title) {
+						$factory->title($title);
+					}
+					break;
+				default:
+					$factory->setHeadOption($key,$option);
+					break;
+			}	
+		}
+		
+        $factory->loadHandles($handles)->loadLayout($generateBlocks, $generateXml);
+
+        return $factory->renderLayout();
     }
 }
 
