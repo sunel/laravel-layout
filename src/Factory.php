@@ -20,30 +20,31 @@ class Factory
      * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
-	
-	 /**
-     * Title parts to be rendered in the page head title
+
+    /**
+     * Title parts to be rendered in the page head title.
      *
      * @see self::title()
-     * @var array
-     */
-    protected $titles = array();
-	
-	 /**
-     * Options parts to be rendered in the page head
      *
      * @var array
      */
-    protected $headOptions = array();
-	
-	/**
-     * Whether the default title should be removed
+    protected $titles = [];
+
+    /**
+     * Options parts to be rendered in the page head.
+     *
+     * @var array
+     */
+    protected $headOptions = [];
+
+    /**
+     * Whether the default title should be removed.
      *
      * @see self::_title()
+     *
      * @var bool
      */
     protected $removeDefaultTitle = false;
-	
 
     /**
      * Create a new view factory instance.
@@ -241,10 +242,10 @@ class Factory
     public function renderLayout($output = '')
     {
         $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
-		
-		$this->_renderTitles();
-		$this->_renderHeadOptions();
-		 
+
+        $this->_renderTitles();
+        $this->_renderHeadOptions();
+
         start_profile("$_profilerKey::layout_render");
         if ('' !== $output) {
             $this->getLayout()->addOutputBlock($output);
@@ -272,9 +273,9 @@ class Factory
 
         return str_replace('.', '_', strtolower($route_name));
     }
-	
-	 /**
-     * Add an extra title to the end or one from the end, or remove all
+
+    /**
+     * Add an extra title to the end or one from the end, or remove all.
      *
      * Usage examples:
      * $this->_title('foo')->_title('bar');
@@ -287,8 +288,10 @@ class Factory
      * bar / <default title>
      *
      * @see self::_renderTitles()
+     *
      * @param string|false|-1|null $text
-     * @param bool $resetIfExists
+     * @param bool                 $resetIfExists
+     *
      * @return Layout\Factory
      */
     public function title($text = null)
@@ -302,30 +305,29 @@ class Factory
                 array_pop($this->titles);
             }
         }
+
         return $this;
     }
-		
-	public function setHeadOption($key,$value) {
-		
-		$this->headOptions[$key] = $value;
-		
-	}
-	
-	protected function _renderHeadOptions() {
-		
-		$titleBlock = $this->getLayout()->getBlock('head');
+
+    public function setHeadOption($key, $value)
+    {
+        $this->headOptions[$key] = $value;
+    }
+
+    protected function _renderHeadOptions()
+    {
+        $titleBlock = $this->getLayout()->getBlock('head');
         if ($titleBlock) {
             foreach ($this->headOptions as $key => $value) {
-            	$titleBlock->setData($key, $value);    
+                $titleBlock->setData($key, $value);
             }
         }
-	}
-	
-	
+    }
+
     /**
      * Prepare titles in the 'head' layout block
      * Supposed to work only in actions where layout is rendered
-     * Falls back to the default logic if there are no titles eventually
+     * Falls back to the default logic if there are no titles eventually.
      *
      * @see self::loadLayout()
      * @see self::renderLayout()

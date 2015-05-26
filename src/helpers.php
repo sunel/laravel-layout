@@ -37,20 +37,20 @@ if (!function_exists('renderWithOptions')) {
     function renderWithOptions(array $options, $handles = null, $generateBlocks = true, $generateXml = true)
     {
         $factory = app('render');
-		
-		foreach ($options as $key => $option) {
-			switch ($key) {
-				case 'titles':
-					foreach ($option as $title) {
-						$factory->title($title);
-					}
-					break;
-				default:
-					$factory->setHeadOption($key,$option);
-					break;
-			}	
-		}
-		
+
+        foreach ($options as $key => $option) {
+            switch ($key) {
+                case 'titles':
+                    foreach ($option as $title) {
+                        $factory->title($title);
+                    }
+                    break;
+                default:
+                    $factory->setHeadOption($key, $option);
+                    break;
+            }
+        }
+
         $factory->loadHandles($handles)->loadLayout($generateBlocks, $generateXml);
 
         return $factory->renderLayout();
