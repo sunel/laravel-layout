@@ -6,7 +6,7 @@ Laravel Layout
 
 > I build this package inspired by magento way of handling layouts, Yes this package is a laravel port of magento layout module.If you are already familiar with Magento Layout then this will a breeze.
 
-> **Note:** The below read me will give you the basic idea of this package and its under lying concepts. A great wiki is in progress which will have all the details of every know things that this package is capable of.
+> **Note:** The below read me will give you the basic idea of this package and its under lying concepts. A great [wiki](https://github.com/sunel/laravel-layout/wiki) is in progress which will have all the details of every know things that this package is capable of.
 
 # Installation
 Add `sunel/laravel-layout` as a requirement to composer.json:
