@@ -19,20 +19,15 @@
     </section>
 
     <section class="main-content">
-      <h2>
-<a id="this-package-is-under-heavy-development" class="anchor" href="#this-package-is-under-heavy-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>This package is under heavy development</h2>
-
-<blockquote>
-<p>I am working when i get time so please bare with me.
-I am working on full documentation and this read me gives you a small glimpse what this package about.
-Feel free to open issues and let's start a coverstation.</p>
-</blockquote>
-
-<h1>
+      <h1>
 <a id="laravel-layout" class="anchor" href="#laravel-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Laravel Layout</h1>
 
 <blockquote>
 <p>Simple way to build your page in an upgrade-compatible way</p>
+
+<p>I build this package inspired by magento way of handling layouts, Yes this package is a laravel port of magneto layout module.If you are already familiar with Magnto Layout then this will a breeze.</p>
+
+<p><strong>Note:</strong> The below read me will give you the basic idea of this package and its under lying concepts. A great wiki is in progress which will have all the details of every know things that this package is capable of.</p>
 </blockquote>
 
 <h1>
@@ -50,142 +45,83 @@ Feel free to open issues and let's start a coverstation.</p>
 
 <p>In <em>app/config/app.php</em> add:</p>
 
-<ul>
-<li>
-<code>'Layout\Provider\LayoutServiceProvider',</code> </li>
-<li><code>'Dowilcox\KnpMenu\MenuServiceProvider',</code></li>
-</ul>
+<p><code>'Layout\Provider\LayoutServiceProvider',</code></p>
 
 <p>to providers </p>
 
 <h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>Pull the configuration file into your application by running the following artisan command</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">$ <span class="pl-c1">php</span> <span class="pl-c1">artisan</span> <span class="pl-c1">vendor</span>:<span class="pl-c1">publish</span> <span class="pl-k">--</span><span class="pl-c1">provider</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Layout\Provider\LayoutServiceProvider<span class="pl-pds">"</span></span> <span class="pl-k">--</span><span class="pl-c1">tag</span><span class="pl-k">=</span><span class="pl-c1">config</span></span></pre></div>
+
+<p>This will create config file "layout.php" which will have the all the configuration required.</p>
+
+<blockquote>
+<p><strong>Note:</strong> Will add the usage details of the config variables </p>
+</blockquote>
+
+<h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Think of Layout as an easy way to structure a page. </p>
+<h4>
+<a id="the-basic-concept-of-this-package" class="anchor" href="#the-basic-concept-of-this-package" aria-hidden="true"><span class="octicon octicon-link"></span></a>The basic concept of this package:</h4>
 
-<h2>
-<a id="sample-page-template" class="anchor" href="#sample-page-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample page template</h2>
+<ul>
+<li>Every page has a common structure which is defined through a layout XML Files. </li>
+<li>A Layout is a collection of blocks in a tree structure.</li>
+<li>Each layout is a list of instruction on how a page must render what it must render and which Block(s) should kick off the rendering process.</li>
+<li>So basically all section in the layout are called View.</li>
+<li>Each View has a  BLOCK which is a php class and a TEMPLATE file which are tied to each other.</li>
+<li>Blocks are independent components which can have there own data model called within itself.</li>
+<li>This provides ultimate flexibility and re-usability of design.</li>
+</ul>
 
-<div class="highlight highlight-html"><pre>&lt;!DOCTYPE html&gt;
-&lt;<span class="pl-ent">html</span>&gt;
-&lt;<span class="pl-ent">head</span>&gt;
-    {!! $_this-&gt;getChildHtml('head') !!}
-&lt;/<span class="pl-ent">head</span>&gt;
-&lt;<span class="pl-ent">body</span>{!! $_this<span class="pl-e">-</span>&gt;getBodyClass()?' class="'.$_this-&gt;getBodyClass().'"':'' !!}&gt;
+<h4>
+<a id="so-how-does-this-works-" class="anchor" href="#so-how-does-this-works-" aria-hidden="true"><span class="octicon octicon-link"></span></a>So how does this works :</h4>
 
-    {!! $_this-&gt;getChildHtml('after_body_start') !!}
-    {!! $_this-&gt;getChildHtml('header') !!}
+<blockquote>
+<p><strong>Note:</strong>  This package assumes that every router has name <strong>(ROUTER NAME)</strong> for it.</p>
+</blockquote>
 
-    &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>container<span class="pl-pds">"</span></span>&gt;
-        {!! $_this-&gt;getChildHtml('breadcrumbs') !!}
+<p>As said before every page has common layout in a XML file, you can find the files in the layout folder.
+To move the files to your application run the following artisan command</p>
 
-        &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>layout layout-3-cols<span class="pl-pds">"</span></span>&gt;
-            &lt;<span class="pl-ent">aside</span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>complementary<span class="pl-pds">"</span></span>&gt;
-                {!! $_this-&gt;getChildHtml('left') !!}
-            &lt;/<span class="pl-ent">aside</span>&gt;
-            &lt;<span class="pl-ent">div</span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>&gt;
-                {!! $_this-&gt;getChildHtml('messages') !!}
-                {!! $_this-&gt;getChildHtml('content') !!}
-            &lt;/<span class="pl-ent">div</span>&gt;
-            &lt;<span class="pl-ent">aside</span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>complementary<span class="pl-pds">"</span></span>&gt;
-                {!! $_this-&gt;getChildHtml('right') !!}
-            &lt;/<span class="pl-ent">aside</span>&gt;
-        &lt;/<span class="pl-ent">div</span>&gt;
-    &lt;/<span class="pl-ent">div</span>&gt;
+<div class="highlight highlight-php"><pre><span class="pl-s1">$ <span class="pl-c1">php</span> <span class="pl-c1">artisan</span> <span class="pl-c1">vendor</span>:<span class="pl-c1">publish</span> <span class="pl-k">--</span><span class="pl-c1">provider</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Layout\Provider\LayoutServiceProvider<span class="pl-pds">"</span></span> <span class="pl-k">--</span><span class="pl-c1">tag</span><span class="pl-k">=</span><span class="pl-c1">layout</span></span></pre></div>
 
-    {!! $_this-&gt;getChildHtml('footer') !!}
-    {!! $_this-&gt;getChildHtml('before_body_end') !!}
-    {!! $_this-&gt;getAbsoluteFooter() !!}
+<p>This is export basic css for a page layout</p>
 
-&lt;/<span class="pl-ent">body</span>&gt;
-&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+<div class="highlight highlight-php"><pre><span class="pl-s1">$ <span class="pl-c1">php</span> <span class="pl-c1">artisan</span> <span class="pl-c1">vendor</span>:<span class="pl-c1">publish</span> <span class="pl-k">--</span><span class="pl-c1">provider</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Layout\Provider\LayoutServiceProvider<span class="pl-pds">"</span></span> <span class="pl-k">--</span><span class="pl-c1">tag</span><span class="pl-k">=</span><span class="pl-k">public</span></span></pre></div>
 
-<h2>
-<a id="sample-page-layout" class="anchor" href="#sample-page-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample page layout</h2>
+<p>This will move the sample layout xml files into "resources/layout/vendor/layout/layout" folder.</p>
 
-<div class="highlight highlight-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span>?&gt;
-&lt;<span class="pl-ent">layout</span> <span class="pl-e">version</span>=<span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>&gt;
-<span class="pl-c">&lt;!--</span>
-<span class="pl-c">Default layout, loads most of the pages</span>
-<span class="pl-c">--&gt;</span>
+<p>This package already provides a default structure for a every page which will in the <strong>default.xml</strong> <a href="https://github.com/sunel/laravel-layout/blob/develop/layout/default.xml">here</a>.</p>
 
-    &lt;<span class="pl-ent">default</span>&gt;
-        &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span> <span class="pl-e">output</span>=<span class="pl-s"><span class="pl-pds">"</span>toHtml<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.3columns<span class="pl-pds">"</span></span>&gt;
+<blockquote>
+<p><strong>Note:</strong>  For the example we are going to use a page which has layout with 3 columns <a href="https://photos-3.dropbox.com/t/2/AAA4hiywutlrZrckIqwWzzfA49JehTqpghXAse1kl6S9kg/12/93078715/png/32x32/1/1432735200/0/2/3lc.png/CLuJsSwgASACIAMgBCAFIAYgBygB/SU_wk5eoHQPT-5ISy334QjMS8x-7hZy75CEzG98c3k4?size_mode=5">here</a></p>
+</blockquote>
 
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Head<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>head<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>head<span class="pl-pds">"</span></span>&gt;
-                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addCss<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">stylesheet</span>&gt;css/app.css&lt;/<span class="pl-ent">stylesheet</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
-                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addCss<span class="pl-pds">"</span></span>&gt;
-                    &lt;<span class="pl-ent">stylesheet</span>&gt;css/styles.css&lt;/<span class="pl-ent">stylesheet</span>&gt;
-                &lt;/<span class="pl-ent">action</span>&gt;
-                <span class="pl-c">&lt;!--&lt;action method="addItem"&gt;</span>
-<span class="pl-c">                        &lt;type&gt;css&lt;/type&gt;</span>
-<span class="pl-c">                        &lt;name&gt;css/styles-ie.css&lt;/name&gt;</span>
-<span class="pl-c">                        &lt;params/&gt;&lt;if&gt;lt IE 8&lt;/if&gt;</span>
-<span class="pl-c">                &lt;/action&gt;</span>
-<span class="pl-c">                &lt;action method="addCss"&gt;</span>
-<span class="pl-c">                    &lt;stylesheet&gt;css/print.css&lt;/stylesheet&gt;</span>
-<span class="pl-c">                    &lt;params&gt;media="print"&lt;/params&gt;</span>
-<span class="pl-c">                &lt;/action&gt;--&gt;</span>
+<p>The root element of any layout XML file is <code>&lt;layout&gt;</code>.</p>
 
-                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addJs<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">script</span>&gt;js/script.js&lt;/<span class="pl-ent">script</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
-                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addExternalItem<span class="pl-pds">"</span></span>&gt;
-                    &lt;<span class="pl-ent">type</span>&gt;external_js&lt;/<span class="pl-ent">type</span>&gt;
-                    &lt;<span class="pl-ent">name</span>&gt;//code.jquery.com/jquery.js&lt;/<span class="pl-ent">name</span>&gt;
-                    &lt;<span class="pl-ent">params</span>/&gt;
-                &lt;/<span class="pl-ent">action</span>&gt;
-                &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>addExternalItem<span class="pl-pds">"</span></span>&gt;
-                    &lt;<span class="pl-ent">type</span>&gt;external_js&lt;/<span class="pl-ent">type</span>&gt;
-                    &lt;<span class="pl-ent">name</span>&gt;//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js&lt;/<span class="pl-ent">name</span>&gt;
-                    &lt;<span class="pl-ent">params</span>/&gt;
-                &lt;/<span class="pl-ent">action</span>&gt;
+<p>Layout Handles
+: In these XML files, you will see a number of snippets of XML enclosed in layout handle parent nodes, which are used to determine the type of page being displayed.</p>
 
-            &lt;/<span class="pl-ent">block</span>&gt;
+<p>The <code>&lt;default&gt;</code> handle is the one that loads most of the pages and forms the base or to say skeleton of every page. So most of the case we use the one given in the page without modifying it.</p>
 
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>after_body_start<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>after_body_start<span class="pl-pds">"</span></span> &gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
+<p>The   <code>&lt;default&gt;</code> handle almost has all the required section in a page.Basically it like having a placeholder for every section. we need to define what content should be loaded for each request.</p>
 
+<p>So how to that ??</p>
 
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Header<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>header<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>header<span class="pl-pds">"</span></span>&gt;
-                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Links<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>top.links<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>topLinks<span class="pl-pds">"</span></span>/&gt;
-                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>top.menu<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>topMenu<span class="pl-pds">"</span></span> &gt;
-                    &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\TopMenu<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>topnav<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.html.topmenu<span class="pl-pds">"</span></span>/&gt;
-                &lt;/<span class="pl-ent">block</span>&gt;
-                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Wrapper<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>top.container<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>topContainer<span class="pl-pds">"</span></span>&gt;
-                    &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>setElementClass<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">value</span>&gt;top-container&lt;/<span class="pl-ent">value</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
-                &lt;/<span class="pl-ent">block</span>&gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
+<blockquote>
+<p>Lets assume we are requesting for home page of the application which has the name <strong>"home"</strong></p>
 
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Breadcrumbs<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>breadcrumbs<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>breadcrumbs<span class="pl-pds">"</span></span>/&gt;
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">Route</span><span class="pl-k">::</span>get(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>,[<span class="pl-s"><span class="pl-pds">'</span>as<span class="pl-pds">'</span></span><span class="pl-k">=&gt;</span><span class="pl-s"><span class="pl-pds">'</span>home<span class="pl-pds">'</span></span>,<span class="pl-k">function</span>(){    </span>
+<span class="pl-s1">    <span class="pl-k">return</span> render();    </span>
+<span class="pl-s1">}]);</span></pre></div>
+</blockquote>
 
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>left<span class="pl-pds">"</span></span>&gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
-
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Messages<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>messages<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>messages<span class="pl-pds">"</span></span>/&gt;
-
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span>&gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
-
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>right<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>right<span class="pl-pds">"</span></span>&gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
-
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Footer<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>footer<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>footer<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.html.footer<span class="pl-pds">"</span></span>&gt;
-                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Wrapper<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>bottom.container<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>bottomContainer<span class="pl-pds">"</span></span>&gt;
-                    &lt;<span class="pl-ent">action</span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>setElementClass<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">value</span>&gt;bottom-container&lt;/<span class="pl-ent">value</span>&gt;&lt;/<span class="pl-ent">action</span>&gt;
-                &lt;/<span class="pl-ent">block</span>&gt;
-
-                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\Links<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>footer_links<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>footer_links<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.template.links<span class="pl-pds">"</span></span>/&gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
-
-            &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\BlockList<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>before_body_end<span class="pl-pds">"</span></span> <span class="pl-e">as</span>=<span class="pl-s"><span class="pl-pds">"</span>before_body_end<span class="pl-pds">"</span></span>&gt;
-                &lt;<span class="pl-ent">block</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>\Layout\Page\Html\CookieNotice<span class="pl-pds">"</span></span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>global_cookie_notice<span class="pl-pds">"</span></span> as =<span class="pl-s"><span class="pl-pds">"</span>global_cookie_notice<span class="pl-pds">"</span></span> <span class="pl-e">template</span>=<span class="pl-s"><span class="pl-pds">"</span>render::template.page.html.cookienotice<span class="pl-pds">"</span></span> <span class="pl-e">before</span>=<span class="pl-s"><span class="pl-pds">"</span>-<span class="pl-pds">"</span></span> /&gt;
-            &lt;/<span class="pl-ent">block</span>&gt;
-        &lt;/<span class="pl-ent">block</span>&gt;
-
-    &lt;/<span class="pl-ent">default</span>&gt;
-&lt;/<span class="pl-ent">layout</span>&gt;</pre></div>
-
-<h2>
-<a id="sample-router-layout" class="anchor" href="#sample-router-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Router layout</h2>
+<p>Very simple just create a new xml file with any name and add the below snippet</p>
 
 <div class="highlight highlight-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span>?&gt;
 &lt;<span class="pl-ent">layout</span> <span class="pl-e">version</span>=<span class="pl-s"><span class="pl-pds">"</span>0.1.0<span class="pl-pds">"</span></span>&gt;
@@ -205,15 +141,64 @@ Feel free to open issues and let's start a coverstation.</p>
     &lt;/<span class="pl-ent">home</span>&gt;
 &lt;/<span class="pl-ent">layout</span>&gt;</pre></div>
 
-<h2>
-<a id="sample-router" class="anchor" href="#sample-router" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Router</h2>
+<p>Now in the layout config file replace the <strong>'xml_location'</strong> to the </p>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">Route</span><span class="pl-k">::</span>get(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>,[<span class="pl-s"><span class="pl-pds">'</span>as<span class="pl-pds">'</span></span><span class="pl-k">=&gt;</span><span class="pl-s"><span class="pl-pds">'</span>home<span class="pl-pds">'</span></span>,<span class="pl-k">function</span>(){    </span>
-<span class="pl-s1">    <span class="pl-k">return</span> render();    </span>
-<span class="pl-s1">}]);</span></pre></div>
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>xml_location<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">__DIR__</span><span class="pl-k">.</span><span class="pl-s"><span class="pl-pds">'</span>/../resources/layout/layout<span class="pl-pds">'</span></span>,</span></pre></div>
+
+<p>Now when request for the router with the name <strong>'home'</strong></p>
+
+<p><strong>That's it you will see a fully render page</strong></p>
+
+<h3>
+<a id="rendering-process" class="anchor" href="#rendering-process" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rendering Process</h3>
+
+<p>Before rendering the page, all block elements defined in the layout are instantiated. Nested block elements define child blocks. If any block element defines an output attribute, then it is considered as an output block. Only the output blocks are rendered and added to the response. All other child blocks are rendered only if they are called by the parent block. Let’s see how this works.</p>
+
+<p>The block root is defined as an output block. This block is defined in the <strong>default.xml</strong> file. With the particular value of the template attribute, this block defines the page template to be used when rendering it, </p>
+
+<p>i.e:</p>
+
+<ul>
+<li>1 column</li>
+<li>2 columns with left sidebar </li>
+<li>2 columns with right sidebar </li>
+<li>3 columns </li>
+</ul>
+
+<p>By default, the 3 columns template is assigned to the page. There are also other child blocks defined under root like <strong>head, header, breadcrumbs, left, right, content, footer etc</strong>. These child blocks are rendered in the root template file (3columns.blade.php) by calling something like this:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1">{? <span class="pl-smi">$_this</span><span class="pl-k">-&gt;</span>getChildHtml(<span class="pl-s"><span class="pl-pds">'</span>header<span class="pl-pds">'</span></span>) ?}</span></pre></div>
+
+<p>In any template, the child blocks can be rendered by calling the getChildHtml() method as above and passing the child block name as the first argument. If the method is called without arguments, it will render all child blocks of the current block that are defined in the layout XML for that block.</p>
+
+<p>Hence, Layout processes layout using a recursive rendering process. First the root block then its child blocks and then the child’s child blocks and so on.</p>
 
 <h2>
-<a id="thats-it-you-will-see-a-fully-render-page" class="anchor" href="#thats-it-you-will-see-a-fully-render-page" aria-hidden="true"><span class="octicon octicon-link"></span></a>That's it you will see a fully render page</h2>
+<a id="what-is-" class="anchor" href="#what-is-" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is ??</h2>
+
+<p><code>class="\Layout\Page\Html"</code></p>
+
+<p>Its is the base abstract class for a block . you can use as it is or extent the class and add custom function that can be called inside the template file or used to get data from any model.</p>
+
+<h3>
+<a id="layout-elements" class="anchor" href="#layout-elements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layout Elements</h3>
+
+<p>A layout handle may contain the following elements:</p>
+
+<p>block
+: This element is used to define a new block. This element is usually defined inside a reference element when we want to create a new block. The block element must have a name attribute, which is a unique identifier of the block in the layout and a type attribute, which defines the block class name. If the block is of type or subtype of core/template, it can also have the template attribute which defines the actual phtml template file to be used for rendering the block</p>
+
+<p>reference
+: This element is used to link an already defined block in any layout XML. To add any child block to an existing block, to modify attributes of an existing block or to perform any action on an existing block, the reference element is used to link to the existing block. The reference element must have a name attribute which refers to the existing block’s name.</p>
+
+<p>remove
+: This element is used to remove an existing block from the layout. The block to be removed is specified with the name attribute.</p>
+
+<p>action
+: This element defines an action to be performed on the referenced or newly defined block. An action is simply a method of the block instance on which it is to be executed. The method attribute defines the method name in the block instance and all child elements of the action element are treated as parameters to the method. This element can be placed inside reference or block elements.</p>
+
+<p>update
+: This element loads an existing layout handle into the current layout handle. It provides a kind of inheritance of layout handles. It must have the handle attribute, which defines the handle of the block to be included.</p>
 
 <h2>
 <a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
