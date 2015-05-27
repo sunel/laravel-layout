@@ -2,7 +2,7 @@ Laravel Layout
 ===================
 > Simple way to build your page in an upgrade-compatible way
 
-> I build this package inspired by magento way of handling layouts, Yes this package is a laravel port of magneto layout module.If you are already familiar with Magnto Layout then this will a breeze.
+> I build this package inspired by magento way of handling layouts, Yes this package is a laravel port of magento layout module.If you are already familiar with Magento Layout then this will a breeze.
 
 > **Note:** The below read me will give you the basic idea of this package and its under lying concepts. A great wiki is in progress which will have all the details of every know things that this package is capable of.
 
@@ -150,20 +150,15 @@ Its is the base abstract class for a block . you can use as it is or extent the 
 
 A layout handle may contain the following elements:
 
-block
-: This element is used to define a new block. This element is usually defined inside a reference element when we want to create a new block. The block element must have a name attribute, which is a unique identifier of the block in the layout and a type attribute, which defines the block class name. If the block is of type or subtype of core/template, it can also have the template attribute which defines the actual phtml template file to be used for rendering the block
+**block:** This element is used to define a new block. This element is usually defined inside a reference element when we want to create a new block. The block element must have a name attribute, which is a unique identifier of the block in the layout and a type attribute, which defines the block class name. If the block is of type or subtype of core/template, it can also have the template attribute which defines the actual phtml template file to be used for rendering the block
 
-reference
-: This element is used to link an already defined block in any layout XML. To add any child block to an existing block, to modify attributes of an existing block or to perform any action on an existing block, the reference element is used to link to the existing block. The reference element must have a name attribute which refers to the existing block’s name.
+**reference:** This element is used to link an already defined block in any layout XML. To add any child block to an existing block, to modify attributes of an existing block or to perform any action on an existing block, the reference element is used to link to the existing block. The reference element must have a name attribute which refers to the existing block’s name.
 
-remove
-: This element is used to remove an existing block from the layout. The block to be removed is specified with the name attribute.
+**remove:** This element is used to remove an existing block from the layout. The block to be removed is specified with the name attribute.
 
-action
-: This element defines an action to be performed on the referenced or newly defined block. An action is simply a method of the block instance on which it is to be executed. The method attribute defines the method name in the block instance and all child elements of the action element are treated as parameters to the method. This element can be placed inside reference or block elements.
+**action:** This element defines an action to be performed on the referenced or newly defined block. An action is simply a method of the block instance on which it is to be executed. The method attribute defines the method name in the block instance and all child elements of the action element are treated as parameters to the method. This element can be placed inside reference or block elements.
 
-update
-: This element loads an existing layout handle into the current layout handle. It provides a kind of inheritance of layout handles. It must have the handle attribute, which defines the handle of the block to be included.
+**update:** This element loads an existing layout handle into the current layout handle. It provides a kind of inheritance of layout handles. It must have the handle attribute, which defines the handle of the block to be included.
 
 
 
