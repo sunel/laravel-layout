@@ -186,7 +186,7 @@ To move the files to your application run the following artisan command</p>
 
 <p><code>class="\Layout\Page\Html"</code></p>
 
-<p>Its is the base abstract class for a block . you can use as it is or extent the class and add custom function that can be called inside the template file or used to get data from any model.</p>
+<p>Its is the block class that view uses to tie with the template it is extened from <code>\Layout\Block</code> class which is base abstract class for a block . you can use as it is or extent the class and add custom function that can be called inside the template file or used to get data from any model.</p>
 
 <h3>
 <a id="layout-elements" class="anchor" href="#layout-elements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layout Elements</h3>
@@ -205,6 +205,110 @@ To move the files to your application run the following artisan command</p>
 
 <h2>
 <a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Caching</li>
+</ul>
+
+<p>This package supports caching out of the box.</p>
+
+<p>Add cache lifetime to the block class and provide the cache id. You also set the cache group and tag through CONSTANTS so that they can be cleared using it.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * Cache group Tag.</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">const</span> <span class="pl-c1">CACHE_GROUP</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>block_html<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * Cache tags data key.</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">const</span> <span class="pl-c1">CACHE_TAGS_DATA_KEY</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>cache_tags<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">_construct</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>addData([</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>cache_lifetime<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">Carbon</span><span class="pl-k">::</span>now()<span class="pl-k">-&gt;</span>addMinutes(<span class="pl-c1">10</span>),</span>
+<span class="pl-s1">        ]);</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * Retrieve cache key data.</span></span>
+<span class="pl-s1"><span class="pl-c">     *</span></span>
+<span class="pl-s1"><span class="pl-c">     * <span class="pl-k">@return</span> array</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getCacheKeyInfo</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$cacheId</span> <span class="pl-k">=</span> [</span>
+<span class="pl-s1">            <span class="pl-s"><span class="pl-pds">'</span>SOMEUNIQUEID<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">            <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>getNameInLayout(),</span>
+<span class="pl-s1">        ];</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-k">return</span> <span class="pl-smi">$cacheId</span>;</span>
+<span class="pl-s1">    }</span></pre></div>
+
+<ul>
+<li>Adding Top Menus</li>
+</ul>
+
+<p>You can added Top menus dynamicaly by listening to event <strong>page.block.html.topmenu.getMenus.before</strong>.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c1">Event</span><span class="pl-k">::</span>listen(<span class="pl-s"><span class="pl-pds">'</span>page.block.html.topmenu.getMenus.before<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">$menu</span>, <span class="pl-smi">$block</span>) {</span>
+<span class="pl-s1">        <span class="pl-smi">$menu</span><span class="pl-k">-&gt;</span>add(<span class="pl-s"><span class="pl-pds">'</span>Men<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>menu<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">        <span class="pl-smi">$menu</span><span class="pl-k">-&gt;</span>add(<span class="pl-s"><span class="pl-pds">'</span>Women<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>women<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">    });</span>
+<span class="pl-s1"></span></pre></div>
+
+<p>It uses the popular package <a href="https://github.com/lavary/laravel-menu">lavary/laravel-menu</a> for menus.</p>
+
+<ul>
+<li>Adding Top Links</li>
+</ul>
+
+<p>You can add links by referencing the block <strong>top.links</strong></p>
+
+<pre><code>&lt;home&gt;
+    &lt;reference name="top.links"&gt;
+        &lt;action method="addLink" translate="label title"&gt;
+            &lt;label&gt;My Account&lt;/label&gt;
+            &lt;url helper="\Layout\Page\Html@getAccountUrl"/&gt;
+            &lt;title&gt;My Account&lt;/title&gt;
+            &lt;prepare/&gt;
+            &lt;urlParams/&gt;
+            &lt;position&gt;1&lt;/position&gt;
+        &lt;/action&gt;
+        &lt;action method="addLink" translate="label title"&gt;
+            &lt;label&gt;Register&lt;/label&gt;
+            &lt;url&gt;/auth/register&lt;/url&gt;
+            &lt;title&gt;Register&lt;/title&gt;
+            &lt;prepare/&gt;
+            &lt;urlParams/&gt;
+            &lt;position&gt;2&lt;/position&gt;
+         &lt;/action&gt;
+         &lt;action method="addLink" translate="label title"&gt;
+            &lt;label&gt;About&lt;/label&gt;
+            &lt;url&gt;about&lt;/url&gt;
+            &lt;title&gt;About&lt;/title&gt;
+            &lt;prepare&gt;true&lt;/prepare&gt;
+            &lt;urlParams&gt;
+                &lt;id&gt;bar&lt;/id&gt;
+                &lt;foo&gt;bar&lt;/foo&gt;
+            &lt;/urlParams&gt;
+            &lt;position&gt;3&lt;/position&gt;
+            &lt;liParams&gt;
+                &lt;id&gt;bar&lt;/id&gt;
+                &lt;foo&gt;bar&lt;/foo&gt;
+            &lt;/liParams&gt;
+            &lt;aParams&gt;
+                &lt;id&gt;bar&lt;/id&gt;
+                &lt;foo&gt;bar&lt;/foo&gt;
+            &lt;/aParams&gt;
+         &lt;/action&gt;
+    &lt;/reference&gt;
+&lt;/home&gt;
+
+</code></pre>
 
 <ul>
 <li>MultipleHandles</li>
