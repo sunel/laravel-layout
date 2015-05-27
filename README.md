@@ -175,9 +175,9 @@ A layout handle may contain the following elements:
 
 * Caching
 
-This package supports caching out of the box and its simple too.
+This package supports caching out of the box.
 
-One is to add cache lifetime to the block class and provide the cache id. You also set the cache group and tag through CONSTANTS so that they can be cleared using it.
+ Add cache lifetime to the block class and provide the cache id. You also set the cache group and tag through CONSTANTS so that they can be cleared using it.
 
 ```php
 
@@ -215,7 +215,7 @@ One is to add cache lifetime to the block class and provide the cache id. You al
 ```
 * Adding Top Menus
     
-You can added Top menus dynamicaly using events 
+You can added Top menus dynamicaly by listening to event **page.block.html.topmenu.getMenus.before**.
 
 ```php
 
@@ -229,7 +229,7 @@ It uses the popular package [lavary/laravel-menu](https://github.com/lavary/lara
 
 * Adding Top Links
 
-You can add links by re the block **top.links**
+You can add links by referencing the block **top.links**
 
 ```
 <home>
