@@ -9,6 +9,8 @@ Laravel Layout
 # Installation
 Add `sunel/laravel-layout` as a requirement to composer.json:
 
+https://packagist.org/packages/sunel/laravel-layout
+ 
 ```json
 {
   "require": {
