@@ -151,7 +151,15 @@ To move the files to your application run the following artisan command</p>
 
 <p>Now in the layout config file replace the <strong>'xml_location'</strong> to the </p>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>xml_location<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">__DIR__</span><span class="pl-k">.</span><span class="pl-s"><span class="pl-pds">'</span>/../resources/layout/layout<span class="pl-pds">'</span></span>,</span></pre></div>
+<div class="highlight highlight-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>xml_location<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [</span>
+<span class="pl-s1">    <span class="pl-c1">__DIR__</span><span class="pl-k">.</span><span class="pl-s"><span class="pl-pds">'</span>/../resources/layout/layout<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">],</span>
+<span class="pl-s1"></span></pre></div>
+
+<blockquote>
+<p><strong>Note</strong> You can also add multiple xml file location</p>
+</blockquote>
 
 <p>Now when request for the router with the name <strong>'home'</strong></p>
 
