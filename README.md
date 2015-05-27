@@ -149,9 +149,11 @@ In any template, the child blocks can be rendered by calling the getChildHtml() 
 Hence, Layout processes layout using a recursive rendering process. First the root block then its child blocks and then the child’s child blocks and so on.
 
 ##What is ??
+
 ``` class="\Layout\Page\Html" ```
 
-Its is the base abstract class for a block . you can use as it is or extent the class and add custom function that can be called inside the template file or used to get data from any model.
+
+Its is the block class that view uses to tie with the template it is extened from ```\Layout\Block``` class which is base abstract class for a block . you can use as it is or extent the class and add custom function that can be called inside the template file or used to get data from any model.
 
 ###Layout Elements
 
@@ -171,6 +173,106 @@ A layout handle may contain the following elements:
 
 ## Features
 
+* Caching
+
+This package supports caching out of the box and its simple too.
+
+One is to add cache lifetime to the block class and provide the cache id. You also set the cache group and tag through CONSTANTS so that they can be cleared using it.
+
+```php
+
+    /**
+     * Cache group Tag.
+     */
+    const CACHE_GROUP = 'block_html';
+
+    /**
+     * Cache tags data key.
+     */
+    const CACHE_TAGS_DATA_KEY = 'cache_tags';
+
+    public function _construct()
+    {
+        $this->addData([
+            'cache_lifetime' => Carbon::now()->addMinutes(10),
+        ]);
+    }
+
+    /**
+     * Retrieve cache key data.
+     *
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        $cacheId = [
+            'SOMEUNIQUEID',
+            $this->getNameInLayout(),
+        ];
+
+        return $cacheId;
+    }
+```
+* Adding Top Menus
+    
+You can added Top menus dynamicaly using events 
+
+```php
+
+    Event::listen('page.block.html.topmenu.getMenus.before', function ($menu, $block) {
+        $menu->add('Men', 'menu');
+        $menu->add('Women', 'women');
+    });
+
+```
+It uses the popular package [lavary/laravel-menu](https://github.com/lavary/laravel-menu) for menus.
+
+* Adding Top Links
+
+You can add links by re the block **top.links**
+
+```
+<home>
+    <reference name="top.links">
+        <action method="addLink" translate="label title">
+            <label>My Account</label>
+            <url helper="\Layout\Page\Html@getAccountUrl"/>
+            <title>My Account</title>
+            <prepare/>
+            <urlParams/>
+            <position>1</position>
+        </action>
+        <action method="addLink" translate="label title">
+            <label>Register</label>
+            <url>/auth/register</url>
+            <title>Register</title>
+            <prepare/>
+            <urlParams/>
+            <position>2</position>
+         </action>
+         <action method="addLink" translate="label title">
+            <label>About</label>
+            <url>about</url>
+            <title>About</title>
+            <prepare>true</prepare>
+            <urlParams>
+                <id>bar</id>
+                <foo>bar</foo>
+            </urlParams>
+            <position>3</position>
+            <liParams>
+                <id>bar</id>
+                <foo>bar</foo>
+            </liParams>
+            <aParams>
+                <id>bar</id>
+                <foo>bar</foo>
+            </aParams>
+         </action>
+    </reference>
+</home>
+
+```
 * MultipleHandles
 
 This allows developers to target their layout updates to multiple layout handles at once.

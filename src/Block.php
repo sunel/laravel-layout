@@ -853,6 +853,19 @@ class Block extends Object
     }
 
     /**
+     * set the cache life time
+     *
+     * @return array
+     */
+    public function addCacheLifetime($time)
+    {
+        $this->setData('cache_lifetime',\Carbon\Carbon::now()->addMinutes($time));
+       
+        return $this;
+    }
+    
+
+    /**
      * Get Key for caching block content.
      *
      * @return string
@@ -882,9 +895,9 @@ class Block extends Object
             $tags = json_decode($tagsCache);
         }
         if (!isset($tags) || !is_array($tags) || empty($tags)) {
-            $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ? [] : $this->getData(self::CACHE_TAGS_DATA_KEY);
-            if (!in_array(self::CACHE_GROUP, $tags)) {
-                $tags[] = self::CACHE_GROUP;
+            $tags = !$this->hasData(static::CACHE_TAGS_DATA_KEY) ? [] : $this->getData(static::CACHE_TAGS_DATA_KEY);
+            if (!in_array(static::CACHE_GROUP, $tags)) {
+                $tags[] = static::CACHE_GROUP;
             }
         }
 
@@ -901,9 +914,9 @@ class Block extends Object
     public function addCacheTag($tag)
     {
         $tag = is_array($tag) ? $tag : [$tag];
-        $tags = !$this->hasData(self::CACHE_TAGS_DATA_KEY) ?
-            $tag : array_merge($this->getData(self::CACHE_TAGS_DATA_KEY), $tag);
-        $this->setData(self::CACHE_TAGS_DATA_KEY, $tags);
+        $tags = !$this->hasData(static::CACHE_TAGS_DATA_KEY) ?
+            $tag : array_merge($this->getData(static::CACHE_TAGS_DATA_KEY), $tag);
+        $this->setData(static::CACHE_TAGS_DATA_KEY, $tags);
 
         return $this;
     }
@@ -951,7 +964,6 @@ class Block extends Object
             return false;
         }
         $cacheKey = $this->getCacheKey();
-
         $cacheData = Cache::get($cacheKey, false);
         if ($cacheData) {
             $cacheData = str_replace(
