@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-	<home>
+	<sample>
 		<reference name="left">
             <block class="\Layout\Page\Html" name="home.left" template="render::left">
             </block>
          </reference>
-	</home>
-	<home ifhandle="add_this">
+	</sample>
+	<sample ifhandle="add_this">
 		<reference name="left">
             <block class="\Layout\Page\Html" name="home.left" template="render::left">
             </block>
          </reference>
-	</home>
-	<home>
+	</sample>
+	<sample>
 		<reference name="left">
             <block class="\Layout\Page\Html" name="home.left" template="render::left">
             </block>
          </reference>
-	</home>
+	</sample>
 </layout>

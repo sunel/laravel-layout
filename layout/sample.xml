@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-	<home>
+	<sample>
 		<reference name="top.links">
 	       	<action method="addLink" translate="label title">
 	        	<label>My Account</label>
@@ -83,7 +83,7 @@
             <block class="\Layout\Page\Html" name="home" template="render::home">
             </block>
          </reference>
-	</home>
+	</sample>
 
 	<about>
 		 <reference name="head">

@@ -11,7 +11,7 @@ return [
     |
     */
     'strict'            => false,
-    'show_templat_hint' => false,
+    'show_templat_hint' => true,
     'add_sample_menu'   => true,
     'session_name'      => 'laravel_session',
 

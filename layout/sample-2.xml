@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-	<home>
+	<sample>
 		<reference name="right">
             <block class="\Layout\Page\Html" name="home.right" template="render::right">
             </block>
          </reference>
-	</home>
+	</sample>
 </layout>
