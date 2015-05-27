@@ -59,22 +59,23 @@ To move the files to your application run the following artisan command
 ```php
 $ php artisan vendor:publish --provider="Layout\Provider\LayoutServiceProvider" --tag=layout
 ```
+This will move the sample layout xml files into "resources/layout/layout" folder.
 
-This is export basic css for a page layout
+This command will export basic css for a page layout
 
 ```php
 $ php artisan vendor:publish --provider="Layout\Provider\LayoutServiceProvider" --tag=public
 ```
-This will move the sample layout xml files into "resources/layout/vendor/layout/layout" folder.
 
-This package already provides a default structure for a every page which will in the **default.xml** [here][1].
+This package already provides the default structure for a every page which will in the **default.xml** [here][1].
 
-> **Note:**  For the example we are going to use a page which has layout with 3 columns [here][2]
+> **Note:**  For this example we are going to use a page which has layout with 3 columns [here][2]
 
 The root element of any layout XML file is ```<layout>```.
 
-Layout Handles
-: In these XML files, you will see a number of snippets of XML enclosed in layout handle parent nodes, which are used to determine the type of page being displayed.
+####Layout Handles
+
+In these XML files, you will see a number of snippets of XML enclosed in layout handle parent nodes, which are used to determine the type of page being displayed.
 
 The ```<default>``` handle is the one that loads most of the pages and forms the base or to say skeleton of every page. So most of the case we use the one given in the page without modifying it.
 
@@ -111,6 +112,8 @@ Very simple just create a new xml file with any name and add the below snippet
 </layout>
 ```
 
+Note ```<home>``` this is the handle that loades the content for the page , to say it fills the placeholders which is defined in the **default** handle
+
 Now in the layout config file replace the **'xml_location'** to the 
 
 ```php
@@ -136,7 +139,7 @@ i.e:
 By default, the 3 columns template is assigned to the page. There are also other child blocks defined under root like **head, header, breadcrumbs, left, right, content, footer etc**. These child blocks are rendered in the root template file (3columns.blade.php) by calling something like this:
 
 ```php
-{? $_this->getChildHtml('header') ?}
+{!! $_this->getChildHtml('header') !!}
 ```
 
 In any template, the child blocks can be rendered by calling the getChildHtml() method as above and passing the child block name as the first argument. If the method is called without arguments, it will render all child blocks of the current block that are defined in the layout XML for that block.
