@@ -15,7 +15,9 @@ return [
     'add_sample_menu'   => true,
     'session_name'      => 'laravel_session',
 
-    'xml_location' => __DIR__.'/../layout',
+    'xml_location' => [
+            __DIR__.'/../layout',
+    ],
 
     'cache' => [
         'fpc'    => false, //Danger Still Experimental

@@ -119,8 +119,14 @@ Note ```<home>``` this is the handle that loades the content for the page , to s
 Now in the layout config file replace the **'xml_location'** to the 
 
 ```php
-'xml_location' => __DIR__.'/../resources/layout/layout',
+
+'xml_location' => [
+    __DIR__.'/../resources/layout/layout'
+],
+
 ```
+> **Note** You can also add multiple xml file location
+
 Now when request for the router with the name **'home'**
 
 **That's it you will see a fully render page**

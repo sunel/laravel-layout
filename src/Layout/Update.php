@@ -295,16 +295,23 @@ class Update
 
         $layoutStr = '';
 
-        foreach (Finder::create()->files()->name('*.xml')->in(config('layout.xml_location')) as $file) {
-            $fileStr = $file->getContents();
-            $fileXml = simplexml_load_string($fileStr, $elementClass);
+        $fileLocation = config('layout.xml_location');
 
-            if (!$fileXml instanceof SimpleXMLElement) {
-                continue;
-            }
-
-            $layoutStr .= $fileXml->innerXml();
+        if(!is_array($fileLocation)){
+            $fileLocation = [$fileLocation];
         }
+        foreach ($fileLocation as $location) {
+            foreach (Finder::create()->files()->name('*.xml')->in($location) as $file) {
+                $fileStr = $file->getContents();
+                $fileXml = simplexml_load_string($fileStr, $elementClass);
+
+                if (!$fileXml instanceof SimpleXMLElement) {
+                    continue;
+                }
+
+                $layoutStr .= $fileXml->innerXml();
+            }
+        }    
 
         $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>', $elementClass);
 
