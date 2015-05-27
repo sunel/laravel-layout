@@ -22,6 +22,8 @@
       <h1>
 <a id="laravel-layout" class="anchor" href="#laravel-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Laravel Layout</h1>
 
+<p><a href="https://gitter.im/sunel/laravel-layout?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/sunel/laravel-layout"></a></p>
+
 <blockquote>
 <p>Simple way to build your page in an upgrade-compatible way</p>
 
@@ -34,6 +36,8 @@
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
 
 <p>Add <code>sunel/laravel-layout</code> as a requirement to composer.json:</p>
+
+<p><a href="https://packagist.org/packages/sunel/laravel-layout">https://packagist.org/packages/sunel/laravel-layout</a></p>
 
 <div class="highlight highlight-json"><pre>{
   <span class="pl-s"><span class="pl-pds">"</span>require<span class="pl-pds">"</span></span>: {
@@ -90,22 +94,24 @@ To move the files to your application run the following artisan command</p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1">$ <span class="pl-c1">php</span> <span class="pl-c1">artisan</span> <span class="pl-c1">vendor</span>:<span class="pl-c1">publish</span> <span class="pl-k">--</span><span class="pl-c1">provider</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Layout\Provider\LayoutServiceProvider<span class="pl-pds">"</span></span> <span class="pl-k">--</span><span class="pl-c1">tag</span><span class="pl-k">=</span><span class="pl-c1">layout</span></span></pre></div>
 
-<p>This is export basic css for a page layout</p>
+<p>This will move the sample layout xml files into "resources/layout/layout" folder.</p>
+
+<p>This command will export basic css for a page layout</p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1">$ <span class="pl-c1">php</span> <span class="pl-c1">artisan</span> <span class="pl-c1">vendor</span>:<span class="pl-c1">publish</span> <span class="pl-k">--</span><span class="pl-c1">provider</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Layout\Provider\LayoutServiceProvider<span class="pl-pds">"</span></span> <span class="pl-k">--</span><span class="pl-c1">tag</span><span class="pl-k">=</span><span class="pl-k">public</span></span></pre></div>
 
-<p>This will move the sample layout xml files into "resources/layout/vendor/layout/layout" folder.</p>
-
-<p>This package already provides a default structure for a every page which will in the <strong>default.xml</strong> <a href="https://github.com/sunel/laravel-layout/blob/develop/layout/default.xml">here</a>.</p>
+<p>This package already provides the default structure for a every page which will in the <strong>default.xml</strong> <a href="https://github.com/sunel/laravel-layout/blob/develop/layout/default.xml">here</a>.</p>
 
 <blockquote>
-<p><strong>Note:</strong>  For the example we are going to use a page which has layout with 3 columns <a href="https://photos-3.dropbox.com/t/2/AAA4hiywutlrZrckIqwWzzfA49JehTqpghXAse1kl6S9kg/12/93078715/png/32x32/1/1432735200/0/2/3lc.png/CLuJsSwgASACIAMgBCAFIAYgBygB/SU_wk5eoHQPT-5ISy334QjMS8x-7hZy75CEzG98c3k4?size_mode=5">here</a></p>
+<p><strong>Note:</strong>  For this example we are going to use a page which has layout with 3 columns <a href="https://photos-3.dropbox.com/t/2/AAA4hiywutlrZrckIqwWzzfA49JehTqpghXAse1kl6S9kg/12/93078715/png/32x32/1/1432735200/0/2/3lc.png/CLuJsSwgASACIAMgBCAFIAYgBygB/SU_wk5eoHQPT-5ISy334QjMS8x-7hZy75CEzG98c3k4?size_mode=5">here</a></p>
 </blockquote>
 
 <p>The root element of any layout XML file is <code>&lt;layout&gt;</code>.</p>
 
-<p>Layout Handles
-: In these XML files, you will see a number of snippets of XML enclosed in layout handle parent nodes, which are used to determine the type of page being displayed.</p>
+<h4>
+<a id="layout-handles" class="anchor" href="#layout-handles" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layout Handles</h4>
+
+<p>In these XML files, you will see a number of snippets of XML enclosed in layout handle parent nodes, which are used to determine the type of page being displayed.</p>
 
 <p>The <code>&lt;default&gt;</code> handle is the one that loads most of the pages and forms the base or to say skeleton of every page. So most of the case we use the one given in the page without modifying it.</p>
 
@@ -141,6 +147,8 @@ To move the files to your application run the following artisan command</p>
     &lt;/<span class="pl-ent">home</span>&gt;
 &lt;/<span class="pl-ent">layout</span>&gt;</pre></div>
 
+<p>Note <code>&lt;home&gt;</code> this is the handle that loades the content for the page , to say it fills the placeholders which is defined in the <strong>default</strong> handle</p>
+
 <p>Now in the layout config file replace the <strong>'xml_location'</strong> to the </p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-s"><span class="pl-pds">'</span>xml_location<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-c1">__DIR__</span><span class="pl-k">.</span><span class="pl-s"><span class="pl-pds">'</span>/../resources/layout/layout<span class="pl-pds">'</span></span>,</span></pre></div>
@@ -167,7 +175,7 @@ To move the files to your application run the following artisan command</p>
 
 <p>By default, the 3 columns template is assigned to the page. There are also other child blocks defined under root like <strong>head, header, breadcrumbs, left, right, content, footer etc</strong>. These child blocks are rendered in the root template file (3columns.blade.php) by calling something like this:</p>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1">{? <span class="pl-smi">$_this</span><span class="pl-k">-&gt;</span>getChildHtml(<span class="pl-s"><span class="pl-pds">'</span>header<span class="pl-pds">'</span></span>) ?}</span></pre></div>
+<div class="highlight highlight-php"><pre><span class="pl-s1">{<span class="pl-k">!!</span> <span class="pl-smi">$_this</span><span class="pl-k">-&gt;</span>getChildHtml(<span class="pl-s"><span class="pl-pds">'</span>header<span class="pl-pds">'</span></span>) <span class="pl-k">!!</span>}</span></pre></div>
 
 <p>In any template, the child blocks can be rendered by calling the getChildHtml() method as above and passing the child block name as the first argument. If the method is called without arguments, it will render all child blocks of the current block that are defined in the layout XML for that block.</p>
 
