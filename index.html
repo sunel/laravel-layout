@@ -25,7 +25,7 @@
 <blockquote>
 <p>Simple way to build your page in an upgrade-compatible way</p>
 
-<p>I build this package inspired by magento way of handling layouts, Yes this package is a laravel port of magneto layout module.If you are already familiar with Magnto Layout then this will a breeze.</p>
+<p>I build this package inspired by magento way of handling layouts, Yes this package is a laravel port of magento layout module.If you are already familiar with Magento Layout then this will a breeze.</p>
 
 <p><strong>Note:</strong> The below read me will give you the basic idea of this package and its under lying concepts. A great wiki is in progress which will have all the details of every know things that this package is capable of.</p>
 </blockquote>
@@ -185,20 +185,15 @@ To move the files to your application run the following artisan command</p>
 
 <p>A layout handle may contain the following elements:</p>
 
-<p>block
-: This element is used to define a new block. This element is usually defined inside a reference element when we want to create a new block. The block element must have a name attribute, which is a unique identifier of the block in the layout and a type attribute, which defines the block class name. If the block is of type or subtype of core/template, it can also have the template attribute which defines the actual phtml template file to be used for rendering the block</p>
+<p><strong>block:</strong> This element is used to define a new block. This element is usually defined inside a reference element when we want to create a new block. The block element must have a name attribute, which is a unique identifier of the block in the layout and a type attribute, which defines the block class name. If the block is of type or subtype of core/template, it can also have the template attribute which defines the actual phtml template file to be used for rendering the block</p>
 
-<p>reference
-: This element is used to link an already defined block in any layout XML. To add any child block to an existing block, to modify attributes of an existing block or to perform any action on an existing block, the reference element is used to link to the existing block. The reference element must have a name attribute which refers to the existing block’s name.</p>
+<p><strong>reference:</strong> This element is used to link an already defined block in any layout XML. To add any child block to an existing block, to modify attributes of an existing block or to perform any action on an existing block, the reference element is used to link to the existing block. The reference element must have a name attribute which refers to the existing block’s name.</p>
 
-<p>remove
-: This element is used to remove an existing block from the layout. The block to be removed is specified with the name attribute.</p>
+<p><strong>remove:</strong> This element is used to remove an existing block from the layout. The block to be removed is specified with the name attribute.</p>
 
-<p>action
-: This element defines an action to be performed on the referenced or newly defined block. An action is simply a method of the block instance on which it is to be executed. The method attribute defines the method name in the block instance and all child elements of the action element are treated as parameters to the method. This element can be placed inside reference or block elements.</p>
+<p><strong>action:</strong> This element defines an action to be performed on the referenced or newly defined block. An action is simply a method of the block instance on which it is to be executed. The method attribute defines the method name in the block instance and all child elements of the action element are treated as parameters to the method. This element can be placed inside reference or block elements.</p>
 
-<p>update
-: This element loads an existing layout handle into the current layout handle. It provides a kind of inheritance of layout handles. It must have the handle attribute, which defines the handle of the block to be included.</p>
+<p><strong>update:</strong> This element loads an existing layout handle into the current layout handle. It provides a kind of inheritance of layout handles. It must have the handle attribute, which defines the handle of the block to be included.</p>
 
 <h2>
 <a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
