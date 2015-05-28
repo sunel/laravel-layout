@@ -5,26 +5,101 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    |
+    | Strict Mode
     |--------------------------------------------------------------------------
     |
+    | Enabling Strict mode will require all the router as Named routes,
+	| if name are missing then Layout\Exceptions\InvalidRouterNameException
+	| is thrown.
     |
     */
-    'strict'            => false,
-    'show_templat_hint' => false,
+    
+    'strict'            => true,
+    
+	/*
+    |--------------------------------------------------------------------------
+    | Template Hints
+    |--------------------------------------------------------------------------
+    |
+    | Enabling template hint will allow you to visualize the class name 
+	| and the template loaded for the block in the client side.This is
+	| will let the developer easily look for the block which they need 
+	| to debug.
+    |
+    */
+    
+    'show_template_hint' => false,
+    
+	/*
+    |--------------------------------------------------------------------------
+    | Sample Menus
+    |--------------------------------------------------------------------------
+    |
+    | Enabling sample menu will add few top menu.This is just a hint to show
+	| how a menu can be added. 
+    |
+    */
+    
     'add_sample_menu'   => true,
+    
+	/*
+    |--------------------------------------------------------------------------
+    | Session Name
+    |--------------------------------------------------------------------------
+    | 
+	| This variable is used to get the session details for caching purpose. 
+	| Mostly this is will the same name given in the 'sesssion.cookie' config.
+    |
+    */
+    
     'session_name'      => 'laravel_session',
+    
+	/*
+    |--------------------------------------------------------------------------
+    | XML Location
+    |--------------------------------------------------------------------------
+    | 
+	| List of absolute location path of the layout xml files.
+	| 
+    */
 
     'xml_location' => [
             __DIR__.'/../layout',
     ],
-
+	
+	/*
+    |--------------------------------------------------------------------------
+    | Cache
+    |--------------------------------------------------------------------------
+    | Block
+	|    Enabling block cache will cache the block HTML output with the given option.
+	| Layout
+	|   Enabling layout cache will cache the genrated xml files based on
+	|   each handles (routers) and also avoid fetching from file every time.
+    |
+    */
+    
     'cache' => [
-        'fpc'    => false, //Danger Still Experimental
         'block'  => false,
         'layout' => false,
+        'fpc'    => false, //Danger Still Experimental
     ],
-
+	
+	/*
+    |--------------------------------------------------------------------------
+    | Head Options
+    |--------------------------------------------------------------------------
+    | 
+	| This section will be used to fill the basic option required in the <head>
+	| section.
+	|   
+	| Title :- Use to set the page default title , prefix & suffix will added 
+	|          to the title respectively.
+	| Includes :- To add extra content in the head section. This can be 
+	|             anything. 
+    |
+    */
+    
     'head' => [
 
         'title' => [
@@ -42,11 +117,28 @@ return [
         'includes'     => '',
 
     ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Cookie Notice
+    |--------------------------------------------------------------------------
+    | This is to show the cookie notice section for a page.
+    |
+    */
+    
     'cookienotice' => [
 
         'content' => 'Cookie notice content.',
         'noshow'  => true,
     ],
+    
+	/*
+    |--------------------------------------------------------------------------
+    | Footer 
+    |--------------------------------------------------------------------------
+    | To add the copyright content in the footer section 
+    |
+    */
 
     'footer' => [
 

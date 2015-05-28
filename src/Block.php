@@ -1121,7 +1121,7 @@ class Block extends Object
 
     public function getShowTemplateHints()
     {
-        return config('layout.show_templat_hint', false);
+        return config('layout.show_template_hint', false);
     }
 
     /**
