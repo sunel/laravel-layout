@@ -5,6 +5,16 @@
             <block class="\Layout\Page\Html" name="home.left" template="render::left">
             </block>
          </reference>
+         <reference name="breadcrumbs">
+		    <action method="addCrumb">
+		        <crumbname>Home</crumbname>
+		        <crumbinfo>
+		            <label>Home</label>
+		            <title>Go to Home Page</title>
+		            <link>/</link>
+		        </crumbinfo>
+		    </action>
+		</reference>
 	</sample>
 	<sample ifhandle="add_this">
 		<reference name="left">

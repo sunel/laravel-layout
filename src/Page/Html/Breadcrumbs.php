@@ -34,7 +34,6 @@ class Breadcrumbs extends \Layout\Block
     }
     public function addCrumb($crumbName, $crumbInfo, $after = false)
     {
-        $this->_prepareArray($crumbInfo, ['label', 'title', 'link', 'first', 'last', 'readonly']);
         if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
             $this->_crumbs[$crumbName] = $crumbInfo;
         }

@@ -31,6 +31,15 @@ class Factory
     protected $titles = [];
 
     /**
+     * Array of breadcrumbs.
+     * 
+     * @see self::breadcrumbs()
+     * 
+     * @var array
+     */
+    protected $crumbs = [];
+
+    /**
      * Options parts to be rendered in the page head.
      *
      * @var array
@@ -245,6 +254,7 @@ class Factory
 
         $this->_renderTitles();
         $this->_renderHeadOptions();
+        $this->_renderBreadcrumbs();
 
         start_profile("$_profilerKey::layout_render");
         if ('' !== $output) {
@@ -307,6 +317,21 @@ class Factory
         }
 
         return $this;
+    }
+
+    public function breadcrumbs($crumbs) 
+    {
+        $this->crumbs = $crumbs;
+    }
+
+    protected function _renderBreadcrumbs() 
+    {
+        $crumbs = $this->getLayout()->getBlock('breadcrumbs');
+        if($crumbs) {
+            foreach ($this->crumbs as $name => $info) {
+                $crumbs->addCrumb($name, $info);
+            }    
+        }
     }
 
     public function setHeadOption($key, $value)

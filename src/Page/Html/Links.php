@@ -46,8 +46,6 @@ class Links extends \Layout\Block
      * @param int          $position
      * @param string|array $liParams
      * @param string|array $aParams
-     * @param string       $beforeText
-     * @param string       $afterText
      *
      * @return \Layout\Page\Html\Links
      */

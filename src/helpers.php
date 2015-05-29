@@ -45,6 +45,9 @@ if (!function_exists('renderWithOptions')) {
                         $factory->title($title);
                     }
                     break;
+                case 'breadcrumbs':
+                    $factory->breadcrumbs($option);
+                    break;    
                 default:
                     $factory->setHeadOption($key, $option);
                     break;
