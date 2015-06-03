@@ -264,8 +264,6 @@ class Factory
         $this->events->fire('route.layout.render.before');
         $this->events->fire('route.layout.render.before.'.$this->routeHandler());
 
-        $this->getLayout()->setDirectOutput(false);
-
         $output = $this->getLayout()->getOutput();
 
         stop_profile("$_profilerKey::layout_render");
@@ -318,6 +316,30 @@ class Factory
 
         return $this;
     }
+    
+    /**
+     * Prepare titles in the 'head' layout block
+     * Supposed to work only in actions where layout is rendered
+     * Falls back to the default logic if there are no titles eventually.
+     *
+     * @see self::loadLayout()
+     * @see self::renderLayout()
+     */
+    protected function _renderTitles()
+    {
+        if ($this->_isLayoutLoaded && $this->titles) {
+            $titleBlock = $this->getLayout()->getBlock('head');
+            if ($titleBlock) {
+                if (!$this->removeDefaultTitle) {
+                    $title = trim($titleBlock->getTitle());
+                    if ($title) {
+                        array_unshift($this->titles, $title);
+                    }
+                }
+                $titleBlock->setTitle(implode(' / ', array_reverse($this->titles)));
+            }
+        }
+    }
 
     public function breadcrumbs($crumbs) 
     {
@@ -345,30 +367,6 @@ class Factory
         if ($titleBlock) {
             foreach ($this->headOptions as $key => $value) {
                 $titleBlock->setData($key, $value);
-            }
-        }
-    }
-
-    /**
-     * Prepare titles in the 'head' layout block
-     * Supposed to work only in actions where layout is rendered
-     * Falls back to the default logic if there are no titles eventually.
-     *
-     * @see self::loadLayout()
-     * @see self::renderLayout()
-     */
-    protected function _renderTitles()
-    {
-        if ($this->_isLayoutLoaded && $this->titles) {
-            $titleBlock = $this->getLayout()->getBlock('head');
-            if ($titleBlock) {
-                if (!$this->removeDefaultTitle) {
-                    $title = trim($titleBlock->getTitle());
-                    if ($title) {
-                        array_unshift($this->titles, $title);
-                    }
-                }
-                $titleBlock->setTitle(implode(' / ', array_reverse($this->titles)));
             }
         }
     }
