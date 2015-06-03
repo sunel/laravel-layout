@@ -46,13 +46,6 @@ class Layout
     protected $_output = [];
 
     /**
-     * Flag to have blocks' output go directly to browser as oppose to return result.
-     *
-     * @var bool
-     */
-    protected $_directOutput = false;
-
-    /**
      * Event Instance.
      *
      * @var Illuminate\Events\Dispatcher
@@ -83,30 +76,6 @@ class Layout
     public function getUpdate()
     {
         return $this->_update;
-    }
-
-    /**
-     * Declaring layout direct output flag.
-     *
-     * @param bool $flag
-     *
-     * @return \Layout\Layout
-     */
-    public function setDirectOutput($flag)
-    {
-        $this->_directOutput = $flag;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve derect output flag.
-     *
-     * @return bool
-     */
-    public function getDirectOutput()
-    {
-        return $this->_directOutput;
     }
 
     /**
