@@ -22,7 +22,7 @@ class Links extends \Layout\Block
     /**
      * Set default template.
      */
-    protected function _construct()
+    protected function boot()
     {
         $this->setTemplate('render::template.page.template.links');
     }

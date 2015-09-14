@@ -341,18 +341,18 @@ class Factory
         }
     }
 
-    public function breadcrumbs($crumbs) 
+    public function breadcrumbs($crumbs)
     {
         $this->crumbs = $crumbs;
     }
 
-    protected function _renderBreadcrumbs() 
+    protected function _renderBreadcrumbs()
     {
         $crumbs = $this->getLayout()->getBlock('breadcrumbs');
-        if($crumbs) {
+        if ($crumbs) {
             foreach ($this->crumbs as $name => $info) {
                 $crumbs->addCrumb($name, $info);
-            }    
+            }
         }
     }
 

@@ -859,7 +859,7 @@ class Block extends Object
      */
     public function addCacheLifetime($time)
     {
-        $this->setData('cache_lifetime',\Carbon\Carbon::now()->addMinutes($time));
+        $this->setData('cache_lifetime', \Carbon\Carbon::now()->addMinutes($time));
        
         return $this;
     }

@@ -22,13 +22,13 @@ class Object implements \ArrayAccess
 
     public function __construct()
     {
-        $this->_construct();
+        $this->boot();
     }
 
     /**
      * Internal constructor, that is called from real constructor.
      */
-    protected function _construct()
+    protected function boot()
     {
     }
 

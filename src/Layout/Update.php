@@ -297,7 +297,7 @@ class Update
 
         $fileLocation = config('layout.xml_location');
 
-        if(!is_array($fileLocation)){
+        if (!is_array($fileLocation)) {
             $fileLocation = [$fileLocation];
         }
         foreach ($fileLocation as $location) {
@@ -311,7 +311,7 @@ class Update
 
                 $layoutStr .= $fileXml->innerXml();
             }
-        }    
+        }
 
         $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>', $elementClass);
 

@@ -23,7 +23,7 @@ class TopMenu extends \Layout\Block
     /**
      * Init top menu tree structure.
      */
-    public function _construct()
+    public function boot()
     {
         $this->addData([
             'cache_lifetime' => Carbon::now()->addMinutes(10),

@@ -27,9 +27,8 @@ class Breadcrumbs extends \Layout\Block
      */
     protected $_cacheKeyInfo = null;
 
-    public function _construct()
+    public function boot()
     {
-        parent::_construct();
         $this->setTemplate('render::template.page.html.breadcrumbs');
     }
     public function addCrumb($crumbName, $crumbInfo, $after = false)

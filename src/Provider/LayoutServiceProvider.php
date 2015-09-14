@@ -18,7 +18,7 @@ class LayoutServiceProvider extends ServiceProvider
         /*$this->publishes([
              __DIR__.'/../../views' => base_path('resources/views/vendor/layout'),
         ], 'view');
-		*/ 
+        */
         $this->publishes([
              __DIR__.'/../../layout/default.xml' => base_path('resources/layout/default.xml'),
         ], 'layout');

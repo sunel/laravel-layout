@@ -4,10 +4,8 @@ namespace Layout\Page;
 
 class Html extends \Layout\Block
 {
-    public function _construct()
+    public function boot()
     {
-        parent::_construct();
-
         $action = $this->routeHandler();
         if ($action) {
             $this->addBodyClass($action);
