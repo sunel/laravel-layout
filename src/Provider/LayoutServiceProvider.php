@@ -20,7 +20,7 @@ class LayoutServiceProvider extends ServiceProvider
         ], 'view');
 		*/ 
         $this->publishes([
-             __DIR__.'/../../layout/default.xml' => base_path('resources/layout/layout/default.xml'),
+             __DIR__.'/../../layout/default.xml' => base_path('resources/layout/default.xml'),
         ], 'layout');
         $this->publishes([
             __DIR__.'/../../config/layout.php' => config_path('layout.php'),
@@ -39,7 +39,7 @@ class LayoutServiceProvider extends ServiceProvider
         $this->registerTemplatLayout();
         $this->registerBladeTemplate();
 
-        $this->app->register('Layout\Provider\LavaryMenuServiceProvider');
+        $this->app->register('Lavary\Menu\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
 
         $this->app->booting(function () {
