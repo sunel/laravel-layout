@@ -59,7 +59,7 @@ class LayoutServiceProvider extends ServiceProvider
     public function registerFactory()
     {
         $this->app->singleton('render', function ($app) {
-            $env = new Factory($app['events']);
+            $env = new Factory($app['events'], $app['cache']);
 
             return $env;
         });
@@ -72,7 +72,7 @@ class LayoutServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('render.layout.update', function ($app) {
-                return new Update();
+                return new Update($app['cache']);
         });
     }
 

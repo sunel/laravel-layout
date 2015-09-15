@@ -2,9 +2,9 @@
 
 namespace Layout;
 
-use Cache;
 use Illuminate\Contracts\Events\Dispatcher;
 use Layout\Exceptions\InvalidRouterNameException;
+use Illuminate\Contracts\Cache\Factory as Cache;
 
 class Factory
 {
@@ -20,6 +20,13 @@ class Factory
      * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
+
+     /**
+     * The cache instance.
+     *
+     * @var \Illuminate\Contracts\Cache\Repository
+     */
+    protected $cache;
 
     /**
      * Title parts to be rendered in the page head title.
@@ -59,10 +66,12 @@ class Factory
      * Create a new view factory instance.
      *
      * @param \Illuminate\Contracts\Events\Dispatcher $events
+     * @param \Illuminate\Contracts\Cache\Factory $cache
      */
-    public function __construct(Dispatcher $events)
+    public function __construct(Dispatcher $events, Cache $cache)
     {
         $this->events = $events;
+        $this->cache = $cache;
     }
 
     /**
@@ -91,7 +100,7 @@ class Factory
             return false;
         }
 
-        if (!$result = Cache::get($this->getCacheId(), false)) {
+        if (!$result = $this->cache->get($this->getCacheId(), false)) {
             return false;
         }
 
@@ -109,9 +118,9 @@ class Factory
 
         #TODO need to find neat solution
         if (config('cache.default') == 'file') {
-            return Cache::put($this->getCacheId(), $html, 0);
+            return $this->cache->put($this->getCacheId(), $html, 0);
         } else {
-            return Cache::tags($tags)->add($this->getCacheId(), $html, 0);
+            return $this->cache->tags($tags)->add($this->getCacheId(), $html, 0);
         }
     }
 
@@ -190,23 +199,23 @@ class Factory
 
     public function loadLayoutUpdates()
     {
-        $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
+        $profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
         // dispatch event for adding handles to layout update
         $this->events->fire(
             'route.layout.load.before',
             ['route' => app('request'), 'layout' => $this->getLayout()]
         );
         // load layout updates by specified handles
-        start_profile("$_profilerKey::layout_load");
+        start_profile("$profilerKey::layout_load");
         $this->getLayout()->getUpdate()->load();
-        stop_profile("$_profilerKey::layout_load");
+        stop_profile("$profilerKey::layout_load");
 
         return $this;
     }
 
     public function generateLayoutXml()
     {
-        $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
+        $profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
 
         $this->events->fire(
             'route.layout.generate.xml.before',
@@ -214,16 +223,16 @@ class Factory
         );
 
         // generate xml from collected text updates
-        start_profile("$_profilerKey::layout_generate_xml");
+        start_profile("$profilerKey::layout_generate_xml");
         $this->getLayout()->generateXml();
-        stop_profile("$_profilerKey::layout_generate_xml");
+        stop_profile("$profilerKey::layout_generate_xml");
 
         return $this;
     }
 
     public function generateLayoutBlocks()
     {
-        $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
+        $profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
         // dispatch event for adding xml layout elements
         $this->events->fire(
             'route.layout.generate.blocks.before',
@@ -231,9 +240,9 @@ class Factory
         );
 
         // generate blocks from xml layout
-        start_profile("$_profilerKey::layout_generate_blocks");
+        start_profile("$profilerKey::layout_generate_blocks");
         $this->getLayout()->generateBlocks();
-        stop_profile("$_profilerKey::layout_generate_blocks");
+        stop_profile("$profilerKey::layout_generate_blocks");
 
         $this->events->fire(
             'route.layout.generate.blocks.after',
@@ -250,13 +259,13 @@ class Factory
      */
     public function renderLayout($output = '')
     {
-        $_profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
+        $profilerKey = self::PROFILER_KEY.'::'.$this->routeHandler();
 
         $this->_renderTitles();
         $this->_renderHeadOptions();
         $this->_renderBreadcrumbs();
 
-        start_profile("$_profilerKey::layout_render");
+        start_profile("$profilerKey::layout_render");
         if ('' !== $output) {
             $this->getLayout()->addOutputBlock($output);
         }
@@ -266,7 +275,7 @@ class Factory
 
         $output = $this->getLayout()->getOutput();
 
-        stop_profile("$_profilerKey::layout_render");
+        stop_profile("$profilerKey::layout_render");
 
         return $output;
     }

@@ -15,35 +15,35 @@ class Layout
      *
      * @var \Layout\Layout\Element
      */
-    protected $_xml = null;
+    protected $xmlTree = null;
 
     /**
      * Class name of simplexml elements for this configuration.
      *
      * @var string
      */
-    protected $_elementClass;
+    protected $elementClass;
 
     /**
      * Layout Update module.
      *
      * @var \Layout\Layout\Update
      */
-    protected $_update;
+    protected $update;
 
     /**
      * Blocks registry.
      *
      * @var array
      */
-    protected $_blocks = [];
+    protected $blocks = [];
 
     /**
      * Cache of block callbacks to output during rendering.
      *
      * @var array
      */
-    protected $_output = [];
+    protected $output = [];
 
     /**
      * Event Instance.
@@ -52,20 +52,12 @@ class Layout
      */
     protected $events;
 
-    /**
-     * Application Instance.
-     *
-     * @var \Illuminate\Foundation\Application
-     */
-    protected $_app;
-
     public function __construct(\Illuminate\Foundation\Application $app)
     {
-        $this->_app = $app;
-        $this->_elementClass = Element::class;
-        $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->events = $this->_app['events'];
-        $this->_update = $this->_app['render.layout.update'];
+        $this->elementClass = Element::class;
+        $this->setXml(simplexml_load_string('<layout/>', $this->elementClass));
+        $this->events = $app['events'];
+        $this->update = $app['render.layout.update'];
     }
 
     /**
@@ -75,7 +67,7 @@ class Layout
      */
     public function getUpdate()
     {
-        return $this->_update;
+        return $this->update;
     }
 
     /**
@@ -167,9 +159,9 @@ class Layout
 
         $className = (string) $node['class'];
         $blockName = (string) $node['name'];
-        $_profilerKey = 'BLOCK: '.$blockName;
+        $profilerKey = 'BLOCK: '.$blockName;
 
-        start_profile($_profilerKey);
+        start_profile($profilerKey);
 
         $block = $this->addBlock($className, $blockName);
         if (!$block) {
@@ -211,7 +203,7 @@ class Layout
             $this->addOutputBlock($blockName, $method);
         }
 
-        stop_profile($_profilerKey);
+        stop_profile($profilerKey);
 
         return $this;
     }
@@ -239,9 +231,9 @@ class Layout
             $parentName = $parent->getBlockName();
         }
 
-        $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
+        $profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
 
-        start_profile($_profilerKey);
+        start_profile($profilerKey);
 
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
@@ -280,7 +272,7 @@ class Layout
             call_user_func_array([$block, $method], $args);
         }
 
-        stop_profile($_profilerKey);
+        stop_profile($profilerKey);
 
         return $this;
     }
@@ -330,7 +322,7 @@ class Layout
      */
     public function setBlock($name, $block)
     {
-        $this->_blocks[$name] = $block;
+        $this->blocks[$name] = $block;
 
         return $this;
     }
@@ -342,8 +334,8 @@ class Layout
      */
     public function unsetBlock($name)
     {
-        $this->_blocks[$name] = null;
-        unset($this->_blocks[$name]);
+        $this->blocks[$name] = null;
+        unset($this->blocks[$name]);
 
         return $this;
     }
@@ -372,7 +364,7 @@ class Layout
             if (!empty($name)) {
                 $block->setAnonSuffix(substr($name, 1));
             }
-            $name = 'ANONYMOUS_'.sizeof($this->_blocks);
+            $name = 'ANONYMOUS_'.sizeof($this->blocks);
         }
 
         $block->setClass($class);
@@ -380,11 +372,11 @@ class Layout
         $block->addData($attributes);
         $block->setLayout($this);
 
-        $this->_blocks[$name] = $block;
+        $this->blocks[$name] = $block;
 
         $this->events->fire('layout.block.create.after', ['block' => $block]);
 
-        return $this->_blocks[$name];
+        return $this->blocks[$name];
     }
 
     /**
@@ -431,7 +423,7 @@ class Layout
      */
     public function getAllBlocks()
     {
-        return $this->_blocks;
+        return $this->blocks;
     }
 
     /**
@@ -443,8 +435,8 @@ class Layout
      */
     public function getBlock($name)
     {
-        if (isset($this->_blocks[$name])) {
-            return $this->_blocks[$name];
+        if (isset($this->blocks[$name])) {
+            return $this->blocks[$name];
         } else {
             return false;
         }
@@ -458,14 +450,14 @@ class Layout
      */
     public function addOutputBlock($blockName, $method = 'toHtml')
     {
-        $this->_output[$blockName] = [$blockName, $method];
+        $this->output[$blockName] = [$blockName, $method];
 
         return $this;
     }
 
     public function removeOutputBlock($blockName)
     {
-        unset($this->_output[$blockName]);
+        unset($this->output[$blockName]);
 
         return $this;
     }
@@ -478,8 +470,8 @@ class Layout
     public function getOutput()
     {
         $out = '';
-        if (!empty($this->_output)) {
-            foreach ($this->_output as $callback) {
+        if (!empty($this->output)) {
+            foreach ($this->output as $callback) {
                 $out .= $this->getBlock($callback[0])->$callback[1]();
             }
         }
@@ -489,7 +481,7 @@ class Layout
 
     public function setXml(Element $node)
     {
-        $this->_xml = $node;
+        $this->xmlTree = $node;
 
         return $this;
     }
@@ -505,12 +497,12 @@ class Layout
      */
     public function getNode($path = null)
     {
-        if (!$this->_xml instanceof \Layout\Layout\Element) {
+        if (!$this->xmlTree instanceof \Layout\Layout\Element) {
             return false;
         } elseif ($path === null) {
-            return $this->_xml;
+            return $this->xmlTree;
         } else {
-            return $this->_xml->descend($path);
+            return $this->xmlTree->descend($path);
         }
     }
     /**
@@ -522,10 +514,10 @@ class Layout
      */
     public function getXpath($xpath)
     {
-        if (empty($this->_xml)) {
+        if (empty($this->xmlTree)) {
             return false;
         }
-        if (!$result = @$this->_xml->xpath($xpath)) {
+        if (!$result = @$this->xmlTree->xpath($xpath)) {
             return false;
         }
 
@@ -558,7 +550,7 @@ class Layout
         $fileData = file_get_contents($filePath);
         $fileData = $this->processFileData($fileData);
 
-        return $this->loadString($fileData, $this->_elementClass);
+        return $this->loadString($fileData, $this->elementClass);
     }
     /**
      * Imports XML string.
@@ -570,9 +562,9 @@ class Layout
     public function loadString($string)
     {
         if (is_string($string)) {
-            $xml = simplexml_load_string($string, $this->_elementClass);
+            $xml = simplexml_load_string($string, $this->elementClass);
             if ($xml instanceof \Layout\Layout\Element) {
-                $this->_xml = $xml;
+                $this->xmlTree = $xml;
 
                 return true;
             }
@@ -591,9 +583,9 @@ class Layout
      */
     public function loadDom($dom)
     {
-        $xml = simplexml_import_dom($dom, $this->_elementClass);
+        $xml = simplexml_import_dom($dom, $this->elementClass);
         if ($xml) {
-            $this->_xml = $xml;
+            $this->xmlTree = $xml;
 
             return true;
         }
@@ -611,7 +603,7 @@ class Layout
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        $xml = $this->_xml->setNode($path, $value, $overwrite);
+        $xml = $this->xmlTree->setNode($path, $value, $overwrite);
 
         return $this;
     }

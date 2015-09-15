@@ -1,6 +1,6 @@
 {? $items = $_this->getMenus() ?}
 @if($items)
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	    <div class="container-fluid">
 	        <div class="navbar-header">
 	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-collapse">

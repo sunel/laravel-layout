@@ -2,12 +2,19 @@
 
 namespace Layout\Layout;
 
-use Cache;
 use SimpleXMLElement;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Contracts\Cache\Factory as Cache;
 
 class Update
 {
+    /**
+     * The cache instance.
+     *
+     * @var \Illuminate\Contracts\Cache\Repository
+     */
+    protected $cache;
+
     /**
      * Additional tag for cleaning layout cache convenience.
      */
@@ -18,69 +25,80 @@ class Update
      *
      * @var string
      */
-    protected $_elementClass;
+    protected $elementClass;
 
     /**
      * Cache key.
      *
      * @var string
      */
-    protected $_cacheId;
+    protected $cacheId;
 
     /**
      * Cumulative array of update XML strings.
      *
      * @var array
      */
-    protected $_updates = [];
+    protected $updates = [];
     /**
      * Handles used in this update.
      *
      * @var array
      */
-    protected $_handles = [];
+    protected $handles = [];
 
     /**
      * @var Simplexml_Element
      */
-    protected $_moduleLayout;
+    protected $moduleLayout;
+
+
+    /**
+     * Create a new view factory instance.
+     *
+     * @param \Illuminate\Contracts\Cache\Factory $cache
+     */
+    public function __construct(Cache $cache)
+    {
+        $this->cache = $cache;
+    }
 
     public function getElementClass()
     {
-        if (!$this->_elementClass) {
-            $this->_elementClass = Element::class;
+        if (!$this->elementClass) {
+            $this->elementClass = Element::class;
         }
 
-        return $this->_elementClass;
+        return $this->elementClass;
     }
 
     public function resetUpdates()
     {
-        $this->_updates = [];
+        $this->updates = [];
 
         return $this;
     }
 
     public function addUpdate($update)
     {
-        $this->_updates[] = $update;
+        $this->updates[] = $update;
 
         return $this;
     }
 
     public function asArray()
     {
-        return $this->_updates;
+        return $this->updates;
     }
 
     public function asString()
     {
-        return implode('', $this->_updates);
+        return implode('', $this->updates);
     }
 
     public function resetHandles()
     {
-        $this->_handles = [];
+        $this->handles = [];
 
         return $this;
     }
@@ -89,10 +107,10 @@ class Update
     {
         if (is_array($handle)) {
             foreach ($handle as $h) {
-                $this->_handles[$h] = 1;
+                $this->handles[$h] = 1;
             }
         } else {
-            $this->_handles[$handle] = 1;
+            $this->handles[$handle] = 1;
         }
 
         return $this;
@@ -100,14 +118,14 @@ class Update
 
     public function removeHandle($handle)
     {
-        unset($this->_handles[$handle]);
+        unset($this->handles[$handle]);
 
         return $this;
     }
 
     public function getHandles()
     {
-        return array_keys($this->_handles);
+        return array_keys($this->handles);
     }
 
     /**
@@ -117,11 +135,11 @@ class Update
      */
     public function getCacheId()
     {
-        if (!$this->_cacheId) {
-            $this->_cacheId = 'LAYOUT_'.md5(implode('__', $this->getHandles()));
+        if (!$this->cacheId) {
+            $this->cacheId = 'LAYOUT_'.md5(implode('__', $this->getHandles()));
         }
 
-        return $this->_cacheId;
+        return $this->cacheId;
     }
 
     public function loadCache()
@@ -130,7 +148,7 @@ class Update
             return false;
         }
 
-        if (!$result = Cache::get($this->getCacheId(), false)) {
+        if (!$result = $this->cache->get($this->getCacheId(), false)) {
             return false;
         }
 
@@ -151,9 +169,9 @@ class Update
 
         #TODO need to find neat solution
         if (config('cache.default') == 'file') {
-            return Cache::put($this->getCacheId(), $str, 0);
+            return $this->cache->put($this->getCacheId(), $str, 0);
         } else {
-            return Cache::tags($tags)->add($this->getCacheId(), $str, 0);
+            return $this->cache->tags($tags)->add($this->getCacheId(), $str, 0);
         }
     }
 
@@ -212,12 +230,12 @@ class Update
 
     public function fetchPackageLayoutUpdates($handle)
     {
-        $_profilerKey = 'layout_update: '.$handle;
-        start_profile($_profilerKey);
-        if (empty($this->_moduleLayout)) {
+        $profilerKey = 'layout_update: '.$handle;
+        start_profile($profilerKey);
+        if (empty($this->moduleLayout)) {
             $this->fetchFileLayoutUpdates();
         }
-        foreach ($this->_moduleLayout->$handle as $updateXml) {
+        foreach ($this->moduleLayout->$handle as $updateXml) {
             #echo '<textarea style="width:600px; height:400px;">'.$handle.':'.print_r($updateXml,1).'</textarea>';
 
             /* @var Mage_Core_Model_Layout_Element $updateXml */
@@ -234,7 +252,7 @@ class Update
             $this->fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        stop_profile($_profilerKey);
+        stop_profile($profilerKey);
 
         return true;
     }
@@ -252,17 +270,17 @@ class Update
         $cacheKey = 'LAYOUT_'.'THEME_DEFAULT';
         $cacheTags = [self::LAYOUT_GENERAL_CACHE_TAG];
 
-        if (config('layout.cache.layout') && ($layoutStr = Cache::get($cacheKey, false))) {
-            $this->_moduleLayout = simplexml_load_string($layoutStr, $elementClass);
+        if (config('layout.cache.layout') && ($layoutStr = $this->cache->get($cacheKey, false))) {
+            $this->moduleLayout = simplexml_load_string($layoutStr, $elementClass);
         }
 
         if (empty($layoutStr)) {
-            $this->_moduleLayout = $this->getFileLayoutUpdatesXml();
+            $this->moduleLayout = $this->getFileLayoutUpdatesXml();
             if (config('layout.cache.layout')) {
                 if (config('cache.default') == 'file') {
-                    Cache::put($cacheKey, $this->_moduleLayout->asXml(), 0);
+                    $this->cache->put($cacheKey, $this->moduleLayout->asXml(), 0);
                 } else {
-                    Cache::tags($cacheTags)->put($cacheKey, $this->_moduleLayout->asXml(), 0);
+                    $this->cache->tags($cacheTags)->put($cacheKey, $this->moduleLayout->asXml(), 0);
                 }
             }
         }

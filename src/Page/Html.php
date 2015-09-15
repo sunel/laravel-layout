@@ -42,9 +42,4 @@ class Html extends \Layout\Block
 
         return str_replace('.', '_', strtolower($route_name));
     }
-
-    public function getAccountUrl()
-    {
-        return '/auth/login';
-    }
 }
