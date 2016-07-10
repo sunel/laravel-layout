@@ -313,7 +313,7 @@ class Update
 
         $layoutStr = '';
 
-        $fileLocationHandler = config('layout.handle_xml_location', function(){
+        $fileLocationHandler = config('layout.handle_layout_section', function(){
             return 'default';
         })();
 

@@ -6,6 +6,6 @@ class Header extends \Layout\Block
 {
     public function boot()
     {
-        $this->setTemplate('render::template.page.html.header');
+        //$this->setTemplate('render::template.page.html.header');
     }
 }

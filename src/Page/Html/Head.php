@@ -9,7 +9,7 @@ class Head extends \Layout\Block
      */
     protected function boot()
     {
-        $this->setTemplate('render::template.page.html.head');
+        //$this->setTemplate('render::template.page.html.head');
     }
 
     /**

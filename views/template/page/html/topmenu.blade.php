@@ -1,4 +1,4 @@
-{? $items = $_this->getMenus() ?}
+{? $items = $block->getMenus() ?}
 @if($items)
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	    <div class="container-fluid">
@@ -18,7 +18,7 @@
 	                 @include('render::template.page.html.topmenu.items',
       					array('items' => $items))
 	            </ul>
-	            {!! $_this->getChildHtml('topLinks') !!}
+	            {!! $block->getChildHtml('topLinks') !!}
 	        </div>
 	    </div>
 	</nav>

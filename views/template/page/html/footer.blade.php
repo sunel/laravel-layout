@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <footer role="contentinfo">
-        {!! $_this->getChildHtml() !!}
-        <p>{{ $_this->getCopyright() }}</p>
+        {!! $block->getChildHtml() !!}
+        <p>{{ $block->getCopyright() }}</p>
     </footer>
 </div>

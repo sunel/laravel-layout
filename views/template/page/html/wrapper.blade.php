@@ -1,5 +1,5 @@
-{? $_tag = $_this->hasTag() ? $_this->getTag() : "div" ?}
+{? $_tag = $block->hasTag() ? $block->getTag() : "div" ?}
 
-<{{$_tag}} id="{{$_this->getId()}}" {{ $_this->getParams()}}>
-	{!! $_this->getChildHtml() !!}
+<{{$_tag}} id="{{$block->getId()}}" {{ $block->getParams()}}>
+	{!! $block->getChildHtml() !!}
 </{{$_tag}}>

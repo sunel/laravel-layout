@@ -24,7 +24,7 @@ class Links extends \Layout\Block
      */
     protected function boot()
     {
-        $this->setTemplate('render::template.page.template.links');
+        //$this->setTemplate('render::template.page.template.links');
     }
     /**
      * Get all links.

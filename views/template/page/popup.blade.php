@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {!! $_this->getChildHtml('head') !!}
+    {!! $block->getChildHtml('head') !!}
 </head>
-<body class="page-popup {!! $_this->getBodyClass()?$_this->getBodyClass():'' !!}">
-    {!! $_this->getChildHtml('after_body_start') !!}
-    {!! $_this->getChildHtml('content') !!}
-    {!! $_this->getChildHtml('before_body_end') !!}
-    {!! $_this->getAbsoluteFooter() !!}
+<body class="page-popup {!! $block->getBodyClass()?$block->getBodyClass():'' !!}">
+    {!! $block->getChildHtml('after_body_start') !!}
+    {!! $block->getChildHtml('content') !!}
+    {!! $block->getChildHtml('before_body_end') !!}
+    {!! $block->getAbsoluteFooter() !!}
 </body>
 </html>

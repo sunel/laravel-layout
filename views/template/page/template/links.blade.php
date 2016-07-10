@@ -1,6 +1,6 @@
-{? $_links = $_this->getLinks(); ?}
+{? $_links = $block->getLinks(); ?}
 @if(count($_links)>0)
-<ul class="{{ $_this->getClassNames() }} links" @if($_this->getName()) id="{{ $_this->getName() }}" @endif >
+<ul class="{{ $block->getClassNames() }} links" @if($block->getName()) id="{{ $block->getName() }}" @endif >
     @foreach($_links as $_link)
         @if($_link instanceof \Layout\Block)
             {!! $_link->toHtml() !!}

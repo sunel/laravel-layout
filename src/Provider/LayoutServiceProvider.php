@@ -15,10 +15,9 @@ class LayoutServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../../views', 'render');
-        /*$this->publishes([
+        $this->publishes([
              __DIR__.'/../../views' => base_path('resources/views/vendor/layout'),
         ], 'view');
-        */
         $this->publishes([
              __DIR__.'/../../layout/default.xml' => base_path('resources/layout/default.xml'),
         ], 'layout');

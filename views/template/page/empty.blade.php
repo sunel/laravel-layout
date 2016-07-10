@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {!! $_this->getChildHtml('head') !!}
+    {!! $block->getChildHtml('head') !!}
 </head>
-<body class="page-empty {!! $_this->getBodyClass()?$_this->getBodyClass():'' !!}">
-    {!! $_this->getChildHtml('after_body_start') !!}
-    {!! $_this->getChildHtml('global_messages') !!}
-    {!! $_this->getChildHtml('content') !!}
-    {!! $_this->getChildHtml('before_body_end') !!}
-    {!! $_this->getAbsoluteFooter() !!}
+<body class="page-empty {!! $block->getBodyClass()?$block->getBodyClass():'' !!}">
+    {!! $block->getChildHtml('after_body_start') !!}
+    {!! $block->getChildHtml('global_messages') !!}
+    {!! $block->getChildHtml('content') !!}
+    {!! $block->getChildHtml('before_body_end') !!}
+    {!! $block->getAbsoluteFooter() !!}
 </body>
 </html>

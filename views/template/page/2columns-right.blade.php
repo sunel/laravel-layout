@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {!! $_this->getChildHtml('head') !!}
+    {!! $block->getChildHtml('head') !!}
 </head>
-<body{!! $_this->getBodyClass()?' class="'.$_this->getBodyClass().'"':'' !!}>
+<body{!! $block->getBodyClass()?' class="'.$block->getBodyClass().'"':'' !!}>
 
-    {!! $_this->getChildHtml('after_body_start') !!}
-    {!! $_this->getChildHtml('header') !!}
+    {!! $block->getChildHtml('after_body_start') !!}
+    {!! $block->getChildHtml('header') !!}
 
     <div class="container-fluid">
-        {!! $_this->getChildHtml('breadcrumbs') !!}
+        {!! $block->getChildHtml('breadcrumbs') !!}
 
         <div class="layout layout-2-cols">
             <div role="main">
-                {!! $_this->getChildHtml('messages') !!}
-                {!! $_this->getChildHtml('content') !!}
+                {!! $block->getChildHtml('messages') !!}
+                {!! $block->getChildHtml('content') !!}
             </div>
             <aside role="complementary">
-                {!! $_this->getChildHtml('right') !!}
+                {!! $block->getChildHtml('right') !!}
             </aside>
         </div>
     </div>
 
-    {!! $_this->getChildHtml('footer') !!}
-    {!! $_this->getChildHtml('before_body_end') !!}
-    {!! $_this->getAbsoluteFooter() !!}
+    {!! $block->getChildHtml('footer') !!}
+    {!! $block->getChildHtml('before_body_end') !!}
+    {!! $block->getAbsoluteFooter() !!}
 
 </body>
 </html>

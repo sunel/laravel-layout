@@ -1,4 +1,4 @@
 <header>
-	{!! $_this->getChildHtml('topContainer') !!}
-	{!! $_this->getChildHtml('topMenu') !!}
+	{!! $block->getChildHtml('topContainer') !!}
+	{!! $block->getChildHtml('topMenu') !!}
 </header>	

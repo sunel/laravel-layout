@@ -150,7 +150,18 @@ class Block extends Object
      */
     public function getTemplate()
     {
-        return $this->template;
+        $fileLocationHandler = config('layout.handle_layout_section', function(){
+            return 'default';
+        })();
+        $template = explode("::",$this->template);
+
+        if(count($template) == 2) {
+           $template = "{$template[0]}::$fileLocationHandler.{$template[1]}";
+        } else {
+            $template = "$fileLocationHandler.{$template[0]}";
+        }
+        
+        return $template;
     }
 
     /**
@@ -1175,7 +1186,7 @@ HTML;
         }
 
         try {
-            $this->assign('_this', $this);
+            $this->assign('block', $this);
 
             $html .= app('view')->make($fileName, $this->viewVars)->render();
         } catch (Exception $e) {
