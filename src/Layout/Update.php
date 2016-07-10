@@ -313,8 +313,12 @@ class Update
 
         $layoutStr = '';
 
-        $fileLocation = config('layout.xml_location');
+        $fileLocationHandler = config('layout.handle_xml_location', function(){
+            return 'default';
+        })();
 
+        $fileLocation = config('layout.xml_location.'.$fileLocationHandler);
+        
         if (!is_array($fileLocation)) {
             $fileLocation = [$fileLocation];
         }

@@ -162,30 +162,6 @@ class Factory
         return $this;
     }
 
-    /**
-     * Load layout by handles(s).
-     *
-     * @param string|null|bool $handles
-     * @param bool             $generateBlocks
-     * @param bool             $generateXml
-     *
-     * @return Layout\Factory
-     */
-    public function loadLayout($generateBlocks = true, $generateXml = true)
-    {
-        if (!$generateXml) {
-            return $this;
-        }
-        $this->generateLayoutXml();
-        if (!$generateBlocks) {
-            return $this;
-        }
-        $this->generateLayoutBlocks();
-        $this->_isLayoutLoaded = true;
-
-        return $this;
-    }
-
     public function addRouteLayoutHandles()
     {
         $update = $this->getLayout()->getUpdate();
@@ -209,6 +185,30 @@ class Factory
         start_profile("$profilerKey::layout_load");
         $this->getLayout()->getUpdate()->load();
         stop_profile("$profilerKey::layout_load");
+
+        return $this;
+    }
+
+    /**
+     * Load layout by handles(s).
+     *
+     * @param string|null|bool $handles
+     * @param bool             $generateBlocks
+     * @param bool             $generateXml
+     *
+     * @return Layout\Factory
+     */
+    public function loadLayout($generateBlocks = true, $generateXml = true)
+    {
+        if (!$generateXml) {
+            return $this;
+        }
+        $this->generateLayoutXml();
+        if (!$generateBlocks) {
+            return $this;
+        }
+        $this->generateLayoutBlocks();
+        $this->_isLayoutLoaded = true;
 
         return $this;
     }
@@ -282,13 +282,20 @@ class Factory
 
     protected function routeHandler()
     {
-        $route_name = \Route::currentRouteName();
+        $routerHandler = config('layout.handle_layout', function(){})();
 
-        if (empty($route_name) && config('layout.strict', false)) {
-            throw new InvalidRouterNameException('Invalid Router Name supplied');
+        if(empty($routerHandler) || is_null($routerHandler)) {
+            $route_name = \Route::currentRouteName();
+
+            if (empty($route_name) && config('layout.strict', false)) {
+                throw new InvalidRouterNameException('Invalid Router Name supplied');
+            }
+
+            $routerHandler = str_replace('.', '_', strtolower($route_name));
         }
-
-        return str_replace('.', '_', strtolower($route_name));
+        
+        return $routerHandler;
+        
     }
 
     /**

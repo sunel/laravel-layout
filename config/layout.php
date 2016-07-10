@@ -2,7 +2,48 @@
 
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Handle layout
+    |--------------------------------------------------------------------------
+    |
+    | You can have your own way of adding layout handles or
+    | leave it empty to be handled y the system
+    |
+    */
 
+    'handle_layout'     => function () {
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Handle layout
+    |--------------------------------------------------------------------------
+    |
+    | You can have your own way of adding layout handles or
+    | leave it empty to be handled y the system
+    |
+    */
+
+    'handle_xml_location'     => function () {
+        return 'default';
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | XML Location
+    |--------------------------------------------------------------------------
+    | 
+    | List of absolute location path of the layout xml files.
+    | 
+    */
+
+    'xml_location' => [
+        'default' => [
+            __DIR__.'/../layout',
+        ],
+    ],
+    
     /*
     |--------------------------------------------------------------------------
     | Strict Mode
@@ -53,19 +94,6 @@ return [
     */
     
     'session_name'      => 'laravel_session',
-    
-    /*
-    |--------------------------------------------------------------------------
-    | XML Location
-    |--------------------------------------------------------------------------
-    | 
-    | List of absolute location path of the layout xml files.
-    | 
-    */
-
-    'xml_location' => [
-            __DIR__.'/../layout',
-    ],
     
     /*
     |--------------------------------------------------------------------------
