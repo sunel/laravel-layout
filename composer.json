@@ -9,16 +9,15 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
-        "illuminate/support": "~5.1",
-        "illuminate/view": "~5.1",
-        "illuminate/cache": "~5.1",
-        "symfony/finder": "2.7.*",
-        "lavary/laravel-menu": "1.5.*",
-        "laravelcollective/html": "~5.1"
+        "php": ">=5.5.9",
+        "illuminate/support": "~5.2",
+        "illuminate/view": "~5.2",
+        "illuminate/cache": "~5.2",
+        "symfony/finder": "3.0.*",
+        "lavary/laravel-menu": "^1.6"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "~2.0"
+        "barryvdh/laravel-debugbar": "~2.2"
     },
     "autoload": {
 		"files": [
