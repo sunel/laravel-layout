@@ -472,7 +472,7 @@ class Layout
         $out = '';
         if (!empty($this->output)) {
             foreach ($this->output as $callback) {
-                $out .= $this->getBlock($callback[0])->$callback[1]();
+                $out .= call_user_func_array([$this->getBlock($callback[0]), $callback[1]], []);
             }
         }
 
