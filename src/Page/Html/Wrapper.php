@@ -9,7 +9,7 @@ class Wrapper extends \Layout\Block
      *
      * @var bool
      */
-    protected $_dependsOnChildren = true;
+    protected $dependsOnChildren = true;
 
     /**
      * Render the wrapper element html
@@ -25,8 +25,8 @@ class Wrapper extends \Layout\Block
      */
     protected function _toHtml()
     {
-        $html = empty($this->_children) ? '' : trim($this->getChildHtml('', true, true));
-        if ($this->_dependsOnChildren && empty($html)) {
+        $html = empty($this->children) ? '' : trim($this->getChildHtml('', true, true));
+        if ($this->dependsOnChildren && empty($html)) {
             return '';
         }
         if ($this->_isInvisible()) {
@@ -58,7 +58,7 @@ class Wrapper extends \Layout\Block
      */
     public function dependsOnChildren($depends = '0')
     {
-        $this->_dependsOnChildren = (bool) (int) $depends;
+        $this->dependsOnChildren = (bool) (int) $depends;
 
         return $this;
     }
@@ -73,7 +73,7 @@ class Wrapper extends \Layout\Block
         if (!$this->hasMayBeInvisible()) {
             return false;
         }
-        foreach ($this->_children as $child) {
+        foreach ($this->children as $child) {
             if ($child->hasWrapperMustBeVisible()) {
                 return false;
             }

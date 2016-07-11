@@ -122,7 +122,7 @@ class Head extends \Layout\Block
      */
     public function addExternalItem($type, $name, $params = null, $if = null, $cond = null)
     {
-        $this->addItem($type, $name, $params = null, $if = null, $cond = null);
+        $this->addItem($type, $name, $params, $if, $cond);
     }
 
     /**
