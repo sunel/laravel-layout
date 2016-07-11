@@ -152,7 +152,8 @@ class Block extends Object
     {
         $fileLocationHandler = config('layout.handle_layout_section', function(){
             return 'default';
-        })();
+        });
+        $fileLocationHandler = $fileLocationHandler();
         $template = explode("::",$this->template);
 
         if(count($template) == 2) {

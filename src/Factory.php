@@ -282,8 +282,8 @@ class Factory
 
     protected function routeHandler()
     {
-        $routerHandler = config('layout.handle_layout', function(){})();
-
+        $routerHandler = config('layout.handle_layout', function(){});
+        $routerHandler = $routerHandler();
         if(empty($routerHandler) || is_null($routerHandler)) {
             $route_name = \Route::currentRouteName();
 

@@ -315,9 +315,9 @@ class Update
 
         $fileLocationHandler = config('layout.handle_layout_section', function(){
             return 'default';
-        })();
+        });
 
-        $fileLocation = config('layout.xml_location.'.$fileLocationHandler);
+        $fileLocation = config('layout.xml_location.'.$fileLocationHandler());
         
         if (!is_array($fileLocation)) {
             $fileLocation = [$fileLocation];
