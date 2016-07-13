@@ -133,9 +133,9 @@ class Factory
      *
      * @return \Illuminate\View\View
      */
-    public function render($handles = null, $generateBlocks = true, $generateXml = true)
+    public function render($handles = null, $generateBlocks = true, $generateXml = true, $disableRouteHandle = false)
     {
-        $this->loadHandles($handles);
+        $this->loadHandles($handles, $disableRouteHandle);
 
         if (!$view = $this->loadCache()) {
             $this->loadLayout($generateBlocks, $generateXml);
@@ -146,7 +146,7 @@ class Factory
         return view('render::template.page.root', ['html' => $view]);
     }
 
-    public function loadHandles($handles = null)
+    public function loadHandles($handles = null, $disableRouteHandle = false)
     {
 
         // if handles were specified in arguments load them first
@@ -154,7 +154,10 @@ class Factory
             $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
         }
         // add default layout handles for this action
-        $this->addRouteLayoutHandles();
+        if(!$disableRouteHandle){
+            $this->addRouteLayoutHandles();
+        }
+                
         $this->operatingSystemHandle();
         $this->browserHandle();
         $this->loadLayoutUpdates();
