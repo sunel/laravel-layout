@@ -6,11 +6,11 @@ if (!function_exists('loadLayout')) {
      *
      * @return \Layout\Factory
      */
-    function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
+    function loadLayout($handles = null, $generateBlocks = true, $generateXml = true, $disableRouteHandle = false)
     {
         $factory = app('render');
 
-        return $factory->loadHandles($handles)->loadLayout($generateBlocks, $generateXml);
+        return $factory->loadHandles($handles, $disableRouteHandle)->loadLayout($generateBlocks, $generateXml);
     }
 }
 
@@ -20,11 +20,11 @@ if (!function_exists('render')) {
      *
      * @return \Illuminate\View\View
      */
-    function render($handles = null, $generateBlocks = true, $generateXml = true)
+    function render($handles = null, $generateBlocks = true, $generateXml = true, $disableRouteHandle = false)
     {
         $factory = app('render');
 
-        return $factory->render($handles, $generateBlocks, $generateXml);
+        return $factory->render($handles, $generateBlocks, $generateXml, $disableRouteHandle);
     }
 }
 
@@ -34,7 +34,7 @@ if (!function_exists('renderWithOptions')) {
      *
      * @return \Illuminate\View\View
      */
-    function renderWithOptions(array $options, $handles = null, $generateBlocks = true, $generateXml = true)
+    function renderWithOptions(array $options, $handles = null, $generateBlocks = true, $generateXml = true, $disableRouteHandle = false)
     {
         $factory = app('render');
 
@@ -48,13 +48,18 @@ if (!function_exists('renderWithOptions')) {
                 case 'breadcrumbs':
                     $factory->breadcrumbs($option);
                     break;
+                case 'with':
+                    foreach ($option as $key => $value) {
+                        view()->share($key, $value);
+                    }
+                   break; 
                 default:
                     $factory->setHeadOption($key, $option);
                     break;
             }
         }
 
-        $factory->loadHandles($handles)->loadLayout($generateBlocks, $generateXml);
+        $factory->loadHandles($handles, $disableRouteHandle)->loadLayout($generateBlocks, $generateXml);
 
         return $factory->renderLayout();
     }
