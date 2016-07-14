@@ -321,9 +321,30 @@ class Update
         
         if (!is_array($fileLocation)) {
             $fileLocation = [$fileLocation];
-        }
+        }        
+
         foreach ($fileLocation as $location) {
-            foreach (Finder::create()->files()->name('*.xml')->in($location) as $file) {
+            foreach (Finder::create()->files()->name('default.xml')->in($location) as $file) {
+                $fileStr = $file->getContents();
+                $fileXml = simplexml_load_string($fileStr, $elementClass);
+
+                if (!$fileXml instanceof SimpleXMLElement) {
+                    continue;
+                }
+
+                $layoutStr .= $fileXml->innerXml();
+            }
+            foreach (Finder::create()->files()->name('*.xml')->notName('default.xml')->notName('local.xml')->in($location) as $file) {
+                $fileStr = $file->getContents();
+                $fileXml = simplexml_load_string($fileStr, $elementClass);
+
+                if (!$fileXml instanceof SimpleXMLElement) {
+                    continue;
+                }
+
+                $layoutStr .= $fileXml->innerXml();
+            }
+            foreach (Finder::create()->files()->name('local.xml')->in($location) as $file) {
                 $fileStr = $file->getContents();
                 $fileXml = simplexml_load_string($fileStr, $elementClass);
 
