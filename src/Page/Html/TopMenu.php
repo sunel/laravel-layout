@@ -12,13 +12,7 @@ class TopMenu extends \Layout\Block
      *
      * @var
      */
-    protected $_menu;
-    /**
-     * Current entity key.
-     *
-     * @var string|int
-     */
-    protected $_currentEntityKey;
+    protected $menu;
 
     /**
      * Init top menu tree structure.
@@ -37,7 +31,7 @@ class TopMenu extends \Layout\Block
      */
     protected function _beforeToHtml()
     {
-        $this->_menu = Menu::make('topMenu', function ($menu) {
+        $this->menu = Menu::make('topMenu', function ($menu) {
             $menu->add('Home', '');
         });
 
@@ -55,14 +49,14 @@ class TopMenu extends \Layout\Block
     public function getMenus()
     {
         app('events')->fire('page.block.html.topmenu.getMenus.before', [
-            'menu'  => $this->_menu,
+            'menu'  => $this->menu,
             'block' => $this,
         ]);
 
-        $html = $this->_getHtml($this->_menu);
+        $html = $this->_getHtml($this->menu);
 
         app('events')->fire('page.block.html.topmenu.getMenus.after', [
-            'menu' => $this->_menu,
+            'menu' => $this->menu,
             'html' => $html,
         ]);
 
