@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Layout\Factory;
 use Layout\Layout;
 use Layout\Layout\Update;
+use ViewComponents\ViewComponents\Service\Services;
 
 class LayoutServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class LayoutServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../assets' => public_path(),
         ], 'public');
+
+        Services::resourceManager()
+            ->ignoreCss(['bootstrap', 'bootstrap-datepicker'])
+            ->ignoreJs(['bootstrap', 'bootstrap-datepicker', 'jquery']);
     }
 
     /**

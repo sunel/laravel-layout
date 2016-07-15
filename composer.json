@@ -15,8 +15,8 @@
         "illuminate/cache": "~5.2",
         "symfony/finder": "3.0.*",
         "lavary/laravel-menu": "^1.6",
-        "nayjest/grids": "^1.3",
-        "laravelcollective/html": "^5.2"
+        "view-components/grids": "^0.5.4",
+        "view-components/eloquent-data-processing": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "~2.2"
