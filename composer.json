@@ -16,7 +16,8 @@
         "symfony/finder": "3.0.*",
         "lavary/laravel-menu": "^1.6",
         "view-components/grids": "^0.5.4",
-        "view-components/eloquent-data-processing": "^1.2"
+        "view-components/eloquent-data-processing": "^1.2",
+        "laracasts/flash": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "~2.2"
