@@ -219,7 +219,13 @@ class Layout
     protected function _generateAction($node, $parent)
     {
         if (isset($node['ifconfig']) && ($configPath = (string) $node['ifconfig'])) {
-            if (config($configPath, false)) {
+            if (!config($configPath, false)) {
+                return $this;
+            }
+        }
+
+        if (isset($node['ifcond'])) {
+            if (!$this->runHelper((string) $node['ifcond'])) {
                 return $this;
             }
         }
