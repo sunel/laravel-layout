@@ -57,7 +57,7 @@ Default layout, loads most of the pages
             <block class="\Layout\Page\BlockList" name="left" as="left">
             </block>
 
-            <block class="\Layout\Page\Messages" name="messages" as="messages"/>
+            <block class="\Layout\Page\Messages" name="messages" as="messages" template="template.page.html.messages"/>
 
             <block class="\Layout\Page\BlockList" name="content" as="content">
             </block>
