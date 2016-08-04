@@ -54,6 +54,13 @@ class Factory
     protected $headOptions = [];
 
     /**
+     * Array of custom handles.
+     * 
+     * @var array
+     */
+    protected $customHandles = [];
+
+    /**
      * Whether the default title should be removed.
      *
      * @see self::_title()
@@ -158,6 +165,7 @@ class Factory
             $this->addRouteLayoutHandles();
         }
                 
+        $this->customHandle();      
         $this->operatingSystemHandle();
         $this->browserHandle();
         $this->loadLayoutUpdates();
@@ -389,6 +397,20 @@ class Factory
             }
         }
     }
+
+    public function addCustomHandle($value)
+    {
+        $this->customHandles[] = $value;
+    }
+
+    protected function customHandle()
+    {
+        $update = $this->getLayout()->getUpdate();
+        foreach ($this->customHandles as $value) {
+            $update->addHandle($value);
+        }        
+    }
+
 
     /**
      * Add a handle for operating systems, e.g.:

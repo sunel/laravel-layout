@@ -53,6 +53,11 @@ if (!function_exists('renderWithOptions')) {
                         view()->share($key, $value);
                     }
                    break; 
+                case 'layout_handles':
+                    foreach ($option as $value) {
+                        $factory->addCustomHandle($value);
+                    }
+                   break;    
                 default:
                     $factory->setHeadOption($key, $option);
                     break;
