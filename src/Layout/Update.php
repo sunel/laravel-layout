@@ -168,7 +168,7 @@ class Update
         $tags[] = self::LAYOUT_GENERAL_CACHE_TAG;
 
         #TODO need to find neat solution
-        if (config('cache.default') == 'file') {
+        if(!\Cache::getStore() instanceof TaggableStore) {
             return $this->cache->put($this->getCacheId(), $str, 0);
         } else {
             return $this->cache->tags($tags)->add($this->getCacheId(), $str, 0);

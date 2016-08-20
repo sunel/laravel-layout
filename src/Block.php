@@ -877,9 +877,27 @@ class Block extends Object
      */
     public function getCacheKeyInfo()
     {
+        if ($this->hasData('cache_key_info')) {
+            return [
+                $this->getData('cache_key_info'),
+                $this->getNameInLayout(),
+            ];
+        }
         return [
             $this->getNameInLayout(),
         ];
+    }
+
+     /**
+     * set the cache life time
+     *
+     * @return array
+     */
+    public function addCacheKeyInfo($info)
+    {
+        $this->setData('cache_lifetime', $info);
+
+        return $this;
     }
 
     /**
@@ -1027,7 +1045,7 @@ class Block extends Object
 
         $tags = $this->getCacheTags();
         #TODO need to find neat solution
-        if (config('cache.default') == 'file') {
+        if(!\Cache::getStore() instanceof TaggableStore) {
             $this->cache->put($cacheKey, $data, $this->getCacheLifetime());
             $this->cache->put(
                 $this->_getTagsCacheKey($cacheKey),
