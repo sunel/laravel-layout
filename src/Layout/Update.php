@@ -169,9 +169,9 @@ class Update
 
         #TODO need to find neat solution
         if(!\Cache::getStore() instanceof TaggableStore) {
-            return $this->cache->put($this->getCacheId(), $str, 0);
+            return $this->cache->forever($this->getCacheId(), $str);
         } else {
-            return $this->cache->tags($tags)->add($this->getCacheId(), $str, 0);
+            return $this->cache->tags($tags)->forever($this->getCacheId(), $str);
         }
     }
 
@@ -277,10 +277,10 @@ class Update
         if (empty($layoutStr)) {
             $this->moduleLayout = $this->getFileLayoutUpdatesXml();
             if (config('layout.cache.layout')) {
-                if (config('cache.default') == 'file') {
-                    $this->cache->put($cacheKey, $this->moduleLayout->asXml(), 0);
+                if(!\Cache::getStore() instanceof TaggableStore) {
+                    $this->cache->forever($cacheKey, $this->moduleLayout->asXml());
                 } else {
-                    $this->cache->tags($cacheTags)->put($cacheKey, $this->moduleLayout->asXml(), 0);
+                    $this->cache->tags($cacheTags)->forever($cacheKey, $this->moduleLayout->asXml());
                 }
             }
         }
