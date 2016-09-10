@@ -88,6 +88,42 @@ class LayoutServiceProvider extends ServiceProvider
         \Blade::extend(function ($view, $compiler) {
            return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $view);
         });
+
+        \Blade::extend(function($view, $compiler) {
+            $pattern = '/(?<!\w)(\s*)@inc\(\s*(.*)\)/';
+
+            // get paths
+            $viewPath = $compiler->getPath();
+            $viewFolder = dirname($viewPath) . '/';
+            $root = \Config::get('view.paths')[0] . '/';
+
+            // replace all matches
+            return preg_replace_callback($pattern, function($matches) use($root, $viewPath, $viewFolder) {
+                // get all parameters
+                list($match, $whitespace, $param) = $matches;
+
+                // get the relative path parameter
+                $param = preg_replace('%[\\(\\)\'""]%', '', $param);
+
+                // resolve the absolute path
+                $path = $viewFolder . $param . '.blade.php';
+                $path = realpath($path);
+
+                // check it exists
+                if( ! $path ) {
+                  throw new \ErrorException("Relative @include '$param' not found in template '$viewPath'");
+                }
+
+                // if we still have a real, absolute path, convert it to dot syntax, so Blade can compile it
+                $expression = str_replace($root, '', $path);
+                $expression = str_replace('.blade.php', '', $expression);
+                $expression = str_replace('/', '.', $expression);
+
+                // return the new php to the view
+                return "$whitespace<?php echo \$__env->make('$expression', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+
+            }, $view);
+        });
     }
 
     /**
