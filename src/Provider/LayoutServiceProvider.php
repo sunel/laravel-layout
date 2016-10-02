@@ -2,10 +2,10 @@
 
 namespace Layout\Provider;
 
+use Layout\Cache;
+use Layout\Event;
+use Layout\Config;
 use Illuminate\Support\ServiceProvider;
-use Layout\Factory;
-use Layout\Layout;
-use Layout\Layout\Update;
 use ViewComponents\ViewComponents\Service\Services;
 
 class LayoutServiceProvider extends ServiceProvider
@@ -39,8 +39,7 @@ class LayoutServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerFactory();
-        $this->registerTemplatLayout();
+        $this->registerLayoutBinder();
         $this->registerBladeTemplate();
 
         $this->app->register('Lavary\Menu\ServiceProvider');
@@ -57,26 +56,28 @@ class LayoutServiceProvider extends ServiceProvider
         $this->addListerForTopMenu();
     }
 
-    /**
-     * Register the view environment.
-     */
-    public function registerFactory()
-    {
-        $this->app->singleton('render', function ($app) {
-            $env = new Factory($app['events'], $app['cache']);
-
-            return $env;
+    public function registerLayoutBinder()
+    {   
+        $this->app->bind('\Layout\Core\Contracts\Cacheable', function ($app) {
+            return $app['layout.cache'];
         });
-    }
-
-    public function registerTemplatLayout()
-    {
-        $this->app->singleton('render.layout', function ($app) {
-                return new Layout($app);
+        $this->app->bind('\Layout\Core\Contracts\EventsDispatcher', function ($app) {
+            return $app['layout.event'];
+        });
+        $this->app->bind('\Layout\Core\Contracts\ConfigResolver', function ($app) {
+            return $app['layout.config'];
         });
 
-        $this->app->bind('render.layout.update', function ($app) {
-                return new Update($app['cache']);
+        $this->app->singleton('layout.cache', function ($app) {
+            return new Cache($app['cache']);
+        });
+
+        $this->app->bind('layout.event', function ($app) {
+            return new Event($app['events']);
+        });   
+
+        $this->app->bind('layout.config', function ($app) {
+            return new Config($app['config']);
         });
     }
 

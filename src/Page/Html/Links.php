@@ -3,7 +3,7 @@
 namespace Layout\Page\Html;
 
 use Auth;
-use Layout\Object;
+use Layout\Core\Object;
 
 class Links extends \Layout\Block
 {
