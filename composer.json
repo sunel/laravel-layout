@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
+        "sunel/layout-core":"*",
         "illuminate/support": "~5.2",
         "illuminate/view": "~5.2",
         "illuminate/cache": "~5.2",
