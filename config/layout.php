@@ -4,30 +4,25 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Handle layout
+    | Handle layout Route
     |--------------------------------------------------------------------------
     |
-    | You can have your own way of adding layout handles or
-    | leave it empty to be handled y the system
+    | You can have your own way of adding layout handles
     |
     */
 
-    'handle_layout'     => function () {
-    },
+    'handle_layout_route'     => 'Layout\\Handle::route',
 
     /*
     |--------------------------------------------------------------------------
-    | Handle layout
+    | Handle layout Section
     |--------------------------------------------------------------------------
     |
-    | You can have your own way of adding layout handles or
-    | leave it empty to be handled y the system
+    | You can have your own way of adding layout section
     |
     */
 
-    'handle_xml_location'     => function () {
-        return 'default';
-    },
+    'handle_layout_section'     => 'Layout\\Handle::section',
 
     /*
     |--------------------------------------------------------------------------
@@ -110,7 +105,6 @@ return [
     'cache' => [
         'block'  => false,
         'layout' => false,
-        'fpc'    => false, //Danger Still Experimental
     ],
     
     /*

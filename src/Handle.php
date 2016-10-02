@@ -13,9 +13,9 @@ class Handle
 
     public static function section()
     {
-        if (\Request::is(config('backend.prefix', 'admin').'/*')) {
+        /*if (\Request::is('admin/*')) {
             return 'admin';
-        }
-        return 'front';
+        }*/
+        return '';
     }
 }
