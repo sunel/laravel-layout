@@ -33,7 +33,7 @@ Default layout, loads most of the pages
 
             </block>
 
-            <block class="\Layout\Page\BlockList" name="after_body_start" as="after_body_start" >
+            <block class="\Layout\Core\Block\List" name="after_body_start" as="after_body_start" >
             </block>
 
 
@@ -41,7 +41,7 @@ Default layout, loads most of the pages
             	<block class="\Layout\Page\Html\Wrapper" name="top.container" as="topContainer">
                     <action method="setElementClass"><value>top-container</value></action>
                 </block>
-            	<block class="\Layout\Page\BlockList" name="top.menu" as="topMenu" >
+            	<block class="\Layout\Core\Block\List" name="top.menu" as="topMenu" >
                     <block class="\Layout\Page\Html\TopMenu" name="topnav" template="render::template.page.html.topmenu">
                     	<block class="\Layout\Page\Html\Links" name="top.links" as="topLinks" template="render::template.page.template.links">
                     		<action method="addClass">
@@ -54,15 +54,15 @@ Default layout, loads most of the pages
 
             <block class="\Layout\Page\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" template="render::template.page.template.links"/>
 
-            <block class="\Layout\Page\BlockList" name="left" as="left">
+            <block class="\Layout\Core\Block\List" name="left" as="left">
             </block>
 
             <block class="\Layout\Page\Messages" name="messages" as="messages" template="template.page.html.messages"/>
 
-            <block class="\Layout\Page\BlockList" name="content" as="content">
+            <block class="\Layout\Core\Block\List" name="content" as="content">
             </block>
 
-            <block class="\Layout\Page\BlockList" name="right" as="right">
+            <block class="\Layout\Core\Block\List" name="right" as="right">
             </block>
 
             <block class="\Layout\Page\Html\Footer" name="footer" as="footer" template="render::template.page.html.footer">
@@ -72,7 +72,7 @@ Default layout, loads most of the pages
                 </block>
             </block>
 
-            <block class="\Layout\Page\BlockList" name="before_body_end" as="before_body_end">
+            <block class="\Layout\Core\Block\List" name="before_body_end" as="before_body_end">
                 <block ifconfig="layout.cookienotice.noshow" class="\Layout\Page\Html\CookieNotice" name="global_cookie_notice" as ="global_cookie_notice" template="render::template.page.html.cookienotice" before="-" />
             </block>
         </block>
