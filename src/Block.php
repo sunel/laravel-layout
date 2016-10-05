@@ -2,9 +2,9 @@
 
 namespace Layout;
 
-use Layout\Core\BLock as BaseBlock;
+use Layout\Core\Block as BaseBlock;
 
-class BLock extends BaseBlock
+class Block extends BaseBlock
 {
 	/**
      * Get relevant path to template.
