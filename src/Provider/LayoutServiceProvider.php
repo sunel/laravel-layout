@@ -5,6 +5,7 @@ namespace Layout\Provider;
 use Layout\Cache;
 use Layout\Event;
 use Layout\Config;
+use Layout\Profiler;
 use Illuminate\Support\ServiceProvider;
 use ViewComponents\ViewComponents\Service\Services;
 
@@ -67,6 +68,9 @@ class LayoutServiceProvider extends ServiceProvider
         $this->app->bind('\Layout\Core\Contracts\ConfigResolver', function ($app) {
             return $app['layout.config'];
         });
+        $this->app->bind('\Layout\Core\Contracts\Profiler', function ($app) {
+            return $app['layout.profile'];
+        });
 
         $this->app->singleton('layout.cache', function ($app) {
             return new Cache($app['cache']);
@@ -78,6 +82,9 @@ class LayoutServiceProvider extends ServiceProvider
 
         $this->app->bind('layout.config', function ($app) {
             return new Config($app['config']);
+        });
+        $this->app->bind('layout.profile', function ($app) {
+            return new Profiler();
         });
     }
 

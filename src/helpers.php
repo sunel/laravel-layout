@@ -114,45 +114,19 @@ if (!function_exists('getLayoutFactory')) {
     {
         $factory = new \Layout\Core\Factory(
             app('layout.event'),
-            app('layout.config')
+            app('layout.config'),
+            app('layout.profile')
         );
 
         $factory->setLayout(
             new \Layout\Core\Layout(
                 app('layout.event'),
-                new \Layout\Core\Update(app('layout.cache'), app('layout.config')),
-                app('layout.config')
+                new \Layout\Core\Update(app('layout.cache'), app('layout.config'), app('layout.profile')),
+                app('layout.config'),
+                app('layout.profile')
             )
         );
 
         return $factory;
-    }
-}
-
-if (!function_exists('start_profile')) {
-    /**
-     * Start the profile for debugging.
-     *
-     * @param string $name
-     */
-    function start_profile($name)
-    {
-        if (config('debugbar.enabled', false)) {
-            Debugbar::startMeasure($name);
-        }
-    }
-}
-
-if (!function_exists('stop_profile')) {
-    /**
-     * Stop the profile for debugging.
-     *
-     * @param string $name
-     */
-    function stop_profile($name)
-    {
-        if (config('debugbar.enabled', false)) {
-            Debugbar::stopMeasure($name);
-        }
     }
 }
