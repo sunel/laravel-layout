@@ -1,0 +1,8 @@
+title: Laravel Layout
+description: Simple way to build your page in an upgrade-compatible way.
+google_analytics: UA-28215321-2
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
